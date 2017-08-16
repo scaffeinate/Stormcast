@@ -11,6 +11,7 @@
         android:drawablePadding="15dp"
         android:drawableRight="@drawable/icon_search"
         android:focusableInTouchMode="false"
+        android:textStyle="bold"
         android:fontFamily="sans-serif-condensed"
         android:hint="@string/enter_location_name"
         android:inputType="none">
