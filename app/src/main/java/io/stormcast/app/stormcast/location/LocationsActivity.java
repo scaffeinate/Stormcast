@@ -27,12 +27,8 @@ public class LocationsActivity extends AppCompatActivity {
 		mFragmentManager = getSupportFragmentManager();
 		mActionBar = getSupportActionBar();
 
-		if (mFragmentManager != null) {
-
-			if (mLocationsListFragment == null) {
-				mLocationsListFragment = LocationsListFragment.newInstance();
-			}
-
+		if (savedInstanceState == null) {
+			mLocationsListFragment = LocationsListFragment.newInstance();
 			mFragmentManager
 					.beginTransaction()
 					.replace(R.id.locations_content, mLocationsListFragment)

@@ -22,10 +22,12 @@ public class HomeActivity extends AppCompatActivity {
 		mActionBar = getSupportActionBar();
 		mFragmentManager = getSupportFragmentManager();
 
-		if (mFragmentManager != null) {
-			mHomeFragment = (HomeFragment) mFragmentManager.findFragmentById(R.id.main_content);
-			if(mHomeFragment == null) mHomeFragment = HomeFragment.newInstance();
-			mFragmentManager.beginTransaction().replace(R.id.main_content, mHomeFragment).commit();
+		if (savedInstanceState == null) {
+			mHomeFragment = HomeFragment.newInstance();
+			mFragmentManager
+					.beginTransaction()
+					.replace(R.id.main_content, mHomeFragment)
+					.commit();
 		}
 
 		if (mActionBar != null) mActionBar.setElevation(0);
