@@ -1,18 +1,26 @@
 package io.stormcast.app.stormcast.location.add;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
+import com.flask.colorpicker.ColorPickerView;
+import com.flask.colorpicker.OnColorSelectedListener;
+import com.flask.colorpicker.builder.ColorPickerClickListener;
+import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -39,6 +47,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     private ActionBar mActionBar;
     private EditText mEditText;
     private MapView mMapView;
+    private ImageButton mColorImageButton;
 
     private CameraPosition mCameraPosition;
 
@@ -53,7 +62,9 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
         View view = inflater.inflate(R.layout.fragment_add_location, container, false);
         mEditText = (EditText) view.findViewById(R.id.location_edit_text);
         mMapView = (MapView) view.findViewById(R.id.location_map_view);
+        mColorImageButton = (ImageButton) view.findViewById(R.id.color_image_button);
         mEditText.setOnClickListener(this);
+        mColorImageButton.setOnClickListener(this);
         return view;
     }
 
@@ -67,7 +78,6 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
             @Override
             public void run() {
                 mMapView.onCreate(savedInstanceState);
-                mMapView.setVisibility(View.INVISIBLE);
             }
         }, 300);
     }
@@ -85,6 +95,9 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
                     e.printStackTrace();
                 }
                 break;
+            case R.id.color_image_button:
+                showColorPicker();
+                break;
         }
     }
 
@@ -99,6 +112,13 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
         }
     }
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMapView.setVisibility(View.VISIBLE);
+        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition));
+    }
+
+
     private void addMarker(Place place) {
         mCameraPosition = CameraPosition.builder()
                 .target(place.getLatLng())
@@ -110,9 +130,24 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
         mMapView.onResume();
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMapView.setVisibility(View.VISIBLE);
-        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition));
+    private void showColorPicker() {
+        ColorPickerDialogBuilder.with(getContext())
+                .setTitle("Choose color")
+                .initialColor(ContextCompat.getColor(getContext(), R.color.colorPrimary))
+                .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
+                .density(10)
+                .setPositiveButton("Ok", new ColorPickerClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
+                        mColorImageButton.setBackgroundColor(selectedColor);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .build()
+                .show();
     }
 }

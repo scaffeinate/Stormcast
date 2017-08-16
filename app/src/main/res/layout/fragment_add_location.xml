@@ -11,6 +11,7 @@
         android:drawablePadding="15dp"
         android:drawableRight="@drawable/icon_search"
         android:focusableInTouchMode="false"
+        android:fontFamily="sans-serif-condensed"
         android:hint="@string/enter_location_name"
         android:inputType="none">
 
@@ -23,5 +24,33 @@
         android:layout_height="100dp"
         android:layout_below="@+id/location_edit_text"
         android:layout_gravity="center"
+        android:visibility="gone"
         android:layout_marginTop="20dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/location_map_view"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/background_color_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-condensed"
+            android:textSize="16sp"
+            android:text="@string/background_color" />
+
+        <ImageButton
+            android:id="@+id/color_image_button"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:clickable="true"
+            android:layout_alignParentRight="true"
+            android:background="@color/colorPrimary"
+            android:layout_weight="1" />
+    </RelativeLayout>
 </RelativeLayout>
