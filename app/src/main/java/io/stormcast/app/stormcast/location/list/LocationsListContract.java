@@ -5,4 +5,11 @@ package io.stormcast.app.stormcast.location.list;
  */
 
 public interface LocationsListContract {
+	interface Presenter {
+
+	}
+
+	interface View {
+
+	}
 }

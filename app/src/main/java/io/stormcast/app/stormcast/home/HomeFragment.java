@@ -1,5 +1,6 @@
 package io.stormcast.app.stormcast.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -14,6 +15,7 @@ import java.util.List;
 
 import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.common.Location;
+import io.stormcast.app.stormcast.location.LocationsActivity;
 import io.stormcast.app.stormcast.location.list.LocationsListFragment;
 
 /**
@@ -46,7 +48,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, View.On
 		View mView = inflater.inflate(R.layout.fragment_home, container, false);
 		mViewPager = (ViewPager) mView.findViewById(R.id.view_pager);
 		mTabLayout = (TabLayout) mView.findViewById(R.id.tab_layout);
-		mButton = (FloatingActionButton) mView.findViewById(R.id.add_edit_location_button);
+		mButton = (FloatingActionButton) mView.findViewById(R.id.locations_button);
 
 		mTabLayout.setupWithViewPager(mViewPager);
 		mButton.setOnClickListener(this);
@@ -69,12 +71,9 @@ public class HomeFragment extends Fragment implements HomeContract.View, View.On
 	@Override
 	public void onClick(View view) {
 		switch (view.getId()) {
-			case R.id.add_edit_location_button:
-				getFragmentManager()
-						.beginTransaction()
-						.replace(R.id.main_content, LocationsListFragment.newInstance())
-						.addToBackStack(null)
-						.commit();
+			case R.id.locations_button:
+				Intent mIntent = new Intent(getActivity(), LocationsActivity.class);
+				startActivity(mIntent);
 				break;
 		}
 	}

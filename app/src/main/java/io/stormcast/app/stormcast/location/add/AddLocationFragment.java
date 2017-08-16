@@ -14,6 +14,12 @@ import io.stormcast.app.stormcast.R;
  */
 
 public class AddLocationFragment extends Fragment {
+
+	public static AddLocationFragment newInstance() {
+		AddLocationFragment addLocationFragment = new AddLocationFragment();
+		return addLocationFragment;
+	}
+
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

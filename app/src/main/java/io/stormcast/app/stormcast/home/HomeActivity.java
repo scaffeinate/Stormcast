@@ -1,4 +1,4 @@
-package io.stormcast.app.stormcast.base;
+package io.stormcast.app.stormcast.home;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
@@ -8,7 +8,7 @@ import android.os.Bundle;
 import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.home.HomeFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
 	private ActionBar mActionBar;
 	private FragmentManager mFragmentManager;
@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
 		if (mFragmentManager != null) {
 			mHomeFragment = (HomeFragment) mFragmentManager.findFragmentById(R.id.main_content);
 			if(mHomeFragment == null) mHomeFragment = HomeFragment.newInstance();
-
 			mFragmentManager.beginTransaction().replace(R.id.main_content, mHomeFragment).commit();
 		}
 
