@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.List;
 
 import io.stormcast.app.stormcast.common.Location;
-import io.stormcast.app.stormcast.location.detail.LocationDetailFragment;
+import io.stormcast.app.stormcast.weather.WeatherFragment;
 
 /**
  * Created by sudhar on 8/15/17.
@@ -25,7 +25,7 @@ public class HomeViewPagerAdapter extends FragmentPagerAdapter {
 	@Override
 	public Fragment getItem(int position) {
 		Location location = mLocations.get(position);
-		return LocationDetailFragment.newInstance(location);
+		return WeatherFragment.newInstance(location);
 	}
 
 	@Override

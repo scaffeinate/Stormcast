@@ -1,4 +1,4 @@
-package io.stormcast.app.stormcast.location.detail;
+package io.stormcast.app.stormcast.weather;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,19 +15,19 @@ import io.stormcast.app.stormcast.common.Location;
  * Created by sudhar on 8/15/17.
  */
 
-public class LocationDetailFragment extends Fragment {
+public class WeatherFragment extends Fragment {
 
 	private static final String LOCATION = "LOCATION";
 	private RecyclerView mRecyclerView;
 
-	public static LocationDetailFragment newInstance(Location location) {
-		LocationDetailFragment locationDetailFragment = new LocationDetailFragment();
+	public static WeatherFragment newInstance(Location location) {
+		WeatherFragment weatherFragment = new WeatherFragment();
 
 		Bundle args = new Bundle();
 		args.putParcelable(LOCATION, location);
-		locationDetailFragment.setArguments(args);
+		weatherFragment.setArguments(args);
 
-		return locationDetailFragment;
+		return weatherFragment;
 	}
 
 	@Nullable
