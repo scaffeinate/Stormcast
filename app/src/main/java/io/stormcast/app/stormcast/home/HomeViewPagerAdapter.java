@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.List;
 
 import io.stormcast.app.stormcast.common.Location;
-import io.stormcast.app.stormcast.location.LocationFragment;
+import io.stormcast.app.stormcast.locations.location_detail.LocationFragment;
 
 /**
  * Created by sudhar on 8/15/17.

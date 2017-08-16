@@ -1,4 +1,4 @@
-package io.stormcast.app.stormcast.location;
+package io.stormcast.app.stormcast.locations.location_detail;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

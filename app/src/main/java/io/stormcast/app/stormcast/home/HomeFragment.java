@@ -2,6 +2,7 @@ package io.stormcast.app.stormcast.home;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -13,15 +14,17 @@ import java.util.List;
 
 import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.common.Location;
+import io.stormcast.app.stormcast.locations.add_edit_location.AddEditLocationFragment;
 
 /**
  * Created by sudhar on 8/8/17.
  */
 
-public class HomeFragment extends Fragment implements HomeContract.View {
+public class HomeFragment extends Fragment implements HomeContract.View, View.OnClickListener {
 
 	private ViewPager mViewPager;
 	private TabLayout mTabLayout;
+	private FloatingActionButton mButton;
 
 	private HomeViewPagerAdapter mViewPagerAdapter;
 	private HomePresenter mHomePresenter;
@@ -43,7 +46,11 @@ public class HomeFragment extends Fragment implements HomeContract.View {
 		View mView = inflater.inflate(R.layout.fragment_home, container, false);
 		mViewPager = (ViewPager) mView.findViewById(R.id.view_pager);
 		mTabLayout = (TabLayout) mView.findViewById(R.id.tab_layout);
+		mButton = (FloatingActionButton) mView.findViewById(R.id.add_edit_location_button);
+
 		mTabLayout.setupWithViewPager(mViewPager);
+		mButton.setOnClickListener(this);
+
 		return mView;
 	}
 
@@ -57,5 +64,18 @@ public class HomeFragment extends Fragment implements HomeContract.View {
 	public void onLocationsLoaded(List<Location> locations) {
 		mViewPagerAdapter = new HomeViewPagerAdapter(getFragmentManager(), locations);
 		mViewPager.setAdapter(mViewPagerAdapter);
+	}
+
+	@Override
+	public void onClick(View view) {
+		switch (view.getId()) {
+			case R.id.add_edit_location_button:
+				getFragmentManager()
+						.beginTransaction()
+						.replace(R.id.main_content, AddEditLocationFragment.newInstance())
+						.addToBackStack(null)
+						.commit();
+				break;
+		}
 	}
 }
