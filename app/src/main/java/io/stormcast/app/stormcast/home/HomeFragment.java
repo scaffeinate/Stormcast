@@ -14,7 +14,7 @@ import java.util.List;
 
 import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.common.Location;
-import io.stormcast.app.stormcast.locations.add_edit_location.AddEditLocationFragment;
+import io.stormcast.app.stormcast.location.list.LocationsListFragment;
 
 /**
  * Created by sudhar on 8/8/17.
@@ -72,7 +72,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, View.On
 			case R.id.add_edit_location_button:
 				getFragmentManager()
 						.beginTransaction()
-						.replace(R.id.main_content, AddEditLocationFragment.newInstance())
+						.replace(R.id.main_content, LocationsListFragment.newInstance())
 						.addToBackStack(null)
 						.commit();
 				break;

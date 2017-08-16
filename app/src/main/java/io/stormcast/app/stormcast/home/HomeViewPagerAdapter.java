@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.List;
 
 import io.stormcast.app.stormcast.common.Location;
-import io.stormcast.app.stormcast.locations.location_detail.LocationFragment;
+import io.stormcast.app.stormcast.location.detail.LocationDetailFragment;
 
 /**
  * Created by sudhar on 8/15/17.
@@ -25,7 +25,7 @@ public class HomeViewPagerAdapter extends FragmentPagerAdapter {
 	@Override
 	public Fragment getItem(int position) {
 		Location location = mLocations.get(position);
-		return LocationFragment.newInstance(location);
+		return LocationDetailFragment.newInstance(location);
 	}
 
 	@Override

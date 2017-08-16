@@ -1,4 +1,4 @@
-package io.stormcast.app.stormcast.locations.location_detail;
+package io.stormcast.app.stormcast.location.detail;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,25 +15,25 @@ import io.stormcast.app.stormcast.common.Location;
  * Created by sudhar on 8/15/17.
  */
 
-public class LocationFragment extends Fragment {
+public class LocationDetailFragment extends Fragment {
 
 	private static final String LOCATION = "LOCATION";
 	private RecyclerView mRecyclerView;
 
-	public static LocationFragment newInstance(Location location) {
-		LocationFragment locationFragment = new LocationFragment();
+	public static LocationDetailFragment newInstance(Location location) {
+		LocationDetailFragment locationDetailFragment = new LocationDetailFragment();
 
 		Bundle args = new Bundle();
 		args.putParcelable(LOCATION, location);
-		locationFragment.setArguments(args);
+		locationDetailFragment.setArguments(args);
 
-		return locationFragment;
+		return locationDetailFragment;
 	}
 
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		mRecyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_location, container, false);
+		mRecyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_location_detail, container, false);
 		return mRecyclerView;
 	}
 }
