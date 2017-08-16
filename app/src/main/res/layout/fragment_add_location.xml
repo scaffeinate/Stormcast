@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:padding="@dimen/fragment_add_location_padding">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/fragment_add_location_padding">
 
-	<EditText
-		android:id="@+id/location_edit_text"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:drawablePadding="15dp"
-		android:drawableRight="@drawable/icon_search"
-		android:focusableInTouchMode="false"
-		android:hint="@string/enter_location_name"
-		android:inputType="none">
+    <EditText
+        android:id="@+id/location_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawablePadding="15dp"
+        android:drawableRight="@drawable/icon_search"
+        android:focusableInTouchMode="false"
+        android:hint="@string/enter_location_name"
+        android:inputType="none">
 
-		<requestFocus/>
-	</EditText>
+        <requestFocus />
+    </EditText>
 
-	<com.google.android.gms.maps.MapView
-		android:id="@+id/location_map_view"
-		android:layout_width="match_parent"
-		android:layout_height="100dp"
-		android:layout_below="@+id/location_edit_text"
-		android:layout_gravity="center"
-		android:layout_marginTop="20dp" />
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/location_map_view"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@+id/location_edit_text"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp" />
 </RelativeLayout>

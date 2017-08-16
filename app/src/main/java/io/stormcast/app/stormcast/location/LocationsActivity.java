@@ -15,26 +15,26 @@ import io.stormcast.app.stormcast.location.list.LocationsListFragment;
 
 public class LocationsActivity extends AppCompatActivity {
 
-	private FragmentManager mFragmentManager;
-	private ActionBar mActionBar;
-	private LocationsListFragment mLocationsListFragment;
+    private FragmentManager mFragmentManager;
+    private ActionBar mActionBar;
+    private LocationsListFragment mLocationsListFragment;
 
-	@Override
-	protected void onCreate(@Nullable Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_locations);
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_locations);
 
-		mFragmentManager = getSupportFragmentManager();
-		mActionBar = getSupportActionBar();
+        mFragmentManager = getSupportFragmentManager();
+        mActionBar = getSupportActionBar();
 
-		if (savedInstanceState == null) {
-			mLocationsListFragment = LocationsListFragment.newInstance();
-			mFragmentManager
-					.beginTransaction()
-					.replace(R.id.locations_content, mLocationsListFragment)
-					.commit();
-		}
+        if (savedInstanceState == null) {
+            mLocationsListFragment = LocationsListFragment.newInstance();
+            mFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.locations_content, mLocationsListFragment)
+                    .commit();
+        }
 
-		if (mActionBar != null) mActionBar.setTitle("Locations");
-	}
+        if (mActionBar != null) mActionBar.setTitle("Locations");
+    }
 }

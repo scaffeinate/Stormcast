@@ -13,7 +13,6 @@ import android.widget.EditText;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -31,89 +30,89 @@ import static android.app.Activity.RESULT_OK;
  */
 public class AddLocationFragment extends Fragment implements View.OnClickListener, OnMapReadyCallback {
 
-	private static final String TAG = AddLocationFragment.class.toString();
+    private static final String TAG = AddLocationFragment.class.toString();
 
-	private static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 100;
-	private static final float TILT = 10f;
-	private static final float ZOOM = 12f;
+    private static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 100;
+    private static final float TILT = 10f;
+    private static final float ZOOM = 12f;
 
-	private ActionBar mActionBar;
-	private EditText mEditText;
-	private MapView mMapView;
+    private ActionBar mActionBar;
+    private EditText mEditText;
+    private MapView mMapView;
 
-	private CameraPosition mCameraPosition;
+    private CameraPosition mCameraPosition;
 
-	public static AddLocationFragment newInstance() {
-		AddLocationFragment addLocationFragment = new AddLocationFragment();
-		return addLocationFragment;
-	}
+    public static AddLocationFragment newInstance() {
+        AddLocationFragment addLocationFragment = new AddLocationFragment();
+        return addLocationFragment;
+    }
 
-	@Nullable
-	@Override
-	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_add_location, container, false);
-		mEditText = (EditText) view.findViewById(R.id.location_edit_text);
-		mMapView = (MapView) view.findViewById(R.id.location_map_view);
-		mEditText.setOnClickListener(this);
-		return view;
-	}
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_add_location, container, false);
+        mEditText = (EditText) view.findViewById(R.id.location_edit_text);
+        mMapView = (MapView) view.findViewById(R.id.location_map_view);
+        mEditText.setOnClickListener(this);
+        return view;
+    }
 
-	@Override
-	public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-		mActionBar.setTitle("Add Location");
+    @Override
+    public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        mActionBar.setTitle("Add Location");
 
-		mMapView.postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				mMapView.onCreate(savedInstanceState);
-				mMapView.setVisibility(View.INVISIBLE);
-			}
-		}, 300);
-	}
+        mMapView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mMapView.onCreate(savedInstanceState);
+                mMapView.setVisibility(View.INVISIBLE);
+            }
+        }, 300);
+    }
 
-	@Override
-	public void onClick(View view) {
-		switch (view.getId()) {
-			case R.id.location_edit_text:
-				try {
-					Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN).build(getActivity());
-					startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
-				} catch (GooglePlayServicesRepairableException e) {
-					e.printStackTrace();
-				} catch (GooglePlayServicesNotAvailableException e) {
-					e.printStackTrace();
-				}
-				break;
-		}
-	}
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.location_edit_text:
+                try {
+                    Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN).build(getActivity());
+                    startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
+    }
 
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
-			if (resultCode == RESULT_OK) {
-				Place place = PlaceAutocomplete.getPlace(getContext(), data);
-				mEditText.setText(place.getName());
-				addMarker(place);
-			}
-		}
-	}
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlaceAutocomplete.getPlace(getContext(), data);
+                mEditText.setText(place.getName());
+                addMarker(place);
+            }
+        }
+    }
 
-	private void addMarker(Place place) {
-		mCameraPosition = CameraPosition.builder()
-				.target(place.getLatLng())
-				.tilt(TILT)
-				.zoom(ZOOM)
-				.build();
-		MapsInitializer.initialize(getActivity().getApplicationContext());
-		mMapView.getMapAsync(AddLocationFragment.this);
-		mMapView.onResume();
-	}
+    private void addMarker(Place place) {
+        mCameraPosition = CameraPosition.builder()
+                .target(place.getLatLng())
+                .tilt(TILT)
+                .zoom(ZOOM)
+                .build();
+        MapsInitializer.initialize(getActivity().getApplicationContext());
+        mMapView.getMapAsync(AddLocationFragment.this);
+        mMapView.onResume();
+    }
 
-	@Override
-	public void onMapReady(GoogleMap googleMap) {
-		mMapView.setVisibility(View.VISIBLE);
-		googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition));
-	}
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMapView.setVisibility(View.VISIBLE);
+        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition));
+    }
 }

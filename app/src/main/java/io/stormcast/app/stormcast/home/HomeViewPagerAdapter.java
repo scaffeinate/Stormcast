@@ -15,27 +15,27 @@ import io.stormcast.app.stormcast.weather.WeatherFragment;
 
 public class HomeViewPagerAdapter extends FragmentPagerAdapter {
 
-	private List<Location> mLocations;
+    private List<Location> mLocations;
 
-	public HomeViewPagerAdapter(FragmentManager fragmentManager, List<Location> locations) {
-		super(fragmentManager);
-		this.mLocations = locations;
-	}
+    public HomeViewPagerAdapter(FragmentManager fragmentManager, List<Location> locations) {
+        super(fragmentManager);
+        this.mLocations = locations;
+    }
 
-	@Override
-	public Fragment getItem(int position) {
-		Location location = mLocations.get(position);
-		return WeatherFragment.newInstance(location);
-	}
+    @Override
+    public Fragment getItem(int position) {
+        Location location = mLocations.get(position);
+        return WeatherFragment.newInstance(location);
+    }
 
-	@Override
-	public int getCount() {
-		return mLocations.size();
-	}
+    @Override
+    public int getCount() {
+        return mLocations.size();
+    }
 
-	@Override
-	public CharSequence getPageTitle(int position) {
-		Location location = mLocations.get(position);
-		return location.getName();
-	}
+    @Override
+    public CharSequence getPageTitle(int position) {
+        Location location = mLocations.get(position);
+        return location.getName();
+    }
 }

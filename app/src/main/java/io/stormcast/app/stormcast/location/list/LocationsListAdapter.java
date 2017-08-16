@@ -11,7 +11,7 @@ import io.stormcast.app.stormcast.common.Location;
  */
 
 public class LocationsListAdapter extends ArrayAdapter<Location> {
-	public LocationsListAdapter(@NonNull Context context) {
-		super(context, 0);
-	}
+    public LocationsListAdapter(@NonNull Context context) {
+        super(context, 0);
+    }
 }

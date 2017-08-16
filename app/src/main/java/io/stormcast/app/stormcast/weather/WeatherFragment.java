@@ -17,23 +17,23 @@ import io.stormcast.app.stormcast.common.Location;
 
 public class WeatherFragment extends Fragment {
 
-	private static final String LOCATION = "LOCATION";
-	private RecyclerView mRecyclerView;
+    private static final String LOCATION = "LOCATION";
+    private RecyclerView mRecyclerView;
 
-	public static WeatherFragment newInstance(Location location) {
-		WeatherFragment weatherFragment = new WeatherFragment();
+    public static WeatherFragment newInstance(Location location) {
+        WeatherFragment weatherFragment = new WeatherFragment();
 
-		Bundle args = new Bundle();
-		args.putParcelable(LOCATION, location);
-		weatherFragment.setArguments(args);
+        Bundle args = new Bundle();
+        args.putParcelable(LOCATION, location);
+        weatherFragment.setArguments(args);
 
-		return weatherFragment;
-	}
+        return weatherFragment;
+    }
 
-	@Nullable
-	@Override
-	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		mRecyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_location_detail, container, false);
-		return mRecyclerView;
-	}
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mRecyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_location_detail, container, false);
+        return mRecyclerView;
+    }
 }

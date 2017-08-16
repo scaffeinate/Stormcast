@@ -13,16 +13,16 @@ import io.stormcast.app.stormcast.common.Location;
 
 public class HomePresenter implements HomeContract.Presenter {
 
-	@NonNull
-	private final HomeContract.View mView;
+    @NonNull
+    private final HomeContract.View mView;
 
-	public HomePresenter(HomeContract.View view) {
-		this.mView = view;
-	}
+    public HomePresenter(HomeContract.View view) {
+        this.mView = view;
+    }
 
-	@Override
-	public void loadLocations() {
-		List<Location> locations = new ArrayList<>();
-		mView.onLocationsLoaded(locations);
-	}
+    @Override
+    public void loadLocations() {
+        List<Location> locations = new ArrayList<>();
+        mView.onLocationsLoaded(locations);
+    }
 }
