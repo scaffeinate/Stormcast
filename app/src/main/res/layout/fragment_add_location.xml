@@ -1,92 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:padding="@dimen/fragment_add_location_padding">
-
-	<EditText
-		android:id="@+id/location_edit_text"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:background="@drawable/search_location_edit_text"
-		android:drawablePadding="15dp"
-		android:drawableRight="@drawable/icon_search"
-		android:focusableInTouchMode="false"
-		android:fontFamily="sans-serif-condensed"
-		android:hint="@string/enter_location_name"
-		android:inputType="none"
-		android:textStyle="bold">
-
-		<requestFocus/>
-	</EditText>
-
-	<com.google.android.gms.maps.MapView
-		android:id="@+id/location_map_view"
-		android:layout_width="match_parent"
-		android:layout_height="100dp"
-		android:layout_below="@+id/location_edit_text"
-		android:layout_gravity="center"
-		android:layout_marginTop="20dp"/>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
 
 	<RelativeLayout
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_below="@+id/location_map_view">
+		android:layout_height="match_parent"
+		android:padding="@dimen/fragment_add_location_padding">
 
-		<RelativeLayout
-			android:id="@+id/background_color_layout"
+		<EditText
+			android:id="@+id/location_edit_text"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
+			android:background="@drawable/search_location_edit_text"
+			android:drawablePadding="15dp"
+			android:drawableRight="@drawable/icon_search"
+			android:focusableInTouchMode="false"
+			android:fontFamily="sans-serif-condensed"
+			android:hint="@string/enter_location_name"
+			android:inputType="none"
+			android:textStyle="bold">
+
+			<requestFocus/>
+		</EditText>
+
+		<com.google.android.gms.maps.MapView
+			android:id="@+id/location_map_view"
+			android:layout_width="match_parent"
+			android:layout_height="100dp"
+			android:layout_below="@+id/location_edit_text"
+			android:layout_gravity="center"
+			android:layout_marginTop="20dp"/>
+
+		<RelativeLayout
+			android:id="@+id/customize_layout"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_below="@+id/location_map_view"
 			android:layout_marginTop="20dp">
 
 			<TextView
-				android:id="@+id/background_color_text_view"
+				android:id="@+id/customize_text_view"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_alignParentLeft="true"
-				android:layout_centerVertical="true"
-				android:fontFamily="sans-serif-condensed"
-				android:text="@string/background_color"
-				android:textSize="17sp"
+				android:layout_centerHorizontal="true"
+				android:text="@string/customize"
+				android:textSize="18sp"
 				android:textStyle="bold"/>
 
-			<ImageButton
-				android:id="@+id/color_image_button"
-				android:layout_width="30dp"
-				android:layout_height="30dp"
-				android:layout_alignParentRight="true"
-				android:layout_centerVertical="true"
-				android:background="@drawable/bg_color_button"
-				android:clickable="true"/>
-		</RelativeLayout>
-
-		<RelativeLayout
-			android:id="@+id/text_color_layout"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_below="@+id/background_color_layout"
-			android:layout_marginTop="20dp">
-
-			<TextView
-				android:id="@+id/text_color_text_view"
-				android:layout_width="wrap_content"
+			<RelativeLayout
+				android:id="@+id/background_color_layout"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_alignParentLeft="true"
-				android:layout_centerVertical="true"
-				android:fontFamily="sans-serif-condensed"
-				android:text="@string/text_color"
-				android:textSize="17sp"
-				android:textStyle="bold" />
+				android:layout_below="@+id/customize_text_view"
+				android:layout_marginTop="20dp">
 
-			<ImageButton
-				android:id="@+id/text_color_image_button"
-				android:layout_width="27dp"
-				android:layout_height="27dp"
-				android:layout_alignParentRight="true"
-				android:layout_centerVertical="true"
+				<TextView
+					android:id="@+id/background_color_text_view"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentLeft="true"
+					android:layout_centerVertical="true"
+					android:fontFamily="sans-serif-condensed"
+					android:text="@string/background_color"
+					android:textSize="17sp"/>
+
+				<ImageButton
+					android:id="@+id/background_color_image_button"
+					android:layout_width="30dp"
+					android:layout_height="30dp"
+					android:layout_alignParentRight="true"
+					android:layout_centerVertical="true"
+					android:background="@drawable/bg_color_button"
+					android:clickable="true"/>
+			</RelativeLayout>
+
+			<RelativeLayout
+				android:id="@+id/text_color_layout"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_below="@+id/background_color_layout"
+				android:layout_marginTop="20dp">
+
+				<TextView
+					android:id="@+id/text_color_text_view"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentLeft="true"
+					android:layout_centerVertical="true"
+					android:fontFamily="sans-serif-condensed"
+					android:text="@string/text_color"
+					android:textSize="17sp"/>
+
+				<ImageButton
+					android:id="@+id/text_color_image_button"
+					android:layout_width="30dp"
+					android:layout_height="30dp"
+					android:layout_alignParentRight="true"
+					android:layout_centerVertical="true"
+					android:layout_marginTop="20dp"
+					android:background="@drawable/text_color_button"
+					android:clickable="true"/>
+			</RelativeLayout>
+
+			<RelativeLayout
+				android:id="@+id/auto_units_layout"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_below="@+id/text_color_layout"
+				android:layout_marginTop="20dp">
+
+				<TextView
+					android:id="@+id/auto_units_text_view"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentLeft="true"
+					android:layout_centerVertical="true"
+					android:fontFamily="sans-serif-condensed"
+					android:text="@string/auto_units"
+					android:textSize="17sp"/>
+
+				<Switch
+					android:id="@+id/auto_units_switch"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentRight="true"
+					android:checked="true"/>
+			</RelativeLayout>
+
+			<RelativeLayout
+				android:id="@+id/units_layout"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_below="@+id/auto_units_layout"
 				android:layout_marginTop="20dp"
-				android:background="@drawable/text_color_button"
-				android:clickable="true"/>
+				android:visibility="gone">
+
+				<TextView
+					android:id="@+id/units_text_view"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentLeft="true"
+					android:layout_centerVertical="true"
+					android:fontFamily="sans-serif-condensed"
+					android:text="@string/units"
+					android:textSize="17sp"/>
+
+				<RadioGroup
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentRight="true"
+					android:orientation="horizontal">
+
+					<RadioButton
+						android:id="@+id/imperial_radio_button"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:checked="true"
+						android:fontFamily="sans-serif-condensed"
+						android:text="@string/imperial"/>
+
+					<RadioButton
+						android:id="@+id/metric_radio_button"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginLeft="5dp"
+						android:fontFamily="sans-serif-condensed"
+						android:text="@string/metric"/>
+				</RadioGroup>
+			</RelativeLayout>
 		</RelativeLayout>
 	</RelativeLayout>
-</RelativeLayout>
+</ScrollView>
