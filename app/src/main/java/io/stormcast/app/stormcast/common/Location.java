@@ -16,24 +16,29 @@ public class Location implements Parcelable {
     private String name;
     private double latitude = 0d, longitude = 0d;
     private int backgroundColor = 0, textColor = 0;
-    private int unit = -1;
+    private int unit = UNIT_AUTO;
 
     protected Location(LocationBuilder locationBuilder) {
-        this.name = locationBuilder.name;
-        this.latitude = locationBuilder.latitude;
-        this.longitude = locationBuilder.longitude;
-        this.backgroundColor = locationBuilder.backgroundColor;
-        this.textColor = locationBuilder.textColor;
-        this.unit = locationBuilder.unit;
+        this(locationBuilder.name, locationBuilder.latitude, locationBuilder.longitude,
+                locationBuilder.backgroundColor, locationBuilder.textColor, locationBuilder.unit);
     }
 
-    public Location(Parcel parcel) {
-        this.name = parcel.readString();
-        this.latitude = parcel.readDouble();
-        this.longitude = parcel.readDouble();
-        this.backgroundColor = parcel.readInt();
-        this.textColor = parcel.readInt();
-        this.unit = parcel.readInt();
+    private Location(String name, double latitude, double longitude, int backgroundColor, int textColor, int unit) {
+        this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.backgroundColor = backgroundColor;
+        this.textColor = textColor;
+        this.unit = unit;
+    }
+
+    private Location(Parcel parcel) {
+        this(parcel.readString(),
+                parcel.readDouble(),
+                parcel.readDouble(),
+                parcel.readInt(),
+                parcel.readInt(),
+                parcel.readInt());
     }
 
     public String getName() {
