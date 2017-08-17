@@ -3,6 +3,8 @@ package io.stormcast.app.stormcast.common;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import io.stormcast.app.stormcast.R;
+
 /**
  * Created by sudhar on 8/15/17.
  */
@@ -13,14 +15,22 @@ public class Location implements Parcelable {
     public static final int UNIT_METRIC = 1;
     public static final int UNIT_AUTO = 2;
 
+    public static final int DEFAULT_BACKGROUND_COLOR = R.color.colorPrimary;
+    public static final int DEFAULT_TEXT_COLOR = android.R.color.white;
+
     private String name;
     private double latitude = 0d, longitude = 0d;
-    private int backgroundColor = 0, textColor = 0;
+    private int backgroundColor = DEFAULT_BACKGROUND_COLOR, textColor = DEFAULT_TEXT_COLOR;
     private int unit = UNIT_AUTO;
 
     protected Location(LocationBuilder locationBuilder) {
         this(locationBuilder.name, locationBuilder.latitude, locationBuilder.longitude,
                 locationBuilder.backgroundColor, locationBuilder.textColor, locationBuilder.unit);
+    }
+
+    private Location(Parcel parcel) {
+        this(parcel.readString(), parcel.readDouble(), parcel.readDouble(),
+                parcel.readInt(), parcel.readInt(), parcel.readInt());
     }
 
     private Location(String name, double latitude, double longitude, int backgroundColor, int textColor, int unit) {
@@ -30,15 +40,6 @@ public class Location implements Parcelable {
         this.backgroundColor = backgroundColor;
         this.textColor = textColor;
         this.unit = unit;
-    }
-
-    private Location(Parcel parcel) {
-        this(parcel.readString(),
-                parcel.readDouble(),
-                parcel.readDouble(),
-                parcel.readInt(),
-                parcel.readInt(),
-                parcel.readInt());
     }
 
     public String getName() {

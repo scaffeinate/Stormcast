@@ -36,6 +36,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 
 import io.stormcast.app.stormcast.R;
+import io.stormcast.app.stormcast.common.Location;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -146,10 +147,10 @@ public class AddLocationFragment extends Fragment implements AddLocationContract
                 }
                 break;
             case R.id.background_color_image_button:
-                showColorPicker(mBackgroundColorImageButton, R.color.colorPrimary);
+                showColorPicker(mBackgroundColorImageButton, Location.DEFAULT_BACKGROUND_COLOR);
                 break;
             case R.id.text_color_image_button:
-                showColorPicker(mTextColorImageButton, android.R.color.white);
+                showColorPicker(mTextColorImageButton, Location.DEFAULT_TEXT_COLOR);
                 break;
         }
     }
