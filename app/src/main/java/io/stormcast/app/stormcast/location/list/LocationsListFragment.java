@@ -44,7 +44,7 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.add_edit_locations_menu, menu);
+        inflater.inflate(R.menu.locations_menu, menu);
     }
 
     @Override
