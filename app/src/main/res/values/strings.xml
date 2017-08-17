@@ -4,4 +4,5 @@
     <string name="no_locations_found">No Locations</string>
     <string name="enter_location_name">Enter Location Name</string>
     <string name="background_color">Background Color</string>
+    <string name="text_color">Text Color</string>
 </resources>

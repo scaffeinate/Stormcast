@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.flask.colorpicker.ColorPickerView;
-import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -89,9 +88,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
                 try {
                     Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN).build(getActivity());
                     startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
-                } catch (GooglePlayServicesRepairableException e) {
-                    e.printStackTrace();
-                } catch (GooglePlayServicesNotAvailableException e) {
+                } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
                     e.printStackTrace();
                 }
                 break;
@@ -135,7 +132,8 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
                 .setTitle("Choose color")
                 .initialColor(ContextCompat.getColor(getContext(), R.color.colorPrimary))
                 .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
-                .density(10)
+                .density(12)
+                .alphaSliderOnly()
                 .setPositiveButton("Ok", new ColorPickerClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
