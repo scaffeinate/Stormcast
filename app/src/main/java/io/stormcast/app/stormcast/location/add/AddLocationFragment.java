@@ -2,7 +2,6 @@ package io.stormcast.app.stormcast.location.add;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
@@ -42,7 +42,7 @@ import static android.app.Activity.RESULT_OK;
 /**
  * Created by sudhar on 8/15/17.
  */
-public class AddLocationFragment extends Fragment implements View.OnClickListener, OnMapReadyCallback, CompoundButton.OnCheckedChangeListener {
+public class AddLocationFragment extends Fragment implements AddLocationContract.View, View.OnClickListener, OnMapReadyCallback, CompoundButton.OnCheckedChangeListener {
 
     private static final String TAG = AddLocationFragment.class.toString();
 
@@ -113,6 +113,15 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.save_location_menu_item:
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
@@ -156,6 +165,20 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
         googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition));
     }
 
+    @Override
+    public void onValidLocation() {
+
+    }
+
+    @Override
+    public void invalidLocation(String message) {
+
+    }
+
+    @Override
+    public void onSaveLocation() {
+
+    }
 
     private void addMarker(Place place) {
         mCameraPosition = CameraPosition.builder()
