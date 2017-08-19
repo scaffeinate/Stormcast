@@ -11,6 +11,8 @@ import io.stormcast.app.stormcast.R;
 
 public class Location implements Parcelable {
 
+    protected final static int FALLBACK = -1;
+
     public static final int UNIT_IMPERIAL = 0;
     public static final int UNIT_METRIC = 1;
     public static final int UNIT_AUTO = 2;
@@ -18,28 +20,41 @@ public class Location implements Parcelable {
     public static final int DEFAULT_BACKGROUND_COLOR = R.color.colorPrimary;
     public static final int DEFAULT_TEXT_COLOR = android.R.color.white;
 
+    private static final double DEFAULT_LATITUDE = 0;
+    private static final double DEFAULT_LONGITUDE = 0;
+
+    private int id = 0;
     private String name;
-    private double latitude = -1, longitude = -1;
+    private double latitude = DEFAULT_LATITUDE, longitude = DEFAULT_LONGITUDE;
     private int backgroundColor = DEFAULT_BACKGROUND_COLOR, textColor = DEFAULT_TEXT_COLOR;
     private int unit = UNIT_AUTO;
 
     protected Location(LocationBuilder locationBuilder) {
-        this(locationBuilder.name, locationBuilder.latitude, locationBuilder.longitude,
-                locationBuilder.backgroundColor, locationBuilder.textColor, locationBuilder.unit);
+        setId(locationBuilder.id);
+        setName(locationBuilder.name);
+        setLatitude(locationBuilder.latitude);
+        setLongitude(locationBuilder.longitude);
+        setBackgroundColor(locationBuilder.backgroundColor);
+        setTextColor(locationBuilder.textColor);
+        setUnit(locationBuilder.unit);
     }
 
     private Location(Parcel parcel) {
-        this(parcel.readString(), parcel.readDouble(), parcel.readDouble(),
-                parcel.readInt(), parcel.readInt(), parcel.readInt());
+        setId(parcel.readInt());
+        setName(parcel.readString());
+        setLatitude(parcel.readDouble());
+        setLongitude(parcel.readDouble());
+        setBackgroundColor(parcel.readInt());
+        setTextColor(parcel.readInt());
+        setUnit(parcel.readInt());
     }
 
-    private Location(String name, double latitude, double longitude, int backgroundColor, int textColor, int unit) {
-        this.name = name;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.backgroundColor = backgroundColor;
-        this.textColor = textColor;
-        this.unit = unit;
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -54,24 +69,32 @@ public class Location implements Parcelable {
         return latitude;
     }
 
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
+    public void setLatitude(double latitude) {
+        if (longitude != FALLBACK) this.latitude = latitude;
     }
 
     public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
+    public void setLongitude(double longitude) {
+        if (longitude != FALLBACK) this.longitude = longitude;
     }
 
     public int getBackgroundColor() {
         return backgroundColor;
     }
 
+    public void setBackgroundColor(int backgroundColor) {
+        if (backgroundColor != FALLBACK) this.backgroundColor = backgroundColor;
+    }
+
     public int getTextColor() {
         return textColor;
+    }
+
+    public void setTextColor(int textColor) {
+        if (textColor != FALLBACK) this.textColor = textColor;
     }
 
     public int getUnit() {
@@ -79,7 +102,7 @@ public class Location implements Parcelable {
     }
 
     public void setUnit(int unit) {
-        this.unit = unit;
+        if (unit != FALLBACK) this.unit = unit;
     }
 
     public static final Parcelable.Creator CREATOR = new Creator() {
@@ -101,6 +124,7 @@ public class Location implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(this.id);
         parcel.writeString(this.name);
         parcel.writeDouble(this.latitude);
         parcel.writeDouble(this.longitude);

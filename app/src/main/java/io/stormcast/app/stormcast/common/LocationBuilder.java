@@ -6,10 +6,19 @@ import com.google.android.gms.maps.model.LatLng;
  * Created by sudhar on 8/16/17.
  */
 public class LocationBuilder {
+    protected int id;
     protected String name;
-    protected double latitude;
-    protected double longitude;
-    protected int backgroundColor = 0, textColor = 0, unit = Location.UNIT_AUTO;
+    protected double latitude = Location.FALLBACK;
+    protected double longitude = Location.FALLBACK;
+    protected int backgroundColor = Location.FALLBACK, textColor = Location.FALLBACK, unit = Location.FALLBACK;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public LocationBuilder setName(String name) {
         this.name = name;
