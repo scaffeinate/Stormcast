@@ -9,8 +9,8 @@ import io.stormcast.app.stormcast.common.Location;
 public interface LocationsDataSource {
 
     interface SaveLocationCallback {
-        void onLocationSaved(Location location);
-        void onLocationSaveFailed();
+        void onLocationSaved();
+        void onLocationSaveFailed(String errorMessage);
     }
 
     void saveLocation(Location location, SaveLocationCallback saveLocationCallback);

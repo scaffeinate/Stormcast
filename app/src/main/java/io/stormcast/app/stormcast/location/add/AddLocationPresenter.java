@@ -1,6 +1,10 @@
 package io.stormcast.app.stormcast.location.add;
 
+import android.widget.Toast;
+
 import io.stormcast.app.stormcast.common.Location;
+import io.stormcast.app.stormcast.data.locations.LocationsDataSource;
+import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 
 /**
  * Created by sudhar on 8/15/17.
@@ -9,9 +13,11 @@ import io.stormcast.app.stormcast.common.Location;
 public class AddLocationPresenter implements AddLocationContract.Presenter {
 
     private final AddLocationContract.View mView;
+    private LocationsRepository mLocationsRepository;
 
-    public AddLocationPresenter(AddLocationContract.View view) {
+    public AddLocationPresenter(AddLocationContract.View view, LocationsRepository locationsRepository) {
         this.mView = view;
+        this.mLocationsRepository = locationsRepository;
     }
 
     @Override
@@ -26,6 +32,16 @@ public class AddLocationPresenter implements AddLocationContract.Presenter {
 
     @Override
     public void saveLocation(Location location) {
-        mView.onLocationSaved();
+        mLocationsRepository.saveLocation(location, new LocationsDataSource.SaveLocationCallback() {
+            @Override
+            public void onLocationSaved() {
+                mView.onLocationSaved();
+            }
+
+            @Override
+            public void onLocationSaveFailed(String errorMessage) {
+                mView.onLocationSaveFailed(errorMessage);
+            }
+        });
     }
 }

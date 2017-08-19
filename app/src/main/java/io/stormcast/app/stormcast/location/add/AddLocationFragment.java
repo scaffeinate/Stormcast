@@ -1,5 +1,6 @@
 package io.stormcast.app.stormcast.location.add;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -35,6 +36,9 @@ import com.google.android.gms.maps.model.CameraPosition;
 import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.common.Location;
 import io.stormcast.app.stormcast.common.LocationBuilder;
+import io.stormcast.app.stormcast.data.locations.LocationsRepository;
+import io.stormcast.app.stormcast.data.locations.local.LocalLocationsDataSource;
+import io.stormcast.app.stormcast.data.locations.remote.RemoteLocationsDataSource;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -50,6 +54,8 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     private static final float TILT = 10f;
     private static final float ZOOM = 12f;
 
+    private Context mContext;
+
     private ActionBar mActionBar;
     private EditText mEditText;
     private MapView mMapView;
@@ -60,6 +66,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     private RelativeLayout unitsLayout;
 
     private CameraPosition mCameraPosition;
+    private LocationsRepository mLocationsRepository;
     private AddLocationPresenter mPresenter;
     private LocationBuilder mLocationBuilder;
 
@@ -72,7 +79,10 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        mPresenter = new AddLocationPresenter(this);
+        mContext = getContext();
+        mLocationsRepository = LocationsRepository.getInstance(LocalLocationsDataSource.getInstance(mContext),
+                RemoteLocationsDataSource.getInstance());
+        mPresenter = new AddLocationPresenter(this, mLocationsRepository);
         mLocationBuilder = new LocationBuilder();
     }
 
@@ -134,7 +144,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                Place place = PlaceAutocomplete.getPlace(getContext(), data);
+                Place place = PlaceAutocomplete.getPlace(mContext, data);
                 mEditText.setText(place.getName());
                 mEditText.setCursorVisible(false);
                 mEditText.clearFocus();
@@ -157,7 +167,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
                 }
                 break;
             case R.id.background_color_image_button:
-                ColorPickerHelper.showColorPicker(getContext(), Location.DEFAULT_BACKGROUND_COLOR, new ColorPickerHelper.ColorPickerCallback() {
+                ColorPickerHelper.showColorPicker(mContext, Location.DEFAULT_BACKGROUND_COLOR, new ColorPickerHelper.ColorPickerCallback() {
                     @Override
                     public void onColorSelected(int color) {
                         GradientDrawable drawable = (GradientDrawable) mBackgroundColorImageButton.getBackground();
@@ -167,7 +177,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
                 });
                 break;
             case R.id.text_color_image_button:
-                ColorPickerHelper.showColorPicker(getContext(), Location.DEFAULT_TEXT_COLOR, new ColorPickerHelper.ColorPickerCallback() {
+                ColorPickerHelper.showColorPicker(mContext, Location.DEFAULT_TEXT_COLOR, new ColorPickerHelper.ColorPickerCallback() {
                     @Override
                     public void onColorSelected(int color) {
                         GradientDrawable drawable = (GradientDrawable) mTextColorImageButton.getBackground();
@@ -210,11 +220,18 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void invalidLocation(String message) {
-        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+        Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onLocationSaved() {
+        Toast.makeText(mContext, "Location saved", Toast.LENGTH_LONG).show();
         getFragmentManager().popBackStack();
+
+    }
+
+    @Override
+    public void onLocationSaveFailed(String errorMessage) {
+        Toast.makeText(mContext, errorMessage, Toast.LENGTH_LONG).show();
     }
 }

@@ -16,6 +16,7 @@ public interface AddLocationContract {
         void onValidLocation(Location location);
         void invalidLocation(String message);
         void onLocationSaved();
+        void onLocationSaveFailed(String errorMessage);
     }
 
     interface Presenter {

@@ -66,13 +66,20 @@ public class Location implements Parcelable {
         this.longitude = longitude;
     }
 
-
     public int getBackgroundColor() {
         return backgroundColor;
     }
 
     public int getTextColor() {
         return textColor;
+    }
+
+    public int getUnit() {
+        return unit;
+    }
+
+    public void setUnit(int unit) {
+        this.unit = unit;
     }
 
     public static final Parcelable.Creator CREATOR = new Creator() {
