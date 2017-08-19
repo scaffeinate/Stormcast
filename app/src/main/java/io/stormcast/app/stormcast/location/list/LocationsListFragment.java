@@ -1,5 +1,6 @@
 package io.stormcast.app.stormcast.location.list;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,8 +11,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.List;
 
 import io.stormcast.app.stormcast.R;
+import io.stormcast.app.stormcast.common.Location;
+import io.stormcast.app.stormcast.data.locations.LocationsRepository;
+import io.stormcast.app.stormcast.data.locations.local.LocalLocationsDataSource;
+import io.stormcast.app.stormcast.data.locations.remote.RemoteLocationsDataSource;
 import io.stormcast.app.stormcast.location.add.AddLocationFragment;
 
 /**
@@ -20,7 +28,12 @@ import io.stormcast.app.stormcast.location.add.AddLocationFragment;
 
 public class LocationsListFragment extends Fragment implements LocationsListContract.View {
 
+    private Context mContext;
+
     private ListView mListView;
+
+    private LocationsRepository mLocationsRepository;
+    private LocationsListPresenter mPresenter;
 
     public static LocationsListFragment newInstance() {
         LocationsListFragment locationsListFragment = new LocationsListFragment();
@@ -30,6 +43,10 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = getContext();
+        mLocationsRepository = LocationsRepository.getInstance(LocalLocationsDataSource.getInstance(mContext),
+                RemoteLocationsDataSource.getInstance());
+        mPresenter = new LocationsListPresenter(this, mLocationsRepository);
         setHasOptionsMenu(true);
     }
 
@@ -39,6 +56,12 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
         View view = inflater.inflate(R.layout.fragment_list_locations, container, false);
         mListView = (ListView) view.findViewById(R.id.locations_list_view);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.getLocations();
     }
 
     @Override
@@ -60,5 +83,15 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onLocationsLoaded(List<Location> locationList) {
+        Toast.makeText(mContext, String.valueOf(locationList.size()), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onDataNotAvailable() {
+
     }
 }

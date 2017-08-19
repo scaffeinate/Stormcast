@@ -30,4 +30,9 @@ public class LocationsRepository implements LocationsDataSource {
     public void saveLocation(Location location, SaveLocationCallback callback) {
         mLocalDataSource.saveLocation(location, callback);
     }
+
+    @Override
+    public void getLocations(GetLocationsCallback getLocationsCallback) {
+        mLocalDataSource.getLocations(getLocationsCallback);
+    }
 }

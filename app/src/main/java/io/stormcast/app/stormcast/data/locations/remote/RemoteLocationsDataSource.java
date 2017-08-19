@@ -22,4 +22,9 @@ public class RemoteLocationsDataSource implements LocationsDataSource {
     public void saveLocation(Location location, SaveLocationCallback callback) {
 
     }
+
+    @Override
+    public void getLocations(GetLocationsCallback getLocationsCallback) {
+
+    }
 }
