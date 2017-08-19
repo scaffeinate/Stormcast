@@ -16,7 +16,7 @@
 			android:drawablePadding="15dp"
 			android:drawableRight="@drawable/icon_search"
 			android:focusableInTouchMode="false"
-			android:fontFamily="sans-serif-condensed"
+			android:textSize="@dimen/font_size_body"
 			android:hint="@string/enter_location_name"
 			android:inputType="none"
 			android:textStyle="bold">
@@ -27,17 +27,17 @@
 		<com.google.android.gms.maps.MapView
 			android:id="@+id/location_map_view"
 			android:layout_width="match_parent"
-			android:layout_height="100dp"
+			android:layout_height="@dimen/fragment_add_location_mapview_height"
 			android:layout_below="@+id/location_edit_text"
 			android:layout_gravity="center"
-			android:layout_marginTop="20dp"/>
+			android:layout_marginTop="@dimen/fragment_add_location_margin_top"/>
 
 		<RelativeLayout
 			android:id="@+id/customize_layout"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_below="@+id/location_map_view"
-			android:layout_marginTop="20dp">
+			android:layout_marginTop="@dimen/fragment_add_location_margin_top">
 
 			<TextView
 				android:id="@+id/customize_text_view"
@@ -45,7 +45,7 @@
 				android:layout_height="wrap_content"
 				android:layout_centerHorizontal="true"
 				android:text="@string/customize"
-				android:textSize="18sp"
+				android:textSize="@dimen/font_size_subheading"
 				android:textStyle="bold"/>
 
 			<RelativeLayout
@@ -53,7 +53,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/customize_text_view"
-				android:layout_marginTop="20dp">
+				android:layout_marginTop="@dimen/fragment_add_location_margin_top">
 
 				<TextView
 					android:id="@+id/background_color_text_view"
@@ -61,17 +61,16 @@
 					android:layout_height="wrap_content"
 					android:layout_alignParentLeft="true"
 					android:layout_centerVertical="true"
-					android:fontFamily="sans-serif-condensed"
 					android:text="@string/background_color"
-					android:textSize="17sp"/>
+					android:textSize="@dimen/font_size_body"/>
 
 				<ImageButton
 					android:id="@+id/background_color_image_button"
-					android:layout_width="30dp"
-					android:layout_height="30dp"
+					android:layout_width="@dimen/color_indicator_size"
+					android:layout_height="@dimen/color_indicator_size"
 					android:layout_alignParentRight="true"
 					android:layout_centerVertical="true"
-					android:background="@drawable/bg_color_button"
+					android:background="@drawable/bg_color_indicator"
 					android:clickable="true"/>
 			</RelativeLayout>
 
@@ -80,7 +79,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/background_color_layout"
-				android:layout_marginTop="20dp">
+				android:layout_marginTop="@dimen/fragment_add_location_margin_top">
 
 				<TextView
 					android:id="@+id/text_color_text_view"
@@ -88,18 +87,17 @@
 					android:layout_height="wrap_content"
 					android:layout_alignParentLeft="true"
 					android:layout_centerVertical="true"
-					android:fontFamily="sans-serif-condensed"
 					android:text="@string/text_color"
-					android:textSize="17sp"/>
+					android:textSize="@dimen/font_size_body"/>
 
 				<ImageButton
 					android:id="@+id/text_color_image_button"
-					android:layout_width="30dp"
-					android:layout_height="30dp"
+					android:layout_width="@dimen/color_indicator_size"
+					android:layout_height="@dimen/color_indicator_size"
 					android:layout_alignParentRight="true"
 					android:layout_centerVertical="true"
-					android:layout_marginTop="20dp"
-					android:background="@drawable/text_color_button"
+					android:layout_marginTop="@dimen/fragment_add_location_margin_top"
+					android:background="@drawable/text_color_indicator"
 					android:clickable="true"/>
 			</RelativeLayout>
 
@@ -108,7 +106,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/text_color_layout"
-				android:layout_marginTop="20dp">
+				android:layout_marginTop="@dimen/fragment_add_location_margin_top">
 
 				<TextView
 					android:id="@+id/auto_units_text_view"
@@ -116,9 +114,8 @@
 					android:layout_height="wrap_content"
 					android:layout_alignParentLeft="true"
 					android:layout_centerVertical="true"
-					android:fontFamily="sans-serif-condensed"
 					android:text="@string/auto_units"
-					android:textSize="17sp"/>
+					android:textSize="@dimen/font_size_body"/>
 
 				<Switch
 					android:id="@+id/auto_units_switch"
@@ -133,7 +130,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/auto_units_layout"
-				android:layout_marginTop="20dp"
+				android:layout_marginTop="@dimen/fragment_add_location_margin_top"
 				android:visibility="gone">
 
 				<TextView
@@ -142,9 +139,8 @@
 					android:layout_height="wrap_content"
 					android:layout_alignParentLeft="true"
 					android:layout_centerVertical="true"
-					android:fontFamily="sans-serif-condensed"
 					android:text="@string/units"
-					android:textSize="17sp"/>
+					android:textSize="@dimen/font_size_body"/>
 
 				<RadioGroup
 					android:id="@+id/units_radio_group"
@@ -158,7 +154,6 @@
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:checked="true"
-						android:fontFamily="sans-serif-condensed"
 						android:text="@string/imperial"/>
 
 					<RadioButton
@@ -166,7 +161,6 @@
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginLeft="5dp"
-						android:fontFamily="sans-serif-condensed"
 						android:text="@string/metric"/>
 				</RadioGroup>
 			</RelativeLayout>
