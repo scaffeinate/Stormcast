@@ -2,6 +2,7 @@ package io.stormcast.app.stormcast.location.add;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -178,22 +179,22 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
                 }
                 break;
             case R.id.background_color_image_button:
-                ColorPickerHelper.showColorPicker(mContext, Location.DEFAULT_BACKGROUND_COLOR, new ColorPickerHelper.ColorPickerCallback() {
+                ColorPickerHelper.showColorPicker(mContext, R.color.colorPrimary, new ColorPickerHelper.ColorPickerCallback() {
                     @Override
-                    public void onColorSelected(int color) {
+                    public void onColorSelected(String colorHex) {
                         GradientDrawable drawable = (GradientDrawable) mBackgroundColorImageButton.getBackground();
-                        drawable.setColor(color);
-                        mLocationBuilder.setBackgroundColor(color);
+                        drawable.setColor(Color.parseColor(colorHex));
+                        mLocationBuilder.setBackgroundColor(colorHex);
                     }
                 });
                 break;
             case R.id.text_color_image_button:
-                ColorPickerHelper.showColorPicker(mContext, Location.DEFAULT_TEXT_COLOR, new ColorPickerHelper.ColorPickerCallback() {
+                ColorPickerHelper.showColorPicker(mContext, android.R.color.white, new ColorPickerHelper.ColorPickerCallback() {
                     @Override
-                    public void onColorSelected(int color) {
+                    public void onColorSelected(String colorHex) {
                         GradientDrawable drawable = (GradientDrawable) mTextColorImageButton.getBackground();
-                        drawable.setColor(color);
-                        mLocationBuilder.setTextColor(color);
+                        drawable.setColor(Color.parseColor(colorHex));
+                        mLocationBuilder.setTextColor(colorHex);
                     }
                 });
                 break;

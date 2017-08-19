@@ -6,8 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,11 +40,8 @@ public class LocalLocationsDataSource implements LocationsDataSource {
             SQLiteDatabase database = mLocationsDbHelper.getWritableDatabase();
             ContentValues contentValues = new ContentValues();
             contentValues.put(LocationsDbHelper.NAME, location.getName());
-            contentValues.put(LocationsDbHelper.LAT_LNG, new StringBuilder()
-                    .append(location.getLatitude())
-                    .append(",")
-                    .append(location.getLongitude())
-                    .toString());
+            contentValues.put(LocationsDbHelper.LATITUDE, location.getLatitude());
+            contentValues.put(LocationsDbHelper.LONGITUDE, location.getLongitude());
             contentValues.put(LocationsDbHelper.BG_COLOR, location.getBackgroundColor());
             contentValues.put(LocationsDbHelper.TEXT_COLOR, location.getTextColor());
             contentValues.put(LocationsDbHelper.UNIT, location.getUnit());
@@ -66,7 +61,8 @@ public class LocalLocationsDataSource implements LocationsDataSource {
         String[] projection = new String[]{
                 LocationsDbHelper.ID,
                 LocationsDbHelper.NAME,
-                LocationsDbHelper.LAT_LNG,
+                LocationsDbHelper.LATITUDE,
+                LocationsDbHelper.LONGITUDE,
                 LocationsDbHelper.BG_COLOR,
                 LocationsDbHelper.TEXT_COLOR,
                 LocationsDbHelper.UNIT
@@ -79,15 +75,13 @@ public class LocalLocationsDataSource implements LocationsDataSource {
                 LocationBuilder locationBuilder = new LocationBuilder();
                 locationBuilder.setId(cursor.getInt(cursor.getColumnIndexOrThrow(LocationsDbHelper.ID)));
                 locationBuilder.setName(cursor.getString(cursor.getColumnIndexOrThrow(LocationsDbHelper.NAME)));
-                locationBuilder.setBackgroundColor(cursor.getInt(cursor.getColumnIndexOrThrow(LocationsDbHelper.BG_COLOR)));
-                locationBuilder.setTextColor(cursor.getInt(cursor.getColumnIndexOrThrow(LocationsDbHelper.TEXT_COLOR)));
+                locationBuilder.setBackgroundColor(cursor.getString(cursor.getColumnIndexOrThrow(LocationsDbHelper.BG_COLOR)));
+                locationBuilder.setTextColor(cursor.getString(cursor.getColumnIndexOrThrow(LocationsDbHelper.TEXT_COLOR)));
                 locationBuilder.setUnit(cursor.getInt(cursor.getColumnIndexOrThrow(LocationsDbHelper.UNIT)));
-
-                String[] latLng = cursor.getString(cursor.getColumnIndexOrThrow(LocationsDbHelper.LAT_LNG)).split(",");
-                locationBuilder.setLatLng(new LatLng(Double.parseDouble(latLng[0]), Double.parseDouble(latLng[1])));
+                locationBuilder.setLatitude(cursor.getDouble(cursor.getColumnIndexOrThrow(LocationsDbHelper.LATITUDE)));
+                locationBuilder.setLongitude(cursor.getDouble(cursor.getColumnIndexOrThrow(LocationsDbHelper.LONGITUDE)));
 
                 locationList.add(locationBuilder.build());
-
                 cursor.moveToNext();
             }
         }

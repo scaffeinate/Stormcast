@@ -17,15 +17,16 @@ public class LocationsDbHelper extends SQLiteOpenHelper {
 
     protected final static String ID = "id";
     protected final static String NAME = "name";
-    protected final static String LAT_LNG = "lat_lng";
+    protected final static String LATITUDE = "latitude";
+    protected final static String LONGITUDE = "longitude";
     protected final static String BG_COLOR = "bg_color";
     protected final static String TEXT_COLOR = "text_color";
     protected final static String UNIT = "unit";
 
     private final static String CREATE_TABLE_SQL = " CREATE TABLE " + TABLE_NAME + " ( " +
             ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            NAME + " TEXT, " + LAT_LNG + " VARCHAR, " + BG_COLOR + " INTEGER, " +
-            TEXT_COLOR + " INTEGER, " + UNIT + " INTEGER)";
+            NAME + " TEXT, " + LATITUDE + " REAL, " + LONGITUDE + " REAL, " + BG_COLOR + " VARCHAR, " +
+            TEXT_COLOR + " VARCHAR, " + UNIT + " INTEGER)";
 
     public LocationsDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION, null);

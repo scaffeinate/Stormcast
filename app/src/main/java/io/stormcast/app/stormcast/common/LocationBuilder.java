@@ -8,9 +8,10 @@ import com.google.android.gms.maps.model.LatLng;
 public class LocationBuilder {
     protected int id;
     protected String name;
-    protected double latitude = Location.FALLBACK;
-    protected double longitude = Location.FALLBACK;
-    protected int backgroundColor = Location.FALLBACK, textColor = Location.FALLBACK, unit = Location.FALLBACK;
+    protected double latitude = Location.MINUS_ONE;
+    protected double longitude = Location.MINUS_ONE;
+    protected String backgroundColor = null, textColor = null;
+    protected int unit = Location.MINUS_ONE;
 
     public void setId(int id) {
         this.id = id;
@@ -37,12 +38,12 @@ public class LocationBuilder {
         return this;
     }
 
-    public LocationBuilder setBackgroundColor(int backgroundColor) {
+    public LocationBuilder setBackgroundColor(String backgroundColor) {
         this.backgroundColor = backgroundColor;
         return this;
     }
 
-    public LocationBuilder setTextColor(int textColor) {
+    public LocationBuilder setTextColor(String textColor) {
         this.textColor = textColor;
         return this;
     }

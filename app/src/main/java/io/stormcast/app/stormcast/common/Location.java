@@ -3,22 +3,20 @@ package io.stormcast.app.stormcast.common;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import io.stormcast.app.stormcast.R;
-
 /**
  * Created by sudhar on 8/15/17.
  */
 
 public class Location implements Parcelable {
 
-    protected final static int FALLBACK = -1;
+    protected final static int MINUS_ONE = -1;
 
     public static final int UNIT_IMPERIAL = 0;
     public static final int UNIT_METRIC = 1;
     public static final int UNIT_AUTO = 2;
 
-    public static final int DEFAULT_BACKGROUND_COLOR = R.color.colorPrimary;
-    public static final int DEFAULT_TEXT_COLOR = android.R.color.white;
+    public static final String DEFAULT_BACKGROUND_COLOR = "#3F51B5";
+    public static final String DEFAULT_TEXT_COLOR = "#FFFFFF";
 
     private static final double DEFAULT_LATITUDE = 0;
     private static final double DEFAULT_LONGITUDE = 0;
@@ -26,7 +24,7 @@ public class Location implements Parcelable {
     private int id = 0;
     private String name;
     private double latitude = DEFAULT_LATITUDE, longitude = DEFAULT_LONGITUDE;
-    private int backgroundColor = DEFAULT_BACKGROUND_COLOR, textColor = DEFAULT_TEXT_COLOR;
+    private String backgroundColor = DEFAULT_BACKGROUND_COLOR, textColor = DEFAULT_TEXT_COLOR;
     private int unit = UNIT_AUTO;
 
     protected Location(LocationBuilder locationBuilder) {
@@ -44,8 +42,8 @@ public class Location implements Parcelable {
         setName(parcel.readString());
         setLatitude(parcel.readDouble());
         setLongitude(parcel.readDouble());
-        setBackgroundColor(parcel.readInt());
-        setTextColor(parcel.readInt());
+        setBackgroundColor(parcel.readString());
+        setTextColor(parcel.readString());
         setUnit(parcel.readInt());
     }
 
@@ -70,7 +68,7 @@ public class Location implements Parcelable {
     }
 
     public void setLatitude(double latitude) {
-        if (longitude != FALLBACK) this.latitude = latitude;
+        if (longitude != MINUS_ONE) this.latitude = latitude;
     }
 
     public double getLongitude() {
@@ -78,23 +76,27 @@ public class Location implements Parcelable {
     }
 
     public void setLongitude(double longitude) {
-        if (longitude != FALLBACK) this.longitude = longitude;
+        if (longitude != MINUS_ONE) this.longitude = longitude;
     }
 
-    public int getBackgroundColor() {
+    public String getBackgroundColor() {
         return backgroundColor;
     }
 
-    public void setBackgroundColor(int backgroundColor) {
-        if (backgroundColor != FALLBACK) this.backgroundColor = backgroundColor;
+    public void setBackgroundColor(String backgroundColor) {
+        if (backgroundColor != null && !backgroundColor.trim().isEmpty()) {
+            this.backgroundColor = backgroundColor;
+        }
     }
 
-    public int getTextColor() {
+    public String getTextColor() {
         return textColor;
     }
 
-    public void setTextColor(int textColor) {
-        if (textColor != FALLBACK) this.textColor = textColor;
+    public void setTextColor(String textColor) {
+        if (textColor != null && !textColor.trim().isEmpty()) {
+            this.textColor = textColor;
+        }
     }
 
     public int getUnit() {
@@ -102,7 +104,7 @@ public class Location implements Parcelable {
     }
 
     public void setUnit(int unit) {
-        if (unit != FALLBACK) this.unit = unit;
+        if (unit != MINUS_ONE) this.unit = unit;
     }
 
     public static final Parcelable.Creator CREATOR = new Creator() {
@@ -128,8 +130,8 @@ public class Location implements Parcelable {
         parcel.writeString(this.name);
         parcel.writeDouble(this.latitude);
         parcel.writeDouble(this.longitude);
-        parcel.writeInt(this.backgroundColor);
-        parcel.writeInt(this.textColor);
+        parcel.writeString(this.backgroundColor);
+        parcel.writeString(this.textColor);
         parcel.writeInt(this.unit);
     }
 }

@@ -15,8 +15,8 @@ import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 
 public class ColorPickerHelper {
 
-     interface ColorPickerCallback {
-        void onColorSelected(int color);
+    interface ColorPickerCallback {
+        void onColorSelected(String colorHex);
     }
 
     protected static void showColorPicker(Context context, int defaultColor, final ColorPickerCallback callback) {
@@ -28,7 +28,7 @@ public class ColorPickerHelper {
                 .setOnColorSelectedListener(new OnColorSelectedListener() {
                     @Override
                     public void onColorSelected(int color) {
-                        callback.onColorSelected(color);
+                        callback.onColorSelected(String.format("#%06X", (0xFFFFFF & color)));
                     }
                 })
                 .setPositiveButton("Ok", new ColorPickerClickListener() {

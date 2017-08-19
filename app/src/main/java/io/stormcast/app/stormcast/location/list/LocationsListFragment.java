@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -31,6 +33,9 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
     private Context mContext;
 
     private ListView mListView;
+    private ProgressBar mProgressBar;
+    private TextView mNoDataTextView;
+    private LocationsListAdapter mAdapter;
 
     private LocationsRepository mLocationsRepository;
     private LocationsListPresenter mPresenter;
@@ -55,6 +60,8 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_locations, container, false);
         mListView = (ListView) view.findViewById(R.id.locations_list_view);
+        mProgressBar = (ProgressBar) view.findViewById(R.id.locations_list_progress_bar);
+        mNoDataTextView = (TextView) view.findViewById(R.id.no_data_text_view);
         return view;
     }
 
@@ -87,11 +94,15 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
 
     @Override
     public void onLocationsLoaded(List<Location> locationList) {
-        Toast.makeText(mContext, String.valueOf(locationList.size()), Toast.LENGTH_LONG).show();
+        mProgressBar.setVisibility(View.GONE);
+        mAdapter = new LocationsListAdapter(mContext, locationList);
+        mListView.setAdapter(mAdapter);
+        mListView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onDataNotAvailable() {
-
+        mProgressBar.setVisibility(View.GONE);
+        mNoDataTextView.setVisibility(View.VISIBLE);
     }
 }
