@@ -13,13 +13,13 @@ import io.stormcast.app.stormcast.common.Location;
 
 public interface AddLocationContract {
     interface View {
-        void onValidLocation();
+        void onValidLocation(Location location);
         void invalidLocation(String message);
-        void onSaveLocation();
+        void onLocationSaved();
     }
 
     interface Presenter {
-        void validateLocation();
+        void validateLocation(Location location);
         void saveLocation(Location location);
     }
 }
