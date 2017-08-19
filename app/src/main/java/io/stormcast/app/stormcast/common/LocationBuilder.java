@@ -12,10 +12,6 @@ public class LocationBuilder {
     protected double longitude = Location.FALLBACK;
     protected int backgroundColor = Location.FALLBACK, textColor = Location.FALLBACK, unit = Location.FALLBACK;
 
-    public int getId() {
-        return id;
-    }
-
     public void setId(int id) {
         this.id = id;
     }
@@ -59,5 +55,4 @@ public class LocationBuilder {
     public Location build() {
         return new Location(this);
     }
-
 }

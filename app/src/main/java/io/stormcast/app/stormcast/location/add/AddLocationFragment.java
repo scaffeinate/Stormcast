@@ -50,6 +50,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
 
     private static final String TAG = AddLocationFragment.class.toString();
 
+    private static final String LOCATION = "location";
     private static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 100;
     private static final float TILT = 10f;
     private static final float ZOOM = 12f;
@@ -111,6 +112,16 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
         super.onActivityCreated(savedInstanceState);
         mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         mActionBar.setTitle("Add Location");
+
+        if (savedInstanceState != null) {
+            Location restored = savedInstanceState.getParcelable(LOCATION);
+            mLocationBuilder.setName(restored.getName())
+                    .setLatitude(restored.getLatitude())
+                    .setLongitude(restored.getLongitude())
+                    .setBackgroundColor(restored.getBackgroundColor())
+                    .setTextColor(restored.getTextColor())
+                    .setUnit(restored.getUnit());
+        }
 
         mMapView.postDelayed(new Runnable() {
             @Override
@@ -204,13 +215,10 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
         googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition));
     }
 
-    private void addMarker(Place place) {
-        mCameraPosition = CameraPosition.builder()
-                .target(place.getLatLng())
-                .tilt(TILT)
-                .zoom(ZOOM)
-                .build();
-        mMapView.getMapAsync(AddLocationFragment.this);
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(LOCATION, mLocationBuilder.build());
     }
 
     @Override
@@ -227,11 +235,20 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     public void onLocationSaved() {
         Toast.makeText(mContext, "Location saved", Toast.LENGTH_LONG).show();
         getFragmentManager().popBackStack();
-
     }
 
     @Override
     public void onLocationSaveFailed(String errorMessage) {
         Toast.makeText(mContext, errorMessage, Toast.LENGTH_LONG).show();
+    }
+
+
+    private void addMarker(Place place) {
+        mCameraPosition = CameraPosition.builder()
+                .target(place.getLatLng())
+                .tilt(TILT)
+                .zoom(ZOOM)
+                .build();
+        mMapView.getMapAsync(AddLocationFragment.this);
     }
 }
