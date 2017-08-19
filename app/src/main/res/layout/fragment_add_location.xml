@@ -1,169 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent">
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-	<RelativeLayout
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:padding="@dimen/fragment_add_location_padding">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/fragment_add_location_padding">
 
-		<EditText
-			android:id="@+id/location_edit_text"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:background="@drawable/search_location_edit_text"
-			android:drawablePadding="15dp"
-			android:drawableRight="@drawable/icon_search"
-			android:focusableInTouchMode="false"
-			android:textSize="@dimen/font_size_body"
-			android:hint="@string/enter_location_name"
-			android:inputType="none"
-			android:textStyle="bold">
+        <EditText
+            android:id="@+id/location_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/search_location_edit_text"
+            android:drawablePadding="15dp"
+            android:drawableRight="@drawable/icon_search"
+            android:focusableInTouchMode="false"
+            android:hint="@string/enter_location_name"
+            android:inputType="none"
+            android:textSize="@dimen/font_size_body"
+            android:textStyle="bold">
 
-			<requestFocus/>
-		</EditText>
+            <requestFocus />
+        </EditText>
 
-		<com.google.android.gms.maps.MapView
-			android:id="@+id/location_map_view"
-			android:layout_width="match_parent"
-			android:layout_height="@dimen/fragment_add_location_mapview_height"
-			android:layout_below="@+id/location_edit_text"
-			android:layout_gravity="center"
-			android:layout_marginTop="@dimen/fragment_add_location_margin_top"/>
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/location_map_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fragment_add_location_mapview_height"
+            android:layout_below="@+id/location_edit_text"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/fragment_add_location_margin_top"
+            map:liteMode="true" />
 
-		<RelativeLayout
-			android:id="@+id/customize_layout"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_below="@+id/location_map_view"
-			android:layout_marginTop="@dimen/fragment_add_location_margin_top">
+        <RelativeLayout
+            android:id="@+id/customize_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/location_map_view"
+            android:layout_marginTop="@dimen/fragment_add_location_margin_top">
 
-			<TextView
-				android:id="@+id/customize_text_view"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_centerHorizontal="true"
-				android:text="@string/customize"
-				android:textSize="@dimen/font_size_subheading"
-				android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/customize_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/customize"
+                android:textSize="@dimen/font_size_subheading"
+                android:textStyle="bold" />
 
-			<RelativeLayout
-				android:id="@+id/background_color_layout"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/customize_text_view"
-				android:layout_marginTop="@dimen/fragment_add_location_margin_top">
+            <RelativeLayout
+                android:id="@+id/background_color_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/customize_text_view"
+                android:layout_marginTop="@dimen/fragment_add_location_margin_top">
 
-				<TextView
-					android:id="@+id/background_color_text_view"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_alignParentLeft="true"
-					android:layout_centerVertical="true"
-					android:text="@string/background_color"
-					android:textSize="@dimen/font_size_body"/>
+                <TextView
+                    android:id="@+id/background_color_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/background_color"
+                    android:textSize="@dimen/font_size_body" />
 
-				<ImageButton
-					android:id="@+id/background_color_image_button"
-					android:layout_width="@dimen/color_indicator_size"
-					android:layout_height="@dimen/color_indicator_size"
-					android:layout_alignParentRight="true"
-					android:layout_centerVertical="true"
-					android:background="@drawable/bg_color_indicator"
-					android:clickable="true"/>
-			</RelativeLayout>
+                <ImageButton
+                    android:id="@+id/background_color_image_button"
+                    android:layout_width="@dimen/color_indicator_size"
+                    android:layout_height="@dimen/color_indicator_size"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/bg_color_indicator"
+                    android:clickable="true" />
+            </RelativeLayout>
 
-			<RelativeLayout
-				android:id="@+id/text_color_layout"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/background_color_layout"
-				android:layout_marginTop="@dimen/fragment_add_location_margin_top">
+            <RelativeLayout
+                android:id="@+id/text_color_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/background_color_layout"
+                android:layout_marginTop="@dimen/fragment_add_location_margin_top">
 
-				<TextView
-					android:id="@+id/text_color_text_view"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_alignParentLeft="true"
-					android:layout_centerVertical="true"
-					android:text="@string/text_color"
-					android:textSize="@dimen/font_size_body"/>
+                <TextView
+                    android:id="@+id/text_color_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/text_color"
+                    android:textSize="@dimen/font_size_body" />
 
-				<ImageButton
-					android:id="@+id/text_color_image_button"
-					android:layout_width="@dimen/color_indicator_size"
-					android:layout_height="@dimen/color_indicator_size"
-					android:layout_alignParentRight="true"
-					android:layout_centerVertical="true"
-					android:layout_marginTop="@dimen/fragment_add_location_margin_top"
-					android:background="@drawable/text_color_indicator"
-					android:clickable="true"/>
-			</RelativeLayout>
+                <ImageButton
+                    android:id="@+id/text_color_image_button"
+                    android:layout_width="@dimen/color_indicator_size"
+                    android:layout_height="@dimen/color_indicator_size"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="@dimen/fragment_add_location_margin_top"
+                    android:background="@drawable/text_color_indicator"
+                    android:clickable="true" />
+            </RelativeLayout>
 
-			<RelativeLayout
-				android:id="@+id/auto_units_layout"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/text_color_layout"
-				android:layout_marginTop="@dimen/fragment_add_location_margin_top">
+            <RelativeLayout
+                android:id="@+id/auto_units_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_color_layout"
+                android:layout_marginTop="@dimen/fragment_add_location_margin_top">
 
-				<TextView
-					android:id="@+id/auto_units_text_view"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_alignParentLeft="true"
-					android:layout_centerVertical="true"
-					android:text="@string/auto_units"
-					android:textSize="@dimen/font_size_body"/>
+                <TextView
+                    android:id="@+id/auto_units_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/auto_units"
+                    android:textSize="@dimen/font_size_body" />
 
-				<Switch
-					android:id="@+id/auto_units_switch"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_alignParentRight="true"
-					android:checked="true"/>
-			</RelativeLayout>
+                <Switch
+                    android:id="@+id/auto_units_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:checked="true" />
+            </RelativeLayout>
 
-			<RelativeLayout
-				android:id="@+id/units_layout"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/auto_units_layout"
-				android:layout_marginTop="@dimen/fragment_add_location_margin_top"
-				android:visibility="gone">
+            <RelativeLayout
+                android:id="@+id/units_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/auto_units_layout"
+                android:layout_marginTop="@dimen/fragment_add_location_margin_top"
+                android:visibility="gone">
 
-				<TextView
-					android:id="@+id/units_text_view"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_alignParentLeft="true"
-					android:layout_centerVertical="true"
-					android:text="@string/units"
-					android:textSize="@dimen/font_size_body"/>
+                <TextView
+                    android:id="@+id/units_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/units"
+                    android:textSize="@dimen/font_size_body" />
 
-				<RadioGroup
-					android:id="@+id/units_radio_group"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_alignParentRight="true"
-					android:orientation="horizontal">
+                <RadioGroup
+                    android:id="@+id/units_radio_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:orientation="horizontal">
 
-					<RadioButton
-						android:id="@+id/imperial_radio_button"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:checked="true"
-						android:text="@string/imperial"/>
+                    <RadioButton
+                        android:id="@+id/imperial_radio_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="@string/imperial" />
 
-					<RadioButton
-						android:id="@+id/metric_radio_button"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginLeft="5dp"
-						android:text="@string/metric"/>
-				</RadioGroup>
-			</RelativeLayout>
-		</RelativeLayout>
-	</RelativeLayout>
+                    <RadioButton
+                        android:id="@+id/metric_radio_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="@string/metric" />
+                </RadioGroup>
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
 </ScrollView>

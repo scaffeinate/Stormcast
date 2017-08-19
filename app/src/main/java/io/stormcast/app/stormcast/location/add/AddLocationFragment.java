@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -172,7 +173,14 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
         switch (view.getId()) {
             case R.id.location_edit_text:
                 try {
-                    Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN).build(getActivity());
+                    AutocompleteFilter filter = new AutocompleteFilter
+                            .Builder()
+                            .setTypeFilter(AutocompleteFilter.TYPE_FILTER_CITIES)
+                            .build();
+                    Intent intent = new PlaceAutocomplete
+                            .IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
+                            .setFilter(filter)
+                            .build(getActivity());
                     startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
                 } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
                     e.printStackTrace();
