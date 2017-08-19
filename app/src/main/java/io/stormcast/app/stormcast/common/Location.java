@@ -19,7 +19,7 @@ public class Location implements Parcelable {
     public static final int DEFAULT_TEXT_COLOR = android.R.color.white;
 
     private String name;
-    private double latitude = 0d, longitude = 0d;
+    private double latitude = -1, longitude = -1;
     private int backgroundColor = DEFAULT_BACKGROUND_COLOR, textColor = DEFAULT_TEXT_COLOR;
     private int unit = UNIT_AUTO;
 
@@ -50,7 +50,7 @@ public class Location implements Parcelable {
         this.name = name;
     }
 
-    public Double getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
@@ -58,7 +58,7 @@ public class Location implements Parcelable {
         this.latitude = latitude;
     }
 
-    public Double getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
