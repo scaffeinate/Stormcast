@@ -1,12 +1,10 @@
 package io.stormcast.app.stormcast.location.add;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -18,12 +16,11 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
+import android.widget.Toast;
 
-import com.flask.colorpicker.ColorPickerView;
-import com.flask.colorpicker.builder.ColorPickerClickListener;
-import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
@@ -37,13 +34,15 @@ import com.google.android.gms.maps.model.CameraPosition;
 
 import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.common.Location;
+import io.stormcast.app.stormcast.common.LocationBuilder;
 
 import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by sudhar on 8/15/17.
  */
-public class AddLocationFragment extends Fragment implements AddLocationContract.View, View.OnClickListener, OnMapReadyCallback, CompoundButton.OnCheckedChangeListener {
+public class AddLocationFragment extends Fragment implements View.OnClickListener, OnMapReadyCallback,
+        CompoundButton.OnCheckedChangeListener, AddLocationContract.View {
 
     private static final String TAG = AddLocationFragment.class.toString();
 
@@ -56,10 +55,13 @@ public class AddLocationFragment extends Fragment implements AddLocationContract
     private MapView mMapView;
     private ImageButton mBackgroundColorImageButton;
     private ImageButton mTextColorImageButton;
-    private Switch autoUnitsSwitch;
+    private Switch mAutoUnitsSwitch;
+    private RadioGroup mUnitsRadioGroup;
     private RelativeLayout unitsLayout;
 
     private CameraPosition mCameraPosition;
+    private AddLocationPresenter mPresenter;
+    private LocationBuilder mLocationBuilder;
 
     public static AddLocationFragment newInstance() {
         AddLocationFragment addLocationFragment = new AddLocationFragment();
@@ -70,6 +72,8 @@ public class AddLocationFragment extends Fragment implements AddLocationContract
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        mPresenter = new AddLocationPresenter(this);
+        mLocationBuilder = new LocationBuilder();
     }
 
     @Nullable
@@ -80,13 +84,14 @@ public class AddLocationFragment extends Fragment implements AddLocationContract
         mMapView = (MapView) view.findViewById(R.id.location_map_view);
         mBackgroundColorImageButton = (ImageButton) view.findViewById(R.id.background_color_image_button);
         mTextColorImageButton = (ImageButton) view.findViewById(R.id.text_color_image_button);
-        autoUnitsSwitch = (Switch) view.findViewById(R.id.auto_units_switch);
+        mAutoUnitsSwitch = (Switch) view.findViewById(R.id.auto_units_switch);
+        mUnitsRadioGroup = (RadioGroup) view.findViewById(R.id.units_radio_group);
         unitsLayout = (RelativeLayout) view.findViewById(R.id.units_layout);
 
         mEditText.setOnClickListener(this);
         mBackgroundColorImageButton.setOnClickListener(this);
         mTextColorImageButton.setOnClickListener(this);
-        autoUnitsSwitch.setOnCheckedChangeListener(this);
+        mAutoUnitsSwitch.setOnCheckedChangeListener(this);
 
         return view;
     }
@@ -117,6 +122,9 @@ public class AddLocationFragment extends Fragment implements AddLocationContract
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save_location_menu_item:
+                mLocationBuilder.setUnit(mAutoUnitsSwitch.isChecked() ? Location.UNIT_AUTO :
+                        (mUnitsRadioGroup.getCheckedRadioButtonId() == R.id.imperial_radio_button) ? Location.UNIT_IMPERIAL : Location.UNIT_METRIC);
+                mPresenter.validateLocation(mLocationBuilder.build());
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -130,6 +138,8 @@ public class AddLocationFragment extends Fragment implements AddLocationContract
                 mEditText.setText(place.getName());
                 mEditText.setCursorVisible(false);
                 mEditText.clearFocus();
+                mLocationBuilder.setName(place.getName().toString())
+                        .setLatLng(place.getLatLng());
                 addMarker(place);
             }
         }
@@ -147,38 +157,41 @@ public class AddLocationFragment extends Fragment implements AddLocationContract
                 }
                 break;
             case R.id.background_color_image_button:
-                showColorPicker(mBackgroundColorImageButton, Location.DEFAULT_BACKGROUND_COLOR);
+                ColorPickerHelper.showColorPicker(getContext(), Location.DEFAULT_BACKGROUND_COLOR, new ColorPickerHelper.ColorPickerCallback() {
+                    @Override
+                    public void onColorSelected(int color) {
+                        GradientDrawable drawable = (GradientDrawable) mBackgroundColorImageButton.getBackground();
+                        drawable.setColor(color);
+                        mLocationBuilder.setBackgroundColor(color);
+                    }
+                });
                 break;
             case R.id.text_color_image_button:
-                showColorPicker(mTextColorImageButton, Location.DEFAULT_TEXT_COLOR);
+                ColorPickerHelper.showColorPicker(getContext(), Location.DEFAULT_TEXT_COLOR, new ColorPickerHelper.ColorPickerCallback() {
+                    @Override
+                    public void onColorSelected(int color) {
+                        GradientDrawable drawable = (GradientDrawable) mTextColorImageButton.getBackground();
+                        drawable.setColor(color);
+                        mLocationBuilder.setTextColor(color);
+                    }
+                });
                 break;
         }
     }
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-        unitsLayout.setVisibility(b ? View.GONE : View.VISIBLE);
+        if (b) {
+            unitsLayout.setVisibility(View.GONE);
+        } else {
+            unitsLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMapView.setVisibility(View.VISIBLE);
         googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition));
-    }
-
-    @Override
-    public void onValidLocation() {
-
-    }
-
-    @Override
-    public void invalidLocation(String message) {
-
-    }
-
-    @Override
-    public void onSaveLocation() {
-
     }
 
     private void addMarker(Place place) {
@@ -190,25 +203,18 @@ public class AddLocationFragment extends Fragment implements AddLocationContract
         mMapView.getMapAsync(AddLocationFragment.this);
     }
 
-    private void showColorPicker(final ImageButton imageButton, int defaultColor) {
-        ColorPickerDialogBuilder.with(getContext())
-                .setTitle("Choose color")
-                .initialColor(ContextCompat.getColor(getContext(), defaultColor))
-                .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
-                .density(12)
-                .setPositiveButton("Ok", new ColorPickerClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
-                        GradientDrawable drawable = (GradientDrawable) imageButton.getBackground();
-                        drawable.setColor(selectedColor);
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                })
-                .build()
-                .show();
+    @Override
+    public void onValidLocation(Location location) {
+        mPresenter.saveLocation(location);
+    }
+
+    @Override
+    public void invalidLocation(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onLocationSaved() {
+        getFragmentManager().popBackStack();
     }
 }
