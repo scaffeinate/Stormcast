@@ -173,6 +173,9 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
                         (mUnitsRadioGroup.getCheckedRadioButtonId() == R.id.imperial_radio_button) ? Location.UNIT_IMPERIAL : Location.UNIT_METRIC);
                 mPresenter.validateLocation(mLocationBuilder.build());
                 return true;
+            case android.R.id.home:
+                goBack();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -267,7 +270,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     @Override
     public void onLocationSaved() {
         Toast.makeText(mContext, "Location saved", Toast.LENGTH_LONG).show();
-        getFragmentManager().popBackStack();
+        goBack();
     }
 
     @Override
@@ -283,5 +286,9 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
                 .zoom(ZOOM)
                 .build();
         mMapView.getMapAsync(AddLocationFragment.this);
+    }
+
+    private void goBack() {
+        getFragmentManager().popBackStack();
     }
 }
