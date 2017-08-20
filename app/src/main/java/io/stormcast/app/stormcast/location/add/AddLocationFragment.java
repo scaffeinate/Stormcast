@@ -115,6 +115,8 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
         drawable = (GradientDrawable) mTextColorImageButton.getBackground();
         drawable.setColor(ContextCompat.getColor(mContext, android.R.color.white));
 
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         return view;
     }
 

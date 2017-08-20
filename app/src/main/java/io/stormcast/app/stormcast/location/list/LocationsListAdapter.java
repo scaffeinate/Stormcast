@@ -20,7 +20,6 @@ import io.stormcast.app.stormcast.common.Location;
 public class LocationsListAdapter extends RecyclerView.Adapter<LocationsListAdapter.ViewHolder> {
 
     private List<Location> mLocationList;
-    private boolean isSelected = true;
 
     public LocationsListAdapter(List<Location> locationList) {
         this.mLocationList = locationList;
