@@ -23,13 +23,13 @@
             android:id="@+id/bg_color_image_view"
             android:layout_width="@dimen/color_indicator_size"
             android:layout_height="@dimen/color_indicator_size"
-            android:background="@drawable/bg_color_indicator" />
+            android:background="@drawable/color_indicator" />
 
         <ImageView
             android:id="@+id/text_color_image_view"
             android:layout_width="@dimen/color_indicator_size"
             android:layout_height="@dimen/color_indicator_size"
             android:layout_marginLeft="5dp"
-            android:background="@drawable/bg_color_indicator" />
+            android:background="@drawable/color_indicator" />
     </LinearLayout>
 </RelativeLayout>

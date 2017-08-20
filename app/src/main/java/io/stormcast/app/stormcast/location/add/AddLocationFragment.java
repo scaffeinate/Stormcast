@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -35,6 +36,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
 
 import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.common.Location;
@@ -123,13 +125,26 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
         mActionBar.setTitle("Add Location");
 
         if (savedInstanceState != null) {
-            Location restored = savedInstanceState.getParcelable(LOCATION);
+            final Location restored = savedInstanceState.getParcelable(LOCATION);
             mLocationBuilder.setName(restored.getName())
                     .setLatitude(restored.getLatitude())
                     .setLongitude(restored.getLongitude())
                     .setBackgroundColor(restored.getBackgroundColor())
                     .setTextColor(restored.getTextColor())
                     .setUnit(restored.getUnit());
+
+            GradientDrawable drawable = (GradientDrawable) mBackgroundColorImageButton.getBackground();
+            drawable.setColor(Color.parseColor(restored.getBackgroundColor()));
+
+            drawable = (GradientDrawable) mTextColorImageButton.getBackground();
+            drawable.setColor(Color.parseColor(restored.getTextColor()));
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    addMarker(new LatLng(restored.getLatitude(), restored.getLongitude()));
+                }
+            }, 250);
         }
 
         mMapView.postDelayed(new Runnable() {
@@ -170,7 +185,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
                 mEditText.clearFocus();
                 mLocationBuilder.setName(place.getName().toString())
                         .setLatLng(place.getLatLng());
-                addMarker(place);
+                addMarker(place.getLatLng());
             }
         }
     }
@@ -259,9 +274,9 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     }
 
 
-    private void addMarker(Place place) {
+    private void addMarker(LatLng latLng) {
         mCameraPosition = CameraPosition.builder()
-                .target(place.getLatLng())
+                .target(latLng)
                 .tilt(TILT)
                 .zoom(ZOOM)
                 .build();
