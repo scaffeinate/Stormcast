@@ -7,6 +7,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -105,6 +106,12 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
         mBackgroundColorImageButton.setOnClickListener(this);
         mTextColorImageButton.setOnClickListener(this);
         mAutoUnitsSwitch.setOnCheckedChangeListener(this);
+
+        GradientDrawable drawable = (GradientDrawable) mBackgroundColorImageButton.getBackground();
+        drawable.setColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+
+        drawable = (GradientDrawable) mTextColorImageButton.getBackground();
+        drawable.setColor(ContextCompat.getColor(mContext, android.R.color.white));
 
         return view;
     }
