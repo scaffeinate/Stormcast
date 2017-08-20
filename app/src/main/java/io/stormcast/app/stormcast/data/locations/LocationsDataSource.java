@@ -10,6 +10,10 @@ import io.stormcast.app.stormcast.common.Location;
 
 public interface LocationsDataSource {
 
+    void saveLocation(Location location, SaveLocationCallback saveLocationCallback);
+
+    void getLocations(GetLocationsCallback getLocationsCallback);
+
     interface SaveLocationCallback {
         void onLocationSaved();
 
@@ -21,8 +25,4 @@ public interface LocationsDataSource {
 
         void onDataNotAvailable();
     }
-
-    void saveLocation(Location location, SaveLocationCallback saveLocationCallback);
-
-    void getLocations(GetLocationsCallback getLocationsCallback);
 }

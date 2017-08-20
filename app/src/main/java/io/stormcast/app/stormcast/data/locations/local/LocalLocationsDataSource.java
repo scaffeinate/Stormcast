@@ -22,16 +22,16 @@ public class LocalLocationsDataSource implements LocationsDataSource {
     private static LocalLocationsDataSource mLocalLocationsDataSource;
     private LocationsDbHelper mLocationsDbHelper;
 
+    private LocalLocationsDataSource(Context context) {
+        mLocationsDbHelper = new LocationsDbHelper(context);
+    }
+
     public static LocalLocationsDataSource getInstance(Context context) {
         if (mLocalLocationsDataSource == null) {
             mLocalLocationsDataSource = new LocalLocationsDataSource(context);
         }
 
         return mLocalLocationsDataSource;
-    }
-
-    private LocalLocationsDataSource(Context context) {
-        mLocationsDbHelper = new LocationsDbHelper(context);
     }
 
     @Override

@@ -15,10 +15,6 @@ import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 
 public class ColorPickerHelper {
 
-    interface ColorPickerCallback {
-        void onColorSelected(String colorHex);
-    }
-
     protected static void showColorPicker(Context context, int defaultColor, final ColorPickerCallback callback) {
         ColorPickerDialogBuilder.with(context)
                 .setTitle("Choose color")
@@ -43,5 +39,9 @@ public class ColorPickerHelper {
                 })
                 .build()
                 .show();
+    }
+
+    interface ColorPickerCallback {
+        void onColorSelected(String colorHex);
     }
 }

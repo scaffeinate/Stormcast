@@ -9,18 +9,25 @@ import android.os.Parcelable;
 
 public class Location implements Parcelable {
 
-    protected final static int MINUS_ONE = -1;
-
     public static final int UNIT_IMPERIAL = 0;
     public static final int UNIT_METRIC = 1;
     public static final int UNIT_AUTO = 2;
-
     public static final String DEFAULT_BACKGROUND_COLOR = "#3F51B5";
     public static final String DEFAULT_TEXT_COLOR = "#FFFFFF";
+    public static final Parcelable.Creator CREATOR = new Creator() {
+        @Override
+        public Object createFromParcel(Parcel parcel) {
+            return new Location(parcel);
+        }
 
+        @Override
+        public Object[] newArray(int size) {
+            return new Location[size];
+        }
+    };
+    protected final static int MINUS_ONE = -1;
     private static final double DEFAULT_LATITUDE = 0;
     private static final double DEFAULT_LONGITUDE = 0;
-
     private int id = 0;
     private String name;
     private double latitude = DEFAULT_LATITUDE, longitude = DEFAULT_LONGITUDE;
@@ -106,18 +113,6 @@ public class Location implements Parcelable {
     public void setUnit(int unit) {
         if (unit != MINUS_ONE) this.unit = unit;
     }
-
-    public static final Parcelable.Creator CREATOR = new Creator() {
-        @Override
-        public Object createFromParcel(Parcel parcel) {
-            return new Location(parcel);
-        }
-
-        @Override
-        public Object[] newArray(int size) {
-            return new Location[size];
-        }
-    };
 
     @Override
     public int describeContents() {

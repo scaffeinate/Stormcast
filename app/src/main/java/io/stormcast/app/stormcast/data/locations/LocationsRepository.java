@@ -12,18 +12,18 @@ public class LocationsRepository implements LocationsDataSource {
     private LocationsDataSource mLocalDataSource;
     private LocationsDataSource mRemoteDataSource;
 
+    private LocationsRepository(LocationsDataSource locationsDataSource,
+                                LocationsDataSource mRemoteDataSource) {
+        this.mLocalDataSource = locationsDataSource;
+        this.mRemoteDataSource = mRemoteDataSource;
+    }
+
     public static LocationsRepository getInstance(LocationsDataSource mLocalDataSource,
                                                   LocationsDataSource mRemoteDataSource) {
         if (sLocationsRepository == null) {
             sLocationsRepository = new LocationsRepository(mLocalDataSource, mRemoteDataSource);
         }
         return sLocationsRepository;
-    }
-
-    private LocationsRepository(LocationsDataSource locationsDataSource,
-                                LocationsDataSource mRemoteDataSource) {
-        this.mLocalDataSource = locationsDataSource;
-        this.mRemoteDataSource = mRemoteDataSource;
     }
 
     @Override

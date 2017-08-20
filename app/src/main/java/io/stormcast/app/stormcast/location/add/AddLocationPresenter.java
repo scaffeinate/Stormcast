@@ -1,7 +1,5 @@
 package io.stormcast.app.stormcast.location.add;
 
-import android.widget.Toast;
-
 import io.stormcast.app.stormcast.common.Location;
 import io.stormcast.app.stormcast.data.locations.LocationsDataSource;
 import io.stormcast.app.stormcast.data.locations.LocationsRepository;
