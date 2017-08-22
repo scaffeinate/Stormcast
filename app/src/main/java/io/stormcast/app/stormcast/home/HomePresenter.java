@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.stormcast.app.stormcast.common.Location;
+import io.stormcast.app.stormcast.data.locations.LocationsDataSource;
+import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 
 /**
  * Created by sudhar on 8/15/17.
@@ -16,13 +18,26 @@ public class HomePresenter implements HomeContract.Presenter {
     @NonNull
     private final HomeContract.View mView;
 
-    public HomePresenter(HomeContract.View view) {
+    @NonNull
+    private final LocationsRepository mLocationsRepository;
+
+    public HomePresenter(HomeContract.View view, LocationsRepository locationsRepository) {
         this.mView = view;
+        this.mLocationsRepository = locationsRepository;
     }
 
     @Override
     public void loadLocations() {
-        List<Location> locations = new ArrayList<>();
-        mView.onLocationsLoaded(locations);
+        mLocationsRepository.getLocations(new LocationsDataSource.GetLocationsCallback() {
+            @Override
+            public void onLocationsLoaded(List<Location> locationList) {
+                mView.onLocationsLoaded(locationList);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                mView.onDataNotAvailable();
+            }
+        });
     }
 }

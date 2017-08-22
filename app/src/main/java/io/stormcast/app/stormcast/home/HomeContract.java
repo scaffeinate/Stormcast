@@ -11,6 +11,7 @@ import io.stormcast.app.stormcast.common.Location;
 public interface HomeContract {
     interface View {
         void onLocationsLoaded(List<Location> locations);
+        void onDataNotAvailable();
     }
 
     interface Presenter {
