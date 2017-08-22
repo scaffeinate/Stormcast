@@ -1,6 +1,6 @@
 package io.stormcast.app.stormcast.data.locations.remote;
 
-import io.stormcast.app.stormcast.common.Location;
+import io.stormcast.app.stormcast.common.dto.Location;
 import io.stormcast.app.stormcast.data.locations.LocationsDataSource;
 
 /**

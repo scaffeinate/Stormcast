@@ -9,8 +9,8 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.stormcast.app.stormcast.common.Location;
-import io.stormcast.app.stormcast.common.LocationBuilder;
+import io.stormcast.app.stormcast.common.dto.Location;
+import io.stormcast.app.stormcast.common.dto.LocationBuilder;
 import io.stormcast.app.stormcast.data.locations.LocationsDataSource;
 
 /**

@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import io.stormcast.app.stormcast.R;
-import io.stormcast.app.stormcast.common.Location;
+import io.stormcast.app.stormcast.common.dto.Location;
 
 /**
  * Created by sudhar on 8/15/17.

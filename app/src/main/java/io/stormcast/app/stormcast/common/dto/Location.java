@@ -1,4 +1,4 @@
-package io.stormcast.app.stormcast.common;
+package io.stormcast.app.stormcast.common.dto;
 
 import android.os.Parcel;
 import android.os.Parcelable;

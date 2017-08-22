@@ -1,18 +1,15 @@
 package io.stormcast.app.stormcast.location.list;
 
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
 
 import io.stormcast.app.stormcast.R;
-import io.stormcast.app.stormcast.common.Location;
+import io.stormcast.app.stormcast.common.dto.Location;
 
 /**
  * Created by sudhar on 8/15/17.

@@ -4,14 +4,13 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import io.stormcast.app.stormcast.data.PersistenceContract;
+
 /**
  * Created by sudharti on 8/18/17.
  */
 
 public class LocationsDbHelper extends SQLiteOpenHelper {
-
-    public final static int DATABASE_VERSION = 1;
-    public final static String DATABASE_NAME = "Stormcast.db";
 
     protected final static String TABLE_NAME = "locations";
 
@@ -29,7 +28,7 @@ public class LocationsDbHelper extends SQLiteOpenHelper {
             TEXT_COLOR + " VARCHAR, " + UNIT + " INTEGER)";
 
     public LocationsDbHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION, null);
+        super(context, PersistenceContract.DATABASE_NAME, null, PersistenceContract.DATABASE_VERSION, null);
     }
 
     @Override

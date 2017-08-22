@@ -19,7 +19,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import io.stormcast.app.stormcast.R;
-import io.stormcast.app.stormcast.common.Location;
+import io.stormcast.app.stormcast.common.dto.Location;
 import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 import io.stormcast.app.stormcast.data.locations.local.LocalLocationsDataSource;
 import io.stormcast.app.stormcast.data.locations.remote.RemoteLocationsDataSource;

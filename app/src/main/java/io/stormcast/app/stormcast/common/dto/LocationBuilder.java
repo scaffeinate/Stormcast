@@ -1,4 +1,4 @@
-package io.stormcast.app.stormcast.common;
+package io.stormcast.app.stormcast.common.dto;
 
 import com.google.android.gms.maps.model.LatLng;
 
