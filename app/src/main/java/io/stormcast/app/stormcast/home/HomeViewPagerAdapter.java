@@ -3,6 +3,7 @@ package io.stormcast.app.stormcast.home;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.View;
 
 import java.util.List;
 
@@ -37,5 +38,9 @@ public class HomeViewPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         Location location = mLocations.get(position);
         return location.getName();
+    }
+
+    public void setLocations(List<Location> locations) {
+        this.mLocations = locations;
     }
 }
