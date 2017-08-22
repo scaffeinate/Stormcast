@@ -36,10 +36,6 @@ public class LocationsListAdapter extends RecyclerView.Adapter<LocationsListAdap
         Location location = mLocationList.get(position);
         if (location != null) {
             holder.nameTextView.setText(location.getName());
-            GradientDrawable background = (GradientDrawable) holder.bgColorImageView.getBackground();
-            background.setColor(Color.parseColor(location.getBackgroundColor()));
-            background = (GradientDrawable) holder.textColorImageView.getBackground();
-            background.setColor(Color.parseColor(location.getTextColor()));
         }
     }
 
@@ -51,15 +47,12 @@ public class LocationsListAdapter extends RecyclerView.Adapter<LocationsListAdap
     static class ViewHolder extends RecyclerView.ViewHolder {
         private final View parentView;
         private final TextView nameTextView;
-        private final ImageView bgColorImageView, textColorImageView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             this.parentView = itemView;
 
             nameTextView = (TextView) itemView.findViewById(R.id.location_name_text_view);
-            bgColorImageView = (ImageView) itemView.findViewById(R.id.bg_color_image_view);
-            textColorImageView = (ImageView) itemView.findViewById(R.id.text_color_image_view);
         }
     }
 }
