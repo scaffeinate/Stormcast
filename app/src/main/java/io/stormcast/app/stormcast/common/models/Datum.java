@@ -1,29 +1,18 @@
-
 package io.stormcast.app.stormcast.common.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Datum implements Parcelable
-{
+public class Datum implements Parcelable {
 
-    @SerializedName("time")
-    @Expose
-    private int time;
-    @SerializedName("precipIntensity")
-    @Expose
-    private int precipIntensity;
-    @SerializedName("precipProbability")
-    @Expose
-    private int precipProbability;
     public final static Parcelable.Creator<Datum> CREATOR = new Creator<Datum>() {
 
 
         @SuppressWarnings({
-            "unchecked"
+                "unchecked"
         })
         public Datum createFromParcel(Parcel in) {
             Datum instance = new Datum();
@@ -37,8 +26,16 @@ public class Datum implements Parcelable
             return (new Datum[size]);
         }
 
-    }
-    ;
+    };
+    @SerializedName("time")
+    @Expose
+    private int time;
+    @SerializedName("precipIntensity")
+    @Expose
+    private int precipIntensity;
+    @SerializedName("precipProbability")
+    @Expose
+    private int precipProbability;
 
     public int getTime() {
         return time;
@@ -71,7 +68,7 @@ public class Datum implements Parcelable
     }
 
     public int describeContents() {
-        return  0;
+        return 0;
     }
 
 }

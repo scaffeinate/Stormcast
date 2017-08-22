@@ -1,53 +1,18 @@
-
 package io.stormcast.app.stormcast.common.models;
 
-import javax.validation.Valid;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Forecast implements Parcelable
-{
+public class Forecast implements Parcelable {
 
-    @SerializedName("latitude")
-    @Expose
-    private double latitude;
-    @SerializedName("longitude")
-    @Expose
-    private double longitude;
-    @SerializedName("timezone")
-    @Expose
-    private String timezone;
-    @SerializedName("offset")
-    @Expose
-    private int offset;
-    @SerializedName("currently")
-    @Expose
-    @Valid
-    private Currently currently;
-    @SerializedName("minutely")
-    @Expose
-    @Valid
-    private Minutely minutely;
-    @SerializedName("hourly")
-    @Expose
-    @Valid
-    private Hourly hourly;
-    @SerializedName("daily")
-    @Expose
-    @Valid
-    private Daily daily;
-    @SerializedName("flags")
-    @Expose
-    @Valid
-    private Flags flags;
     public final static Parcelable.Creator<Forecast> CREATOR = new Creator<Forecast>() {
 
 
         @SuppressWarnings({
-            "unchecked"
+                "unchecked"
         })
         public Forecast createFromParcel(Parcel in) {
             Forecast instance = new Forecast();
@@ -67,8 +32,34 @@ public class Forecast implements Parcelable
             return (new Forecast[size]);
         }
 
-    }
-    ;
+    };
+    @SerializedName("latitude")
+    @Expose
+    private double latitude;
+    @SerializedName("longitude")
+    @Expose
+    private double longitude;
+    @SerializedName("timezone")
+    @Expose
+    private String timezone;
+    @SerializedName("offset")
+    @Expose
+    private int offset;
+    @SerializedName("currently")
+    @Expose
+    private Currently currently;
+    @SerializedName("minutely")
+    @Expose
+    private Minutely minutely;
+    @SerializedName("hourly")
+    @Expose
+    private Hourly hourly;
+    @SerializedName("daily")
+    @Expose
+    private Daily daily;
+    @SerializedName("flags")
+    @Expose
+    private Flags flags;
 
     public double getLatitude() {
         return latitude;
@@ -155,7 +146,7 @@ public class Forecast implements Parcelable
     }
 
     public int describeContents() {
-        return  0;
+        return 0;
     }
 
 }

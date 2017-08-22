@@ -1,33 +1,21 @@
-
 package io.stormcast.app.stormcast.common.models;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.validation.Valid;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Hourly implements Parcelable
-{
+import java.util.ArrayList;
+import java.util.List;
 
-    @SerializedName("summary")
-    @Expose
-    private String summary;
-    @SerializedName("icon")
-    @Expose
-    private String icon;
-    @SerializedName("data")
-    @Expose
-    @Valid
-    private List<Datum_> data = new ArrayList<Datum_>();
+public class Hourly implements Parcelable {
+
     public final static Parcelable.Creator<Hourly> CREATOR = new Creator<Hourly>() {
 
 
         @SuppressWarnings({
-            "unchecked"
+                "unchecked"
         })
         public Hourly createFromParcel(Parcel in) {
             Hourly instance = new Hourly();
@@ -41,8 +29,17 @@ public class Hourly implements Parcelable
             return (new Hourly[size]);
         }
 
-    }
-    ;
+    };
+    @SerializedName("summary")
+    @Expose
+    private String summary;
+    @SerializedName("icon")
+    @Expose
+    private String icon;
+    @SerializedName("data")
+    @Expose
+
+    private List<Datum_> data = new ArrayList<Datum_>();
 
     public String getSummary() {
         return summary;
@@ -75,7 +72,7 @@ public class Hourly implements Parcelable
     }
 
     public int describeContents() {
-        return  0;
+        return 0;
     }
 
 }
