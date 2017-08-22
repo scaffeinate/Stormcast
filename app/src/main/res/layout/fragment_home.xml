@@ -4,22 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tab_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        app:tabMode="scrollable"
-        app:tabSelectedTextColor="@color/colorAccent"
-        app:tabTextColor="@android:color/white" />
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical" />
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/locations_button"
         android:layout_width="wrap_content"
@@ -28,6 +12,14 @@
         android:layout_margin="16dp"
         android:clickable="true"
         android:src="@drawable/ic_map_marker_plus"
+        app:backgroundTint="#FF4081"
         app:fabSize="auto"
-        app:rippleColor="@android:color/white" />
+        app:rippleColor="@color/colorAccent" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="vertical" />
 </FrameLayout>

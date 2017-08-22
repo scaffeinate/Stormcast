@@ -18,7 +18,9 @@
             android:drawableRight="@drawable/icon_search"
             android:focusableInTouchMode="false"
             android:hint="@string/enter_location_name"
+            android:textColorHint="@color/colorAccent"
             android:inputType="none"
+            android:textColor="@android:color/white"
             android:textSize="@dimen/font_size_body"
             android:textStyle="bold">
 
@@ -47,6 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:text="@string/customize"
+                android:textColor="@android:color/white"
                 android:textSize="@dimen/font_size_subheading"
                 android:textStyle="bold" />
 
@@ -64,6 +67,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:text="@string/background_color"
+                    android:textColor="@android:color/white"
                     android:textSize="@dimen/font_size_body" />
 
                 <ImageButton
@@ -90,6 +94,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:text="@string/text_color"
+                    android:textColor="@android:color/white"
                     android:textSize="@dimen/font_size_body" />
 
                 <ImageButton
@@ -117,6 +122,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:text="@string/auto_units"
+                    android:textColor="@android:color/white"
                     android:textSize="@dimen/font_size_body" />
 
                 <Switch
@@ -142,6 +148,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:text="@string/units"
+                    android:textColor="@android:color/white"
                     android:textSize="@dimen/font_size_body" />
 
                 <RadioGroup
@@ -156,6 +163,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
+                        android:textColor="@android:color/white"
                         android:text="@string/imperial" />
 
                     <RadioButton
@@ -163,6 +171,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
+                        android:textColor="@android:color/white"
                         android:text="@string/metric" />
                 </RadioGroup>
             </RelativeLayout>
