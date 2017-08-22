@@ -10,7 +10,7 @@ import io.stormcast.app.stormcast.data.PersistenceContract;
  * Created by sudharti on 8/18/17.
  */
 
-public class LocationsDbHelper extends SQLiteOpenHelper {
+public class LocationsDbHelper extends SQLiteOpenHelper implements PersistenceContract {
 
     protected final static String TABLE_NAME = "locations";
 
@@ -28,7 +28,7 @@ public class LocationsDbHelper extends SQLiteOpenHelper {
             TEXT_COLOR + " VARCHAR, " + UNIT + " INTEGER)";
 
     public LocationsDbHelper(Context context) {
-        super(context, PersistenceContract.DATABASE_NAME, null, PersistenceContract.DATABASE_VERSION, null);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION, null);
     }
 
     @Override
