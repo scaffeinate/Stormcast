@@ -3,12 +3,11 @@ package io.stormcast.app.stormcast.home;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.view.View;
 
 import java.util.List;
 
 import io.stormcast.app.stormcast.common.Location;
-import io.stormcast.app.stormcast.weather.WeatherFragment;
+import io.stormcast.app.stormcast.forecast.ForecastFragment;
 
 /**
  * Created by sudhar on 8/15/17.
@@ -26,7 +25,7 @@ public class HomeViewPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         Location location = mLocations.get(position);
-        return WeatherFragment.newInstance(location);
+        return ForecastFragment.newInstance(location);
     }
 
     @Override
