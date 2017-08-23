@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/color_indicator_selected"
+    android:clickable="true"
+    android:padding="@dimen/item_color_selected_padding">
+
+    <ImageButton
+        android:id="@+id/color_image_button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:background="@drawable/color_indicator" />
+</RelativeLayout>

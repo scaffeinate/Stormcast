@@ -10,4 +10,5 @@
     <dimen name="item_location_padding">15dp</dimen>
     <dimen name="dialog_color_picker_padding">20dp</dimen>
     <dimen name="dialog_color_picker_grid_margin_top">20dp</dimen>
+    <dimen name="item_color_selected_padding">10dp</dimen>
 </resources>
