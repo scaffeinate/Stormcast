@@ -13,7 +13,6 @@ public class Hourly implements Parcelable {
 
     public final static Parcelable.Creator<Hourly> CREATOR = new Creator<Hourly>() {
 
-
         @SuppressWarnings({
                 "unchecked"
         })

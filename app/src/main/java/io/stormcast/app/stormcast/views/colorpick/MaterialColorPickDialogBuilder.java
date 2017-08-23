@@ -2,6 +2,8 @@ package io.stormcast.app.stormcast.views.colorpick;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.support.annotation.IntDef;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,11 +21,18 @@ import static java.lang.annotation.RetentionPolicy.SOURCE;
  * Created by sudhar on 8/22/17.
  */
 
-public class MaterialColorPickDialogBuilder {
+public class MaterialColorPickDialogBuilder implements DialogInterface.OnClickListener {
 
     private static MaterialColorPickDialogBuilder builder;
-    private static final String DEFAULT_TITLE = "Color Picker";
 
+    private static final String DEFAULT_TITLE = "Color Picker";
+    private static final String DEFAULT_POSITIVE_TEXT = "Ok";
+    private static final String DEFAULT_NEGATIVE_TEXT = "Cancel";
+
+    private static final String THEME_LIGHT_BG_COLOR = "#FFFFFF";
+    private static final String THEME_DARK_BG = "#404040";
+    private static final String THEME_LIGHT_TEXT_COLOR = "#000000";
+    private static final String THEME_DARK_TEXT_COLOR = "#F7F7F7";
     private static final int THEME_LIGHT_ICON = R.drawable.ic_eyedropper_variant_grey600_24dp;
     private static final int THEME_DARK_ICON = R.drawable.ic_eyedropper_variant_white_24dp;
 
@@ -36,8 +45,10 @@ public class MaterialColorPickDialogBuilder {
 
     private Context mContext;
     private String title = DEFAULT_TITLE;
-    private int theme = -1;
-    private int icon = 0;
+    private int theme = ColorPickTheme.THEME_LIGHT;
+    private int icon = THEME_LIGHT_ICON;
+    private String positiveText = DEFAULT_POSITIVE_TEXT;
+    private String negativeText = DEFAULT_NEGATIVE_TEXT;
 
     private AlertDialog.Builder mDialogBuilder;
     private AlertDialog mAlertDialog;
@@ -46,17 +57,14 @@ public class MaterialColorPickDialogBuilder {
     private TextView mTitle;
     private GridView mColorsGridView;
 
-    private MaterialColorPickDialogBuilder(Context context, @ColorPickTheme int theme) {
+    private OnColorPickedListener mOnColorPickedListener;
+
+    private MaterialColorPickDialogBuilder(Context context) {
         this.mContext = context;
-        this.theme = theme;
     }
 
     public static MaterialColorPickDialogBuilder with(Context context) {
-        return with(context, ColorPickTheme.THEME_LIGHT);
-    }
-
-    public static MaterialColorPickDialogBuilder with(Context context, @ColorPickTheme int theme) {
-        builder = new MaterialColorPickDialogBuilder(context, theme);
+        builder = new MaterialColorPickDialogBuilder(context);
         return builder;
     }
 
@@ -75,16 +83,23 @@ public class MaterialColorPickDialogBuilder {
         return builder;
     }
 
+    public static MaterialColorPickDialogBuilder setOnColorPickedListener(OnColorPickedListener onColorPickedListener) {
+        builder.mOnColorPickedListener = onColorPickedListener;
+        return builder;
+    }
+
     public static MaterialColorPickDialogBuilder build() {
         builder.mDialogBuilder = new AlertDialog.Builder(builder.mContext);
         View view = builder.getView(builder.mContext);
         builder.mDialogBuilder.setView(view);
+        builder.mDialogBuilder.setPositiveButton(builder.positiveText, builder);
+        builder.mDialogBuilder.setNegativeButton(builder.negativeText, builder);
 
         builder.mTitle = (TextView) view.findViewById(R.id.pick_a_color_text_view);
         builder.mColorsGridView = (GridView) view.findViewById(R.id.colors_grid_view);
         builder.mLayout = (RelativeLayout) view.findViewById(R.id.material_color_pick_layout);
 
-        builder.setupTheme(builder.theme);
+        builder.setupTheme(builder);
 
         builder.mAlertDialog = builder.mDialogBuilder
                 .setTitle(builder.title)
@@ -98,11 +113,26 @@ public class MaterialColorPickDialogBuilder {
         builder.mAlertDialog.show();
     }
 
-    private void setupTheme(int theme) {
-        switch (theme) {
+    @Override
+    public void onClick(DialogInterface dialogInterface, int which) {
+        switch (which) {
+            case DialogInterface.BUTTON_POSITIVE:
+                mOnColorPickedListener.onClick(0);
+                break;
+        }
+    }
+
+    private static void setupTheme(MaterialColorPickDialogBuilder builder) {
+        switch (builder.theme) {
             case ColorPickTheme.THEME_LIGHT:
+                builder.mLayout.setBackgroundColor(Color.parseColor(THEME_LIGHT_BG_COLOR));
+                builder.mTitle.setTextColor(Color.parseColor(THEME_LIGHT_TEXT_COLOR));
+                builder.setIcon(THEME_LIGHT_ICON);
                 break;
             case ColorPickTheme.THEME_DARK:
+                builder.mLayout.setBackgroundColor(Color.parseColor(THEME_DARK_BG));
+                builder.mTitle.setTextColor(Color.parseColor(THEME_DARK_TEXT_COLOR));
+                builder.setIcon(THEME_DARK_ICON);
                 break;
         }
     }
@@ -111,5 +141,9 @@ public class MaterialColorPickDialogBuilder {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.dialog_color_picker, null);
         return view;
+    }
+
+    public interface OnColorPickedListener {
+        void onClick(int selectedColor);
     }
 }
