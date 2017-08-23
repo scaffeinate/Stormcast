@@ -117,7 +117,7 @@ public class MaterialColorPickDialogBuilder implements DialogInterface.OnClickLi
     public void onClick(DialogInterface dialogInterface, int which) {
         switch (which) {
             case DialogInterface.BUTTON_POSITIVE:
-                mOnColorPickedListener.onClick(0);
+                mOnColorPickedListener.onClick("");
                 break;
         }
     }
@@ -144,6 +144,6 @@ public class MaterialColorPickDialogBuilder implements DialogInterface.OnClickLi
     }
 
     public interface OnColorPickedListener {
-        void onClick(int selectedColor);
+        void onClick(String colorHex);
     }
 }
