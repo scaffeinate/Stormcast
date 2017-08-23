@@ -18,7 +18,7 @@
             android:drawableRight="@drawable/icon_search"
             android:focusableInTouchMode="false"
             android:hint="@string/enter_location_name"
-            android:textColorHint="@color/colorAccent"
+            android:textColorHint="@color/textColorHint"
             android:inputType="none"
             android:textColor="@android:color/white"
             android:textSize="@dimen/font_size_body"

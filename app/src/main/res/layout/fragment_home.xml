@@ -12,7 +12,7 @@
         android:layout_margin="16dp"
         android:clickable="true"
         android:src="@drawable/ic_map_marker_plus"
-        app:backgroundTint="#FF4081"
+        app:backgroundTint="@color/colorPrimary"
         app:fabSize="auto"
         app:rippleColor="@color/colorAccent" />
 
