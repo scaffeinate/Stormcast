@@ -11,4 +11,6 @@
     <dimen name="dialog_color_picker_padding">20dp</dimen>
     <dimen name="dialog_color_picker_grid_margin_top">20dp</dimen>
     <dimen name="item_color_selected_padding">10dp</dimen>
+    <dimen name="fragment_forecast_padding">30dp</dimen>
+    <dimen name="item_overview_weather_icon_margin_top">50dp</dimen>
 </resources>
