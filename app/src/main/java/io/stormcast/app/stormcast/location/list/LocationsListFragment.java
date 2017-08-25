@@ -50,7 +50,7 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getContext();
-        mLocationsRepository = LocationsRepository.getInstance(LocalLocationsDataSource.getInstance(mContext),
+        mLocationsRepository = LocationsRepository.getInstance(LocalLocationsDataSource.getInstance(),
                 RemoteLocationsDataSource.getInstance());
         mPresenter = new LocationsListPresenter(this, mLocationsRepository);
         setHasOptionsMenu(true);

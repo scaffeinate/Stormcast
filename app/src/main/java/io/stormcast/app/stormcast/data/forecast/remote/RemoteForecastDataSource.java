@@ -41,4 +41,9 @@ public class RemoteForecastDataSource implements ForecastDataSource {
             }
         });
     }
+
+    @Override
+    public void saveForecast(Forecast forecast) {
+        // Do Nothing
+    }
 }

@@ -1,7 +1,7 @@
 package io.stormcast.app.stormcast.data.forecast;
 
-import io.stormcast.app.stormcast.common.models.Forecast;
 import io.stormcast.app.stormcast.common.models.Location;
+import io.stormcast.app.stormcast.common.network.Forecast;
 
 /**
  * Created by sudharti on 8/22/17.
@@ -45,10 +45,16 @@ public class ForecastRepository implements ForecastDataSource {
         });
     }
 
+    @Override
+    public void saveForecast(Forecast forecast) {
+        mLocalDataSource.saveForecast(forecast);
+    }
+
     private void getUpdateFromRemoteDataSource(Location location, final LoadForecastCallback loadForecastCallback) {
         mRemoteDataSource.loadForecast(location, new LoadForecastCallback() {
             @Override
             public void onForecastLoaded(Forecast forecast) {
+                saveForecast(forecast);
                 loadForecastCallback.onForecastLoaded(forecast);
             }
 

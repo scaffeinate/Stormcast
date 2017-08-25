@@ -4,6 +4,7 @@ import android.content.Context;
 
 import io.realm.Realm;
 import io.stormcast.app.stormcast.common.models.Location;
+import io.stormcast.app.stormcast.common.network.Forecast;
 import io.stormcast.app.stormcast.data.forecast.ForecastDataSource;
 
 /**
@@ -29,5 +30,10 @@ public class LocalForecastDataSource implements ForecastDataSource {
     @Override
     public void loadForecast(Location location, LoadForecastCallback loadForecastCallback) {
         loadForecastCallback.onDataNotAvailable("Test");
+    }
+
+    @Override
+    public void saveForecast(Forecast forecast) {
+
     }
 }
