@@ -12,8 +12,8 @@ import io.realm.annotations.Required;
 
 public class ForecastModel extends RealmObject implements Parcelable {
 
-    @Required
     private LocationModel locationModel;
+
     @Required
     private String timezone;
     @Required

@@ -269,7 +269,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onLocationSaved() {
-        Toast.makeText(mContext, "LocationModel saved", Toast.LENGTH_LONG).show();
+        Toast.makeText(mContext, "Location saved", Toast.LENGTH_LONG).show();
         goBack();
     }
 
