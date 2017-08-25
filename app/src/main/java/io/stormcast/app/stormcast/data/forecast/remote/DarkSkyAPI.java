@@ -11,5 +11,5 @@ import retrofit2.http.Path;
 
 public interface DarkSkyAPI {
     @GET("forecast/{apiKey}/{latLng}")
-    Call<Forecast> getForecast(@Path("apiKey") String apiKey, @Path("latitude") String latLng);
+    Call<Forecast> loadForecast(@Path("apiKey") String apiKey, @Path("latLng") String latLng);
 }
