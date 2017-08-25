@@ -32,10 +32,10 @@ public class Datum implements Parcelable {
     private int time;
     @SerializedName("precipIntensity")
     @Expose
-    private int precipIntensity;
+    private double precipIntensity;
     @SerializedName("precipProbability")
     @Expose
-    private int precipProbability;
+    private double precipProbability;
 
     public int getTime() {
         return time;
@@ -45,19 +45,19 @@ public class Datum implements Parcelable {
         this.time = time;
     }
 
-    public int getPrecipIntensity() {
+    public double getPrecipIntensity() {
         return precipIntensity;
     }
 
-    public void setPrecipIntensity(int precipIntensity) {
+    public void setPrecipIntensity(double precipIntensity) {
         this.precipIntensity = precipIntensity;
     }
 
-    public int getPrecipProbability() {
+    public double getPrecipProbability() {
         return precipProbability;
     }
 
-    public void setPrecipProbability(int precipProbability) {
+    public void setPrecipProbability(double precipProbability) {
         this.precipProbability = precipProbability;
     }
 

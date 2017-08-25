@@ -53,10 +53,10 @@ public class Datum_ implements Parcelable {
     private String icon;
     @SerializedName("precipIntensity")
     @Expose
-    private int precipIntensity;
+    private double precipIntensity;
     @SerializedName("precipProbability")
     @Expose
-    private int precipProbability;
+    private double precipProbability;
     @SerializedName("temperature")
     @Expose
     private double temperature;
@@ -80,7 +80,7 @@ public class Datum_ implements Parcelable {
     private int windBearing;
     @SerializedName("visibility")
     @Expose
-    private int visibility;
+    private double visibility;
     @SerializedName("cloudCover")
     @Expose
     private double cloudCover;
@@ -121,19 +121,19 @@ public class Datum_ implements Parcelable {
         this.icon = icon;
     }
 
-    public int getPrecipIntensity() {
+    public double getPrecipIntensity() {
         return precipIntensity;
     }
 
-    public void setPrecipIntensity(int precipIntensity) {
+    public void setPrecipIntensity(double precipIntensity) {
         this.precipIntensity = precipIntensity;
     }
 
-    public int getPrecipProbability() {
+    public double getPrecipProbability() {
         return precipProbability;
     }
 
-    public void setPrecipProbability(int precipProbability) {
+    public void setPrecipProbability(double precipProbability) {
         this.precipProbability = precipProbability;
     }
 
@@ -193,11 +193,11 @@ public class Datum_ implements Parcelable {
         this.windBearing = windBearing;
     }
 
-    public int getVisibility() {
+    public double getVisibility() {
         return visibility;
     }
 
-    public void setVisibility(int visibility) {
+    public void setVisibility(double visibility) {
         this.visibility = visibility;
     }
 

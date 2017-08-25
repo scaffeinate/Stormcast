@@ -44,7 +44,7 @@ public class Forecast implements Parcelable {
     private String timezone;
     @SerializedName("offset")
     @Expose
-    private int offset;
+    private double offset;
     @SerializedName("currently")
     @Expose
     private Currently currently;
@@ -85,11 +85,11 @@ public class Forecast implements Parcelable {
         this.timezone = timezone;
     }
 
-    public int getOffset() {
+    public double getOffset() {
         return offset;
     }
 
-    public void setOffset(int offset) {
+    public void setOffset(double offset) {
         this.offset = offset;
     }
 

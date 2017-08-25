@@ -132,7 +132,7 @@ public class Datum__ implements Parcelable {
     private int windBearing;
     @SerializedName("visibility")
     @Expose
-    private int visibility;
+    private double visibility;
     @SerializedName("cloudCover")
     @Expose
     private double cloudCover;
@@ -349,11 +349,11 @@ public class Datum__ implements Parcelable {
         this.windBearing = windBearing;
     }
 
-    public int getVisibility() {
+    public double getVisibility() {
         return visibility;
     }
 
-    public void setVisibility(int visibility) {
+    public void setVisibility(double visibility) {
         this.visibility = visibility;
     }
 
