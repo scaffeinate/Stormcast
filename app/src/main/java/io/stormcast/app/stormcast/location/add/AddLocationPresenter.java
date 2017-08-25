@@ -1,6 +1,6 @@
 package io.stormcast.app.stormcast.location.add;
 
-import io.stormcast.app.stormcast.common.models.Location;
+import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.data.locations.LocationsDataSource;
 import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 
@@ -19,18 +19,18 @@ public class AddLocationPresenter implements AddLocationContract.Presenter {
     }
 
     @Override
-    public void validateLocation(Location location) {
-        if (location.getName() == null || location.getName().trim().isEmpty() ||
-                location.getLatitude() == -1 || location.getLongitude() == -1) {
-            mView.invalidLocation("Location is invalid");
+    public void validateLocation(LocationModel locationModel) {
+        if (locationModel.getName() == null || locationModel.getName().trim().isEmpty() ||
+                locationModel.getLatitude() == -1 || locationModel.getLongitude() == -1) {
+            mView.invalidLocation("LocationModel is invalid");
             return;
         }
-        mView.onValidLocation(location);
+        mView.onValidLocation(locationModel);
     }
 
     @Override
-    public void saveLocation(Location location) {
-        mLocationsRepository.saveLocation(location, new LocationsDataSource.SaveLocationCallback() {
+    public void saveLocation(LocationModel locationModel) {
+        mLocationsRepository.saveLocation(locationModel, new LocationsDataSource.SaveLocationCallback() {
             @Override
             public void onLocationSaved() {
                 mView.onLocationSaved();

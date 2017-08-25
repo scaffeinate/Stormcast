@@ -1,6 +1,6 @@
 package io.stormcast.app.stormcast.location.add;
 
-import io.stormcast.app.stormcast.common.models.Location;
+import io.stormcast.app.stormcast.common.models.LocationModel;
 
 /**
  * Created by sudhar on 8/15/17.
@@ -8,7 +8,7 @@ import io.stormcast.app.stormcast.common.models.Location;
 
 public interface AddLocationContract {
     interface View {
-        void onValidLocation(Location location);
+        void onValidLocation(LocationModel locationModel);
 
         void invalidLocation(String message);
 
@@ -18,8 +18,8 @@ public interface AddLocationContract {
     }
 
     interface Presenter {
-        void validateLocation(Location location);
+        void validateLocation(LocationModel locationModel);
 
-        void saveLocation(Location location);
+        void saveLocation(LocationModel locationModel);
     }
 }

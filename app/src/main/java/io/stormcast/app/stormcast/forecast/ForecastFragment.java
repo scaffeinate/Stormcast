@@ -5,15 +5,15 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import io.stormcast.app.stormcast.R;
-import io.stormcast.app.stormcast.common.models.Forecast;
-import io.stormcast.app.stormcast.common.models.Location;
+import io.stormcast.app.stormcast.common.models.ForecastModel;
+import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.data.forecast.ForecastRepository;
 import io.stormcast.app.stormcast.data.forecast.local.LocalForecastDataSource;
 import io.stormcast.app.stormcast.data.forecast.remote.RemoteForecastDataSource;
@@ -28,15 +28,15 @@ public class ForecastFragment extends Fragment implements ForecastContract.View 
 
     private Context mContext;
     private ForecastPresenter mPresenter;
-    private RecyclerView mRecyclerView;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private ActionBar mActionBar;
-    private Location mLocation;
+    private LocationModel mLocationModel;
 
-    public static ForecastFragment newInstance(Location location) {
+    public static ForecastFragment newInstance(LocationModel locationModel) {
         ForecastFragment forecastFragment = new ForecastFragment();
 
         Bundle args = new Bundle();
-        args.putParcelable(LOCATION, location);
+        args.putParcelable(LOCATION, locationModel);
         forecastFragment.setArguments(args);
 
         return forecastFragment;
@@ -45,7 +45,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mLocation = getArguments().getParcelable(LOCATION);
+        mLocationModel = getArguments().getParcelable(LOCATION);
         mContext = getContext();
         mPresenter = new ForecastPresenter(this, ForecastRepository.getInstance(
                 LocalForecastDataSource.getInstance(mContext),
@@ -56,24 +56,25 @@ public class ForecastFragment extends Fragment implements ForecastContract.View 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_forecast, container, false);
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.weather_info_recycler_view);
-        view.setBackgroundColor(Color.parseColor(mLocation.getBackgroundColor()));
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+        view.setBackgroundColor(Color.parseColor(mLocationModel.getBackgroundColor()));
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.loadForecast(mLocation);
+        mSwipeRefreshLayout.setRefreshing(true);
+        mPresenter.loadForecast(mLocationModel);
     }
 
     @Override
-    public void onForecastLoaded(Forecast forecast) {
-
+    public void onForecastLoaded(ForecastModel forecastModel) {
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void onDataNotAvailable(String errorMessage) {
-
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 }

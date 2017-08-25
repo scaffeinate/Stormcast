@@ -2,7 +2,7 @@ package io.stormcast.app.stormcast.location.list;
 
 import java.util.List;
 
-import io.stormcast.app.stormcast.common.models.Location;
+import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.data.locations.LocationsDataSource;
 import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 
@@ -24,8 +24,8 @@ public class LocationsListPresenter implements LocationsListContract.Presenter {
     public void getLocations() {
         mLocationsRepository.getLocations(new LocationsDataSource.GetLocationsCallback() {
             @Override
-            public void onLocationsLoaded(List<Location> locationList) {
-                mView.onLocationsLoaded(locationList);
+            public void onLocationsLoaded(List<LocationModel> locationModelList) {
+                mView.onLocationsLoaded(locationModelList);
             }
 
             @Override

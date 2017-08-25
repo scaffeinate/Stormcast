@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import java.util.List;
 
-import io.stormcast.app.stormcast.common.models.Location;
+import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.forecast.ForecastFragment;
 
 /**
@@ -15,31 +15,31 @@ import io.stormcast.app.stormcast.forecast.ForecastFragment;
 
 public class HomeViewPagerAdapter extends FragmentPagerAdapter {
 
-    private List<Location> mLocations;
+    private List<LocationModel> mLocationModels;
 
-    public HomeViewPagerAdapter(FragmentManager fragmentManager, List<Location> locations) {
+    public HomeViewPagerAdapter(FragmentManager fragmentManager, List<LocationModel> locationModels) {
         super(fragmentManager);
-        this.mLocations = locations;
+        this.mLocationModels = locationModels;
     }
 
     @Override
     public Fragment getItem(int position) {
-        Location location = mLocations.get(position);
-        return ForecastFragment.newInstance(location);
+        LocationModel locationModel = mLocationModels.get(position);
+        return ForecastFragment.newInstance(locationModel);
     }
 
     @Override
     public int getCount() {
-        return mLocations.size();
+        return mLocationModels.size();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        Location location = mLocations.get(position);
-        return location.getName();
+        LocationModel locationModel = mLocationModels.get(position);
+        return locationModel.getName();
     }
 
-    public void setLocations(List<Location> locations) {
-        this.mLocations = locations;
+    public void setLocations(List<LocationModel> locationModels) {
+        this.mLocationModels = locationModels;
     }
 }

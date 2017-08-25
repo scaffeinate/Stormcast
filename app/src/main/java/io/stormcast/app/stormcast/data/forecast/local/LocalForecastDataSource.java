@@ -3,7 +3,8 @@ package io.stormcast.app.stormcast.data.forecast.local;
 import android.content.Context;
 
 import io.realm.Realm;
-import io.stormcast.app.stormcast.common.models.Location;
+import io.stormcast.app.stormcast.common.models.ForecastModel;
+import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.common.network.Forecast;
 import io.stormcast.app.stormcast.data.forecast.ForecastDataSource;
 
@@ -28,7 +29,7 @@ public class LocalForecastDataSource implements ForecastDataSource {
     }
 
     @Override
-    public void loadForecast(Location location, LoadForecastCallback loadForecastCallback) {
+    public void loadForecast(LocationModel locationModel, LoadForecastCallback loadForecastCallback) {
         loadForecastCallback.onDataNotAvailable("Test");
     }
 

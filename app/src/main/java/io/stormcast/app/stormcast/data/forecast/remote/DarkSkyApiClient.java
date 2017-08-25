@@ -1,6 +1,6 @@
 package io.stormcast.app.stormcast.data.forecast.remote;
 
-import io.stormcast.app.stormcast.common.models.Location;
+import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.common.network.Forecast;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,14 +38,14 @@ public class DarkSkyApiClient {
         darkSkyApi = mRetrofit.create(DarkSkyAPI.class);
     }
 
-    public void loadForecast(Location location, final ApiCallback apiCallback) {
+    public void loadForecast(LocationModel locationModel, final ApiCallback apiCallback) {
         String latLng = new StringBuilder()
-                .append(location.getLatitude())
+                .append(locationModel.getLatitude())
                 .append(",")
-                .append(location.getLongitude())
+                .append(locationModel.getLongitude())
                 .toString();
         String exclude = "minutely";
-        String units = (location.getUnit() == Location.UNIT_AUTO) ? "auto" : (location.getUnit() == Location.UNIT_IMPERIAL) ? "us" : "si";
+        String units = (locationModel.getUnit() == LocationModel.UNIT_AUTO) ? "auto" : (locationModel.getUnit() == LocationModel.UNIT_IMPERIAL) ? "us" : "si";
         darkSkyApi.loadForecast(API_KEY, latLng, exclude, units).enqueue(new Callback<Forecast>() {
             @Override
             public void onResponse(Call<Forecast> call, Response<Forecast> response) {

@@ -19,7 +19,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import io.stormcast.app.stormcast.R;
-import io.stormcast.app.stormcast.common.models.Location;
+import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 import io.stormcast.app.stormcast.data.locations.local.LocalLocationsDataSource;
 import io.stormcast.app.stormcast.data.locations.remote.RemoteLocationsDataSource;
@@ -101,9 +101,9 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
     }
 
     @Override
-    public void onLocationsLoaded(List<Location> locationList) {
+    public void onLocationsLoaded(List<LocationModel> locationModelList) {
         mProgressBar.setVisibility(View.GONE);
-        mAdapter = new LocationsListAdapter(locationList);
+        mAdapter = new LocationsListAdapter(locationModelList);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setVisibility(View.VISIBLE);
     }

@@ -1,6 +1,6 @@
 package io.stormcast.app.stormcast.data.locations.remote;
 
-import io.stormcast.app.stormcast.common.models.Location;
+import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.data.locations.LocationsDataSource;
 
 /**
@@ -19,7 +19,7 @@ public class RemoteLocationsDataSource implements LocationsDataSource {
     }
 
     @Override
-    public void saveLocation(Location location, SaveLocationCallback callback) {
+    public void saveLocation(LocationModel locationModel, SaveLocationCallback callback) {
 
     }
 

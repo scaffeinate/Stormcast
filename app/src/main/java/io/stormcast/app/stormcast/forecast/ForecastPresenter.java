@@ -2,7 +2,7 @@ package io.stormcast.app.stormcast.forecast;
 
 import android.support.annotation.NonNull;
 
-import io.stormcast.app.stormcast.common.models.Location;
+import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.common.network.Forecast;
 import io.stormcast.app.stormcast.data.forecast.ForecastDataSource;
 import io.stormcast.app.stormcast.data.forecast.ForecastRepository;
@@ -25,12 +25,13 @@ public class ForecastPresenter implements ForecastContract.Presenter {
     }
 
     @Override
-    public void loadForecast(Location location) {
-        mRepository.loadForecast(location, new ForecastDataSource.LoadForecastCallback() {
+    public void loadForecast(LocationModel locationModel) {
+        mRepository.loadForecast(locationModel, new ForecastDataSource.LoadForecastCallback() {
             @Override
             public void onForecastLoaded(Forecast forecast) {
                 // Map it to forecast object
                 //mView.onForecastLoaded(forecast);
+                mView.onForecastLoaded(null);
             }
 
             @Override

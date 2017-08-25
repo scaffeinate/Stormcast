@@ -3,7 +3,7 @@ package io.stormcast.app.stormcast.data.locations.local;
 import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
-import io.stormcast.app.stormcast.common.models.Location;
+import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.data.locations.LocationsDataSource;
 
 /**
@@ -28,12 +28,12 @@ public class LocalLocationsDataSource implements LocationsDataSource {
     }
 
     @Override
-    public void saveLocation(final Location location, final SaveLocationCallback saveLocationCallback) {
+    public void saveLocation(final LocationModel locationModel, final SaveLocationCallback saveLocationCallback) {
 
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                realm.copyToRealm(location);
+                realm.copyToRealm(locationModel);
             }
         }, new Realm.Transaction.OnSuccess() {
             @Override
@@ -50,8 +50,8 @@ public class LocalLocationsDataSource implements LocationsDataSource {
 
     @Override
     public void getLocations(GetLocationsCallback getLocationsCallback) {
-        RealmQuery<Location> query = realm.where(Location.class);
-        RealmResults<Location> results = query.findAll();
+        RealmQuery<LocationModel> query = realm.where(LocationModel.class);
+        RealmResults<LocationModel> results = query.findAll();
         if (results.size() == 0) {
             getLocationsCallback.onDataNotAvailable();
         } else {

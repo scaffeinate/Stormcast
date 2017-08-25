@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
-import io.stormcast.app.stormcast.common.models.Location;
+import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.data.locations.LocationsDataSource;
 import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 
@@ -29,8 +29,8 @@ public class HomePresenter implements HomeContract.Presenter {
     public void loadLocations() {
         mLocationsRepository.getLocations(new LocationsDataSource.GetLocationsCallback() {
             @Override
-            public void onLocationsLoaded(List<Location> locationList) {
-                mView.onLocationsLoaded(locationList);
+            public void onLocationsLoaded(List<LocationModel> locationModelList) {
+                mView.onLocationsLoaded(locationModelList);
             }
 
             @Override

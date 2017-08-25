@@ -11,7 +11,7 @@ import io.realm.annotations.Required;
  * Created by sudhar on 8/15/17.
  */
 
-public class Location extends RealmObject implements Parcelable {
+public class LocationModel extends RealmObject implements Parcelable {
 
     public static final int UNIT_IMPERIAL = 0;
     public static final int UNIT_METRIC = 1;
@@ -21,12 +21,12 @@ public class Location extends RealmObject implements Parcelable {
     public static final Parcelable.Creator CREATOR = new Creator() {
         @Override
         public Object createFromParcel(Parcel parcel) {
-            return new Location(parcel);
+            return new LocationModel(parcel);
         }
 
         @Override
         public Object[] newArray(int size) {
-            return new Location[size];
+            return new LocationModel[size];
         }
     };
     protected final static int MINUS_ONE = -1;
@@ -39,20 +39,20 @@ public class Location extends RealmObject implements Parcelable {
     @Required
     private Double latitude = DEFAULT_LATITUDE, longitude = DEFAULT_LONGITUDE;
     private String backgroundColor = DEFAULT_BACKGROUND_COLOR, textColor = DEFAULT_TEXT_COLOR;
-    private Integer unit = UNIT_AUTO;
+    private int unit = UNIT_AUTO;
 
-    public Location() {}
+    public LocationModel() {}
 
-    protected Location(LocationBuilder locationBuilder) {
-        setName(locationBuilder.name);
-        setLatitude(locationBuilder.latitude);
-        setLongitude(locationBuilder.longitude);
-        setBackgroundColor(locationBuilder.backgroundColor);
-        setTextColor(locationBuilder.textColor);
-        setUnit(locationBuilder.unit);
+    protected LocationModel(LocationModelBuilder locationModelBuilder) {
+        setName(locationModelBuilder.name);
+        setLatitude(locationModelBuilder.latitude);
+        setLongitude(locationModelBuilder.longitude);
+        setBackgroundColor(locationModelBuilder.backgroundColor);
+        setTextColor(locationModelBuilder.textColor);
+        setUnit(locationModelBuilder.unit);
     }
 
-    private Location(Parcel parcel) {
+    private LocationModel(Parcel parcel) {
         setName(parcel.readString());
         setLatitude(parcel.readDouble());
         setLongitude(parcel.readDouble());

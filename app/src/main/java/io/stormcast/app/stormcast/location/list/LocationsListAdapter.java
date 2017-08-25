@@ -9,17 +9,17 @@ import android.widget.TextView;
 import java.util.List;
 
 import io.stormcast.app.stormcast.R;
-import io.stormcast.app.stormcast.common.models.Location;
+import io.stormcast.app.stormcast.common.models.LocationModel;
 
 /**
  * Created by sudhar on 8/15/17.
  */
 public class LocationsListAdapter extends RecyclerView.Adapter<LocationsListAdapter.ViewHolder> {
 
-    private List<Location> mLocationList;
+    private List<LocationModel> mLocationModelList;
 
-    public LocationsListAdapter(List<Location> locationList) {
-        this.mLocationList = locationList;
+    public LocationsListAdapter(List<LocationModel> locationModelList) {
+        this.mLocationModelList = locationModelList;
     }
 
     @Override
@@ -30,15 +30,15 @@ public class LocationsListAdapter extends RecyclerView.Adapter<LocationsListAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Location location = mLocationList.get(position);
-        if (location != null) {
-            holder.nameTextView.setText(location.getName());
+        LocationModel locationModel = mLocationModelList.get(position);
+        if (locationModel != null) {
+            holder.nameTextView.setText(locationModel.getName());
         }
     }
 
     @Override
     public int getItemCount() {
-        return mLocationList.size();
+        return mLocationModelList.size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

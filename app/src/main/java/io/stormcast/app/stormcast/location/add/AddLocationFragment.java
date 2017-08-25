@@ -39,8 +39,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 
 import io.stormcast.app.stormcast.R;
-import io.stormcast.app.stormcast.common.models.Location;
-import io.stormcast.app.stormcast.common.models.LocationBuilder;
+import io.stormcast.app.stormcast.common.models.LocationModel;
+import io.stormcast.app.stormcast.common.models.LocationModelBuilder;
 import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 import io.stormcast.app.stormcast.data.locations.local.LocalLocationsDataSource;
 import io.stormcast.app.stormcast.data.locations.remote.RemoteLocationsDataSource;
@@ -74,7 +74,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     private CameraPosition mCameraPosition;
     private LocationsRepository mLocationsRepository;
     private AddLocationPresenter mPresenter;
-    private LocationBuilder mLocationBuilder;
+    private LocationModelBuilder mLocationModelBuilder;
 
     public static AddLocationFragment newInstance() {
         AddLocationFragment addLocationFragment = new AddLocationFragment();
@@ -88,7 +88,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
         mLocationsRepository = LocationsRepository.getInstance(LocalLocationsDataSource.getInstance(),
                 RemoteLocationsDataSource.getInstance());
         mPresenter = new AddLocationPresenter(this, mLocationsRepository);
-        mLocationBuilder = new LocationBuilder();
+        mLocationModelBuilder = new LocationModelBuilder();
         setHasOptionsMenu(true);
     }
 
@@ -124,11 +124,11 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        mActionBar.setTitle("Add Location");
+        mActionBar.setTitle("Add LocationModel");
 
         if (savedInstanceState != null) {
-            final Location restored = savedInstanceState.getParcelable(LOCATION);
-            mLocationBuilder.setName(restored.getName())
+            final LocationModel restored = savedInstanceState.getParcelable(LOCATION);
+            mLocationModelBuilder.setName(restored.getName())
                     .setLatitude(restored.getLatitude())
                     .setLongitude(restored.getLongitude())
                     .setBackgroundColor(restored.getBackgroundColor())
@@ -169,9 +169,9 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save_location_menu_item:
-                mLocationBuilder.setUnit(mAutoUnitsSwitch.isChecked() ? Location.UNIT_AUTO :
-                        (mUnitsRadioGroup.getCheckedRadioButtonId() == R.id.imperial_radio_button) ? Location.UNIT_IMPERIAL : Location.UNIT_METRIC);
-                mPresenter.validateLocation(mLocationBuilder.build());
+                mLocationModelBuilder.setUnit(mAutoUnitsSwitch.isChecked() ? LocationModel.UNIT_AUTO :
+                        (mUnitsRadioGroup.getCheckedRadioButtonId() == R.id.imperial_radio_button) ? LocationModel.UNIT_IMPERIAL : LocationModel.UNIT_METRIC);
+                mPresenter.validateLocation(mLocationModelBuilder.build());
                 return true;
             case android.R.id.home:
                 goBack();
@@ -188,7 +188,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
                 mEditText.setText(place.getName());
                 mEditText.setCursorVisible(false);
                 mEditText.clearFocus();
-                mLocationBuilder.setName(place.getName().toString())
+                mLocationModelBuilder.setName(place.getName().toString())
                         .setLatLng(place.getLatLng());
                 addMarker(place.getLatLng());
             }
@@ -219,7 +219,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
                     public void onColorSelected(String colorHex) {
                         GradientDrawable drawable = (GradientDrawable) mBackgroundColorImageButton.getBackground();
                         drawable.setColor(Color.parseColor(colorHex));
-                        mLocationBuilder.setBackgroundColor(colorHex);
+                        mLocationModelBuilder.setBackgroundColor(colorHex);
                     }
                 });
                 break;
@@ -229,7 +229,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
                     public void onColorSelected(String colorHex) {
                         GradientDrawable drawable = (GradientDrawable) mTextColorImageButton.getBackground();
                         drawable.setColor(Color.parseColor(colorHex));
-                        mLocationBuilder.setTextColor(colorHex);
+                        mLocationModelBuilder.setTextColor(colorHex);
                     }
                 });
                 break;
@@ -254,12 +254,12 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable(LOCATION, mLocationBuilder.build());
+        outState.putParcelable(LOCATION, mLocationModelBuilder.build());
     }
 
     @Override
-    public void onValidLocation(Location location) {
-        mPresenter.saveLocation(location);
+    public void onValidLocation(LocationModel locationModel) {
+        mPresenter.saveLocation(locationModel);
     }
 
     @Override
@@ -269,7 +269,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onLocationSaved() {
-        Toast.makeText(mContext, "Location saved", Toast.LENGTH_LONG).show();
+        Toast.makeText(mContext, "LocationModel saved", Toast.LENGTH_LONG).show();
         goBack();
     }
 

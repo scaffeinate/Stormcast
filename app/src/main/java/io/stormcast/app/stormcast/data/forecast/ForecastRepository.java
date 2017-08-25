@@ -1,6 +1,6 @@
 package io.stormcast.app.stormcast.data.forecast;
 
-import io.stormcast.app.stormcast.common.models.Location;
+import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.common.network.Forecast;
 
 /**
@@ -28,19 +28,19 @@ public class ForecastRepository implements ForecastDataSource {
     }
 
     @Override
-    public void loadForecast(final Location location, final LoadForecastCallback loadForecastCallback) {
-        mLocalDataSource.loadForecast(location, new LoadForecastCallback() {
+    public void loadForecast(final LocationModel locationModel, final LoadForecastCallback loadForecastCallback) {
+        mLocalDataSource.loadForecast(locationModel, new LoadForecastCallback() {
             @Override
             public void onForecastLoaded(Forecast forecast) {
                 // If forecast last updated is older then call remoteDataSource
-                getUpdateFromRemoteDataSource(location, loadForecastCallback);
+                getUpdateFromRemoteDataSource(locationModel, loadForecastCallback);
                 // Else
-                loadForecastCallback.onForecastLoaded(forecast);
+                //loadForecastCallback.onForecastLoaded(forecast);
             }
 
             @Override
             public void onDataNotAvailable(String errorMessage) {
-                getUpdateFromRemoteDataSource(location, loadForecastCallback);
+                getUpdateFromRemoteDataSource(locationModel, loadForecastCallback);
             }
         });
     }
@@ -50,8 +50,8 @@ public class ForecastRepository implements ForecastDataSource {
         mLocalDataSource.saveForecast(forecast);
     }
 
-    private void getUpdateFromRemoteDataSource(Location location, final LoadForecastCallback loadForecastCallback) {
-        mRemoteDataSource.loadForecast(location, new LoadForecastCallback() {
+    private void getUpdateFromRemoteDataSource(LocationModel locationModel, final LoadForecastCallback loadForecastCallback) {
+        mRemoteDataSource.loadForecast(locationModel, new LoadForecastCallback() {
             @Override
             public void onForecastLoaded(Forecast forecast) {
                 saveForecast(forecast);

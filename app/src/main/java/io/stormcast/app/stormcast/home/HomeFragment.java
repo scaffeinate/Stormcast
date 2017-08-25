@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import io.stormcast.app.stormcast.R;
-import io.stormcast.app.stormcast.common.models.Location;
+import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 import io.stormcast.app.stormcast.data.locations.local.LocalLocationsDataSource;
 import io.stormcast.app.stormcast.data.locations.remote.RemoteLocationsDataSource;
@@ -71,12 +71,12 @@ public class HomeFragment extends Fragment implements HomeContract.View, View.On
     }
 
     @Override
-    public void onLocationsLoaded(List<Location> locations) {
+    public void onLocationsLoaded(List<LocationModel> locationModels) {
         if (mViewPagerAdapter == null) {
-            mViewPagerAdapter = new HomeViewPagerAdapter(getFragmentManager(), locations);
+            mViewPagerAdapter = new HomeViewPagerAdapter(getFragmentManager(), locationModels);
             mViewPager.setAdapter(mViewPagerAdapter);
         } else {
-            mViewPagerAdapter.setLocations(locations);
+            mViewPagerAdapter.setLocations(locationModels);
             mViewPagerAdapter.notifyDataSetChanged();
         }
     }

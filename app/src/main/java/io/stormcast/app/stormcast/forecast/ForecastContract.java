@@ -1,7 +1,7 @@
 package io.stormcast.app.stormcast.forecast;
 
-import io.stormcast.app.stormcast.common.models.Forecast;
-import io.stormcast.app.stormcast.common.models.Location;
+import io.stormcast.app.stormcast.common.models.ForecastModel;
+import io.stormcast.app.stormcast.common.models.LocationModel;
 
 /**
  * Created by sudharti on 8/24/17.
@@ -9,12 +9,12 @@ import io.stormcast.app.stormcast.common.models.Location;
 
 public interface ForecastContract {
     interface View {
-        void onForecastLoaded(Forecast forecast);
+        void onForecastLoaded(ForecastModel forecastModel);
 
         void onDataNotAvailable(String errorMessage);
     }
 
     interface Presenter {
-        void loadForecast(Location location);
+        void loadForecast(LocationModel locationModel);
     }
 }

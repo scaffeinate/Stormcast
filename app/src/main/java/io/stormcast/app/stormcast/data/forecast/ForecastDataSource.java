@@ -1,7 +1,7 @@
 package io.stormcast.app.stormcast.data.forecast;
 
 
-import io.stormcast.app.stormcast.common.models.Location;
+import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.common.network.Forecast;
 
 /**
@@ -17,7 +17,7 @@ public interface ForecastDataSource {
         void onDataNotAvailable(String errorMessage);
     }
 
-    void loadForecast(Location location, LoadForecastCallback loadForecastCallback);
+    void loadForecast(LocationModel locationModel, LoadForecastCallback loadForecastCallback);
 
     void saveForecast(Forecast forecast);
 }

@@ -2,7 +2,7 @@ package io.stormcast.app.stormcast.data.locations;
 
 import java.util.List;
 
-import io.stormcast.app.stormcast.common.models.Location;
+import io.stormcast.app.stormcast.common.models.LocationModel;
 
 /**
  * Created by sudharti on 8/18/17.
@@ -10,7 +10,7 @@ import io.stormcast.app.stormcast.common.models.Location;
 
 public interface LocationsDataSource {
 
-    void saveLocation(Location location, SaveLocationCallback saveLocationCallback);
+    void saveLocation(LocationModel locationModel, SaveLocationCallback saveLocationCallback);
 
     void getLocations(GetLocationsCallback getLocationsCallback);
 
@@ -21,7 +21,7 @@ public interface LocationsDataSource {
     }
 
     interface GetLocationsCallback {
-        void onLocationsLoaded(List<Location> locationList);
+        void onLocationsLoaded(List<LocationModel> locationModelList);
 
         void onDataNotAvailable();
     }

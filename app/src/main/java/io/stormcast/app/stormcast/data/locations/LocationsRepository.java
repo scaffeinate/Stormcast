@@ -1,6 +1,6 @@
 package io.stormcast.app.stormcast.data.locations;
 
-import io.stormcast.app.stormcast.common.models.Location;
+import io.stormcast.app.stormcast.common.models.LocationModel;
 
 /**
  * Created by sudharti on 8/18/17.
@@ -27,8 +27,8 @@ public class LocationsRepository implements LocationsDataSource {
     }
 
     @Override
-    public void saveLocation(Location location, SaveLocationCallback callback) {
-        mLocalDataSource.saveLocation(location, callback);
+    public void saveLocation(LocationModel locationModel, SaveLocationCallback callback) {
+        mLocalDataSource.saveLocation(locationModel, callback);
     }
 
     @Override

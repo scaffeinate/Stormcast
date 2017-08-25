@@ -1,8 +1,6 @@
 package io.stormcast.app.stormcast.data.forecast.remote;
 
-import android.util.Log;
-
-import io.stormcast.app.stormcast.common.models.Location;
+import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.common.network.Forecast;
 import io.stormcast.app.stormcast.data.forecast.ForecastDataSource;
 
@@ -28,8 +26,8 @@ public class RemoteForecastDataSource implements ForecastDataSource {
     }
 
     @Override
-    public void loadForecast(Location location, final LoadForecastCallback loadForecastCallback) {
-        mApiClient.loadForecast(location, new DarkSkyApiClient.ApiCallback() {
+    public void loadForecast(LocationModel locationModel, final LoadForecastCallback loadForecastCallback) {
+        mApiClient.loadForecast(locationModel, new DarkSkyApiClient.ApiCallback() {
             @Override
             public void onLoadForecast(Forecast forecast) {
                 //loadForecastCallback.onForecastLoaded(forecast);
