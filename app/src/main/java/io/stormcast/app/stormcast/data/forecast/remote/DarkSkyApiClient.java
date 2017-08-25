@@ -44,8 +44,9 @@ public class DarkSkyApiClient {
                 .append(",")
                 .append(location.getLongitude())
                 .toString();
-
-        darkSkyApi.loadForecast(API_KEY, latLng).enqueue(new Callback<Forecast>() {
+        String exclude = "minutely";
+        String units = (location.getUnit() == Location.UNIT_AUTO) ? "auto" : (location.getUnit() == Location.UNIT_IMPERIAL) ? "us" : "si";
+        darkSkyApi.loadForecast(API_KEY, latLng, exclude, units).enqueue(new Callback<Forecast>() {
             @Override
             public void onResponse(Call<Forecast> call, Response<Forecast> response) {
                 apiCallback.onLoadForecast(response.body());
