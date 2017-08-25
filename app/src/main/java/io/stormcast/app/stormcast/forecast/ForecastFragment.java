@@ -1,5 +1,6 @@
 package io.stormcast.app.stormcast.forecast;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,15 +12,22 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import io.stormcast.app.stormcast.R;
+import io.stormcast.app.stormcast.common.dto.Forecast;
 import io.stormcast.app.stormcast.common.dto.Location;
+import io.stormcast.app.stormcast.data.forecast.ForecastRepository;
+import io.stormcast.app.stormcast.data.forecast.local.LocalForecastDataSource;
+import io.stormcast.app.stormcast.data.forecast.remote.RemoteForecastDataSource;
 
 /**
  * Created by sudhar on 8/15/17.
  */
 
-public class ForecastFragment extends Fragment {
+public class ForecastFragment extends Fragment implements ForecastContract.View {
 
     private static final String LOCATION = "LOCATION";
+
+    private Context mContext;
+    private ForecastPresenter mPresenter;
     private RecyclerView mRecyclerView;
     private ActionBar mActionBar;
     private Location mLocation;
@@ -38,6 +46,10 @@ public class ForecastFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mLocation = getArguments().getParcelable(LOCATION);
+        mContext = getContext();
+        mPresenter = new ForecastPresenter(this, ForecastRepository.getInstance(
+                LocalForecastDataSource.getInstance(mContext),
+                RemoteForecastDataSource.getInstace()));
     }
 
     @Nullable
@@ -52,5 +64,16 @@ public class ForecastFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        mPresenter.loadForecast(mLocation);
+    }
+
+    @Override
+    public void onForecastLoaded(Forecast forecast) {
+
+    }
+
+    @Override
+    public void onDataNotAvailable(String errorMessage) {
+
     }
 }
