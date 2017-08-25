@@ -1,5 +1,8 @@
 package io.stormcast.app.stormcast.data.forecast;
 
+import io.stormcast.app.stormcast.common.dto.Forecast;
+import io.stormcast.app.stormcast.common.dto.Location;
+
 /**
  * Created by sudharti on 8/22/17.
  */
@@ -22,5 +25,37 @@ public class ForecastRepository implements ForecastDataSource {
             sForecastRepository = new ForecastRepository(mLocalDataSource, mRemoteDataSource);
         }
         return sForecastRepository;
+    }
+
+    @Override
+    public void loadForecast(final Location location, final LoadForecastCallback loadForecastCallback) {
+        mLocalDataSource.loadForecast(location, new LoadForecastCallback() {
+            @Override
+            public void onForecastLoaded(Forecast forecast) {
+                // If forecast last updated is older then call remoteDataSource
+                getUpdateFromRemoteDataSource(location, loadForecastCallback);
+                // Else
+                loadForecastCallback.onForecastLoaded(forecast);
+            }
+
+            @Override
+            public void onDataNotAvailable(String errorMessage) {
+                getUpdateFromRemoteDataSource(location, loadForecastCallback);
+            }
+        });
+    }
+
+    private void getUpdateFromRemoteDataSource(Location location, final LoadForecastCallback loadForecastCallback) {
+        mRemoteDataSource.loadForecast(location, new LoadForecastCallback() {
+            @Override
+            public void onForecastLoaded(Forecast forecast) {
+                loadForecastCallback.onForecastLoaded(forecast);
+            }
+
+            @Override
+            public void onDataNotAvailable(String errorMessage) {
+                loadForecastCallback.onDataNotAvailable(errorMessage);
+            }
+        });
     }
 }
