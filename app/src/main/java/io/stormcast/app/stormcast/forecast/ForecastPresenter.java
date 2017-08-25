@@ -2,8 +2,8 @@ package io.stormcast.app.stormcast.forecast;
 
 import android.support.annotation.NonNull;
 
-import io.stormcast.app.stormcast.common.dto.Forecast;
-import io.stormcast.app.stormcast.common.dto.Location;
+import io.stormcast.app.stormcast.common.models.Forecast;
+import io.stormcast.app.stormcast.common.models.Location;
 import io.stormcast.app.stormcast.data.forecast.ForecastDataSource;
 import io.stormcast.app.stormcast.data.forecast.ForecastRepository;
 

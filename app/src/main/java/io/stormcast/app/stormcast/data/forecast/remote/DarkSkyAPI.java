@@ -1,6 +1,6 @@
 package io.stormcast.app.stormcast.data.forecast.remote;
 
-import io.stormcast.app.stormcast.common.models.Forecast;
+import io.stormcast.app.stormcast.common.network.Forecast;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;

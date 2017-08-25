@@ -1,47 +1,9 @@
-package io.stormcast.app.stormcast.common.models;
-
-import android.os.Parcel;
-import android.os.Parcelable;
+package io.stormcast.app.stormcast.common.network;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Datum_ implements Parcelable {
-
-    public final static Parcelable.Creator<Datum_> CREATOR = new Creator<Datum_>() {
-
-
-        @SuppressWarnings({
-                "unchecked"
-        })
-        public Datum_ createFromParcel(Parcel in) {
-            Datum_ instance = new Datum_();
-            instance.time = ((int) in.readValue((int.class.getClassLoader())));
-            instance.summary = ((String) in.readValue((String.class.getClassLoader())));
-            instance.icon = ((String) in.readValue((String.class.getClassLoader())));
-            instance.precipIntensity = ((int) in.readValue((int.class.getClassLoader())));
-            instance.precipProbability = ((int) in.readValue((int.class.getClassLoader())));
-            instance.temperature = ((double) in.readValue((double.class.getClassLoader())));
-            instance.apparentTemperature = ((double) in.readValue((double.class.getClassLoader())));
-            instance.dewPoint = ((double) in.readValue((double.class.getClassLoader())));
-            instance.humidity = ((double) in.readValue((double.class.getClassLoader())));
-            instance.windSpeed = ((double) in.readValue((double.class.getClassLoader())));
-            instance.windGust = ((double) in.readValue((double.class.getClassLoader())));
-            instance.windBearing = ((int) in.readValue((int.class.getClassLoader())));
-            instance.visibility = ((int) in.readValue((int.class.getClassLoader())));
-            instance.cloudCover = ((double) in.readValue((double.class.getClassLoader())));
-            instance.pressure = ((double) in.readValue((double.class.getClassLoader())));
-            instance.ozone = ((double) in.readValue((double.class.getClassLoader())));
-            instance.uvIndex = ((int) in.readValue((int.class.getClassLoader())));
-            instance.precipType = ((String) in.readValue((String.class.getClassLoader())));
-            return instance;
-        }
-
-        public Datum_[] newArray(int size) {
-            return (new Datum_[size]);
-        }
-
-    };
+public class Datum_ {
     @SerializedName("time")
     @Expose
     private int time;
@@ -239,31 +201,6 @@ public class Datum_ implements Parcelable {
 
     public void setPrecipType(String precipType) {
         this.precipType = precipType;
-    }
-
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(time);
-        dest.writeValue(summary);
-        dest.writeValue(icon);
-        dest.writeValue(precipIntensity);
-        dest.writeValue(precipProbability);
-        dest.writeValue(temperature);
-        dest.writeValue(apparentTemperature);
-        dest.writeValue(dewPoint);
-        dest.writeValue(humidity);
-        dest.writeValue(windSpeed);
-        dest.writeValue(windGust);
-        dest.writeValue(windBearing);
-        dest.writeValue(visibility);
-        dest.writeValue(cloudCover);
-        dest.writeValue(pressure);
-        dest.writeValue(ozone);
-        dest.writeValue(uvIndex);
-        dest.writeValue(precipType);
-    }
-
-    public int describeContents() {
-        return 0;
     }
 
 }

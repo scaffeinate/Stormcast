@@ -1,6 +1,6 @@
 package io.stormcast.app.stormcast.data.locations;
 
-import io.stormcast.app.stormcast.common.dto.Location;
+import io.stormcast.app.stormcast.common.models.Location;
 
 /**
  * Created by sudharti on 8/18/17.

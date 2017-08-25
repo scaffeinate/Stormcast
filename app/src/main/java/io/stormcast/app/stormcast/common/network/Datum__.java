@@ -1,60 +1,9 @@
-package io.stormcast.app.stormcast.common.models;
-
-import android.os.Parcel;
-import android.os.Parcelable;
+package io.stormcast.app.stormcast.common.network;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Datum__ implements Parcelable {
-
-    public final static Parcelable.Creator<Datum__> CREATOR = new Creator<Datum__>() {
-
-
-        @SuppressWarnings({
-                "unchecked"
-        })
-        public Datum__ createFromParcel(Parcel in) {
-            Datum__ instance = new Datum__();
-            instance.time = ((int) in.readValue((int.class.getClassLoader())));
-            instance.summary = ((String) in.readValue((String.class.getClassLoader())));
-            instance.icon = ((String) in.readValue((String.class.getClassLoader())));
-            instance.sunriseTime = ((int) in.readValue((int.class.getClassLoader())));
-            instance.sunsetTime = ((int) in.readValue((int.class.getClassLoader())));
-            instance.moonPhase = ((double) in.readValue((double.class.getClassLoader())));
-            instance.precipIntensity = ((double) in.readValue((double.class.getClassLoader())));
-            instance.precipIntensityMax = ((double) in.readValue((double.class.getClassLoader())));
-            instance.precipIntensityMaxTime = ((int) in.readValue((int.class.getClassLoader())));
-            instance.precipProbability = ((double) in.readValue((double.class.getClassLoader())));
-            instance.precipType = ((String) in.readValue((String.class.getClassLoader())));
-            instance.temperatureMin = ((double) in.readValue((double.class.getClassLoader())));
-            instance.temperatureMinTime = ((int) in.readValue((int.class.getClassLoader())));
-            instance.temperatureMax = ((double) in.readValue((double.class.getClassLoader())));
-            instance.temperatureMaxTime = ((int) in.readValue((int.class.getClassLoader())));
-            instance.apparentTemperatureMin = ((double) in.readValue((double.class.getClassLoader())));
-            instance.apparentTemperatureMinTime = ((int) in.readValue((int.class.getClassLoader())));
-            instance.apparentTemperatureMax = ((double) in.readValue((double.class.getClassLoader())));
-            instance.apparentTemperatureMaxTime = ((int) in.readValue((int.class.getClassLoader())));
-            instance.dewPoint = ((double) in.readValue((double.class.getClassLoader())));
-            instance.humidity = ((double) in.readValue((double.class.getClassLoader())));
-            instance.windSpeed = ((double) in.readValue((double.class.getClassLoader())));
-            instance.windGust = ((double) in.readValue((double.class.getClassLoader())));
-            instance.windGustTime = ((int) in.readValue((int.class.getClassLoader())));
-            instance.windBearing = ((int) in.readValue((int.class.getClassLoader())));
-            instance.visibility = ((int) in.readValue((int.class.getClassLoader())));
-            instance.cloudCover = ((double) in.readValue((double.class.getClassLoader())));
-            instance.pressure = ((double) in.readValue((double.class.getClassLoader())));
-            instance.ozone = ((double) in.readValue((double.class.getClassLoader())));
-            instance.uvIndex = ((int) in.readValue((int.class.getClassLoader())));
-            instance.uvIndexTime = ((int) in.readValue((int.class.getClassLoader())));
-            return instance;
-        }
-
-        public Datum__[] newArray(int size) {
-            return (new Datum__[size]);
-        }
-
-    };
+public class Datum__ {
     @SerializedName("time")
     @Expose
     private int time;
@@ -395,44 +344,6 @@ public class Datum__ implements Parcelable {
 
     public void setUvIndexTime(int uvIndexTime) {
         this.uvIndexTime = uvIndexTime;
-    }
-
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(time);
-        dest.writeValue(summary);
-        dest.writeValue(icon);
-        dest.writeValue(sunriseTime);
-        dest.writeValue(sunsetTime);
-        dest.writeValue(moonPhase);
-        dest.writeValue(precipIntensity);
-        dest.writeValue(precipIntensityMax);
-        dest.writeValue(precipIntensityMaxTime);
-        dest.writeValue(precipProbability);
-        dest.writeValue(precipType);
-        dest.writeValue(temperatureMin);
-        dest.writeValue(temperatureMinTime);
-        dest.writeValue(temperatureMax);
-        dest.writeValue(temperatureMaxTime);
-        dest.writeValue(apparentTemperatureMin);
-        dest.writeValue(apparentTemperatureMinTime);
-        dest.writeValue(apparentTemperatureMax);
-        dest.writeValue(apparentTemperatureMaxTime);
-        dest.writeValue(dewPoint);
-        dest.writeValue(humidity);
-        dest.writeValue(windSpeed);
-        dest.writeValue(windGust);
-        dest.writeValue(windGustTime);
-        dest.writeValue(windBearing);
-        dest.writeValue(visibility);
-        dest.writeValue(cloudCover);
-        dest.writeValue(pressure);
-        dest.writeValue(ozone);
-        dest.writeValue(uvIndex);
-        dest.writeValue(uvIndexTime);
-    }
-
-    public int describeContents() {
-        return 0;
     }
 
 }

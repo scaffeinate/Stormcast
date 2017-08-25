@@ -1,48 +1,9 @@
-package io.stormcast.app.stormcast.common.models;
-
-import android.os.Parcel;
-import android.os.Parcelable;
+package io.stormcast.app.stormcast.common.network;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Currently implements Parcelable {
-
-    public final static Parcelable.Creator<Currently> CREATOR = new Creator<Currently>() {
-
-
-        @SuppressWarnings({
-                "unchecked"
-        })
-        public Currently createFromParcel(Parcel in) {
-            Currently instance = new Currently();
-            instance.time = ((int) in.readValue((int.class.getClassLoader())));
-            instance.summary = ((String) in.readValue((String.class.getClassLoader())));
-            instance.icon = ((String) in.readValue((String.class.getClassLoader())));
-            instance.nearestStormDistance = ((int) in.readValue((int.class.getClassLoader())));
-            instance.nearestStormBearing = ((int) in.readValue((int.class.getClassLoader())));
-            instance.precipIntensity = ((int) in.readValue((int.class.getClassLoader())));
-            instance.precipProbability = ((int) in.readValue((int.class.getClassLoader())));
-            instance.temperature = ((double) in.readValue((double.class.getClassLoader())));
-            instance.apparentTemperature = ((double) in.readValue((double.class.getClassLoader())));
-            instance.dewPoint = ((double) in.readValue((double.class.getClassLoader())));
-            instance.humidity = ((double) in.readValue((double.class.getClassLoader())));
-            instance.windSpeed = ((double) in.readValue((double.class.getClassLoader())));
-            instance.windGust = ((double) in.readValue((double.class.getClassLoader())));
-            instance.windBearing = ((int) in.readValue((int.class.getClassLoader())));
-            instance.visibility = ((double) in.readValue((double.class.getClassLoader())));
-            instance.cloudCover = ((double) in.readValue((double.class.getClassLoader())));
-            instance.pressure = ((double) in.readValue((double.class.getClassLoader())));
-            instance.ozone = ((double) in.readValue((double.class.getClassLoader())));
-            instance.uvIndex = ((int) in.readValue((int.class.getClassLoader())));
-            return instance;
-        }
-
-        public Currently[] newArray(int size) {
-            return (new Currently[size]);
-        }
-
-    };
+public class Currently {
     @SerializedName("time")
     @Expose
     private int time;
@@ -252,31 +213,4 @@ public class Currently implements Parcelable {
     public void setUvIndex(int uvIndex) {
         this.uvIndex = uvIndex;
     }
-
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(time);
-        dest.writeValue(summary);
-        dest.writeValue(icon);
-        dest.writeValue(nearestStormDistance);
-        dest.writeValue(nearestStormBearing);
-        dest.writeValue(precipIntensity);
-        dest.writeValue(precipProbability);
-        dest.writeValue(temperature);
-        dest.writeValue(apparentTemperature);
-        dest.writeValue(dewPoint);
-        dest.writeValue(humidity);
-        dest.writeValue(windSpeed);
-        dest.writeValue(windGust);
-        dest.writeValue(windBearing);
-        dest.writeValue(visibility);
-        dest.writeValue(cloudCover);
-        dest.writeValue(pressure);
-        dest.writeValue(ozone);
-        dest.writeValue(uvIndex);
-    }
-
-    public int describeContents() {
-        return 0;
-    }
-
 }

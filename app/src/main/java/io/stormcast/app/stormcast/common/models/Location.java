@@ -1,13 +1,17 @@
-package io.stormcast.app.stormcast.common.dto;
+package io.stormcast.app.stormcast.common.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
 
 /**
  * Created by sudhar on 8/15/17.
  */
 
-public class Location implements Parcelable {
+public class Location extends RealmObject implements Parcelable {
 
     public static final int UNIT_IMPERIAL = 0;
     public static final int UNIT_METRIC = 1;
@@ -28,14 +32,18 @@ public class Location implements Parcelable {
     protected final static int MINUS_ONE = -1;
     private static final double DEFAULT_LATITUDE = 0;
     private static final double DEFAULT_LONGITUDE = 0;
-    private int id = 0;
+
+    @PrimaryKey
+    @Required
     private String name;
-    private double latitude = DEFAULT_LATITUDE, longitude = DEFAULT_LONGITUDE;
+    @Required
+    private Double latitude = DEFAULT_LATITUDE, longitude = DEFAULT_LONGITUDE;
     private String backgroundColor = DEFAULT_BACKGROUND_COLOR, textColor = DEFAULT_TEXT_COLOR;
-    private int unit = UNIT_AUTO;
+    private Integer unit = UNIT_AUTO;
+
+    public Location() {}
 
     protected Location(LocationBuilder locationBuilder) {
-        setId(locationBuilder.id);
         setName(locationBuilder.name);
         setLatitude(locationBuilder.latitude);
         setLongitude(locationBuilder.longitude);
@@ -45,21 +53,12 @@ public class Location implements Parcelable {
     }
 
     private Location(Parcel parcel) {
-        setId(parcel.readInt());
         setName(parcel.readString());
         setLatitude(parcel.readDouble());
         setLongitude(parcel.readDouble());
         setBackgroundColor(parcel.readString());
         setTextColor(parcel.readString());
         setUnit(parcel.readInt());
-    }
-
-    public int getId() {
-        return this.id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -121,7 +120,6 @@ public class Location implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(this.id);
         parcel.writeString(this.name);
         parcel.writeDouble(this.latitude);
         parcel.writeDouble(this.longitude);

@@ -12,8 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import io.stormcast.app.stormcast.R;
-import io.stormcast.app.stormcast.common.dto.Forecast;
-import io.stormcast.app.stormcast.common.dto.Location;
+import io.stormcast.app.stormcast.common.models.Forecast;
+import io.stormcast.app.stormcast.common.models.Location;
 import io.stormcast.app.stormcast.data.forecast.ForecastRepository;
 import io.stormcast.app.stormcast.data.forecast.local.LocalForecastDataSource;
 import io.stormcast.app.stormcast.data.forecast.remote.RemoteForecastDataSource;
@@ -49,7 +49,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View 
         mContext = getContext();
         mPresenter = new ForecastPresenter(this, ForecastRepository.getInstance(
                 LocalForecastDataSource.getInstance(mContext),
-                RemoteForecastDataSource.getInstace()));
+                RemoteForecastDataSource.getInstance()));
     }
 
     @Nullable

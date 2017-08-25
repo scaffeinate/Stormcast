@@ -39,8 +39,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 
 import io.stormcast.app.stormcast.R;
-import io.stormcast.app.stormcast.common.dto.Location;
-import io.stormcast.app.stormcast.common.dto.LocationBuilder;
+import io.stormcast.app.stormcast.common.models.Location;
+import io.stormcast.app.stormcast.common.models.LocationBuilder;
 import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 import io.stormcast.app.stormcast.data.locations.local.LocalLocationsDataSource;
 import io.stormcast.app.stormcast.data.locations.remote.RemoteLocationsDataSource;

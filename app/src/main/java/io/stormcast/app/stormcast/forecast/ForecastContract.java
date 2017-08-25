@@ -1,7 +1,7 @@
 package io.stormcast.app.stormcast.forecast;
 
-import io.stormcast.app.stormcast.common.dto.Forecast;
-import io.stormcast.app.stormcast.common.dto.Location;
+import io.stormcast.app.stormcast.common.models.Forecast;
+import io.stormcast.app.stormcast.common.models.Location;
 
 /**
  * Created by sudharti on 8/24/17.

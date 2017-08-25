@@ -2,7 +2,8 @@ package io.stormcast.app.stormcast.data.forecast.local;
 
 import android.content.Context;
 
-import io.stormcast.app.stormcast.common.dto.Location;
+import io.realm.Realm;
+import io.stormcast.app.stormcast.common.models.Location;
 import io.stormcast.app.stormcast.data.forecast.ForecastDataSource;
 
 /**
@@ -12,10 +13,10 @@ import io.stormcast.app.stormcast.data.forecast.ForecastDataSource;
 public class LocalForecastDataSource implements ForecastDataSource {
 
     private static LocalForecastDataSource mLocalForecastDataSource;
-    private ForecastDbHelper mForecastDbHelper;
+    private Realm realm;
 
     private LocalForecastDataSource(Context context) {
-        mForecastDbHelper = new ForecastDbHelper(context);
+        realm = Realm.getDefaultInstance();
     }
 
     public static LocalForecastDataSource getInstance(Context context) {

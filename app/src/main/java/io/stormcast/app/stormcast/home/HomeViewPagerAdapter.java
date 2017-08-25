@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import java.util.List;
 
-import io.stormcast.app.stormcast.common.dto.Location;
+import io.stormcast.app.stormcast.common.models.Location;
 import io.stormcast.app.stormcast.forecast.ForecastFragment;
 
 /**

@@ -1,6 +1,6 @@
 package io.stormcast.app.stormcast.location.add;
 
-import io.stormcast.app.stormcast.common.dto.Location;
+import io.stormcast.app.stormcast.common.models.Location;
 import io.stormcast.app.stormcast.data.locations.LocationsDataSource;
 import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 
