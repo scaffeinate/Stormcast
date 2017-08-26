@@ -1,5 +1,7 @@
 package io.stormcast.app.stormcast.data.forecast.remote;
 
+import io.stormcast.app.stormcast.common.mappers.ForecastMapper;
+import io.stormcast.app.stormcast.common.models.ForecastModel;
 import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.common.network.Forecast;
 import io.stormcast.app.stormcast.data.forecast.ForecastDataSource;
@@ -26,11 +28,11 @@ public class RemoteForecastDataSource implements ForecastDataSource {
     }
 
     @Override
-    public void loadForecast(LocationModel locationModel, final LoadForecastCallback loadForecastCallback) {
+    public void loadForecast(final LocationModel locationModel, final LoadForecastCallback loadForecastCallback) {
         mApiClient.loadForecast(locationModel, new DarkSkyApiClient.ApiCallback() {
             @Override
             public void onLoadForecast(Forecast forecast) {
-                //loadForecastCallback.onForecastLoaded(forecast);
+                loadForecastCallback.onForecastLoaded(ForecastMapper.map(forecast));
             }
 
             @Override
@@ -41,7 +43,7 @@ public class RemoteForecastDataSource implements ForecastDataSource {
     }
 
     @Override
-    public void saveForecast(Forecast forecast) {
-        // Do Nothing
+    public void saveForecast(LocationModel locationModel, ForecastModel forecastModel, SaveForecastCallback saveForecastCallback) {
+        //Do Nothing
     }
 }

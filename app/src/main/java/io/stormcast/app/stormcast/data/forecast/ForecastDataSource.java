@@ -1,8 +1,8 @@
 package io.stormcast.app.stormcast.data.forecast;
 
 
+import io.stormcast.app.stormcast.common.models.ForecastModel;
 import io.stormcast.app.stormcast.common.models.LocationModel;
-import io.stormcast.app.stormcast.common.network.Forecast;
 
 /**
  * Created by sudharti on 8/22/17.
@@ -10,14 +10,19 @@ import io.stormcast.app.stormcast.common.network.Forecast;
 
 public interface ForecastDataSource {
 
+    void loadForecast(LocationModel locationModel, LoadForecastCallback loadForecastCallback);
+
+    void saveForecast(LocationModel locationModel, ForecastModel forecastModel, SaveForecastCallback saveForecastCallback);
 
     interface LoadForecastCallback {
-        void onForecastLoaded(Forecast forecast);
+        void onForecastLoaded(ForecastModel forecastModel);
 
         void onDataNotAvailable(String errorMessage);
     }
 
-    void loadForecast(LocationModel locationModel, LoadForecastCallback loadForecastCallback);
+    interface SaveForecastCallback {
+        void onForecastSaved();
 
-    void saveForecast(Forecast forecast);
+        void onLocationSaveFailed(String errorMessage);
+    }
 }

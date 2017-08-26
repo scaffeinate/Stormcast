@@ -13,11 +13,6 @@ import io.stormcast.app.stormcast.data.locations.LocationsDataSource;
 public class LocalLocationsDataSource implements LocationsDataSource {
 
     private static LocalLocationsDataSource mLocalLocationsDataSource;
-    private Realm realm;
-
-    private LocalLocationsDataSource() {
-        realm = Realm.getDefaultInstance();
-    }
 
     public static LocalLocationsDataSource getInstance() {
         if (mLocalLocationsDataSource == null) {
@@ -29,33 +24,45 @@ public class LocalLocationsDataSource implements LocationsDataSource {
 
     @Override
     public void saveLocation(final LocationModel locationModel, final SaveLocationCallback saveLocationCallback) {
-
-        realm.executeTransactionAsync(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                realm.copyToRealm(locationModel);
+        Realm realm = null;
+        try {
+            realm = Realm.getDefaultInstance();
+            realm.executeTransactionAsync(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    realm.copyToRealm(locationModel);
+                }
+            }, new Realm.Transaction.OnSuccess() {
+                @Override
+                public void onSuccess() {
+                    saveLocationCallback.onLocationSaved();
+                }
+            }, new Realm.Transaction.OnError() {
+                @Override
+                public void onError(Throwable error) {
+                    saveLocationCallback.onLocationSaveFailed(error.getMessage());
+                }
+            });
+        } finally {
+            if (realm != null) {
+                realm.close();
             }
-        }, new Realm.Transaction.OnSuccess() {
-            @Override
-            public void onSuccess() {
-                saveLocationCallback.onLocationSaved();
-            }
-        }, new Realm.Transaction.OnError() {
-            @Override
-            public void onError(Throwable error) {
-                saveLocationCallback.onLocationSaveFailed(error.getMessage());
-            }
-        });
+        }
     }
 
     @Override
     public void getLocations(GetLocationsCallback getLocationsCallback) {
-        RealmQuery<LocationModel> query = realm.where(LocationModel.class);
-        RealmResults<LocationModel> results = query.findAll();
-        if (results.size() == 0) {
-            getLocationsCallback.onDataNotAvailable();
-        } else {
-            getLocationsCallback.onLocationsLoaded(results);
+        try {
+            Realm realm = Realm.getDefaultInstance();
+            RealmQuery<LocationModel> query = realm.where(LocationModel.class);
+            RealmResults<LocationModel> results = query.findAll();
+            if (results.size() == 0) {
+                getLocationsCallback.onDataNotAvailable();
+            } else {
+                getLocationsCallback.onLocationsLoaded(results);
+            }
+        } catch (Exception e) {
+
         }
     }
 }
