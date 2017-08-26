@@ -32,8 +32,8 @@ public class ForecastRepository implements ForecastDataSource {
     }
 
     @Override
-    public void loadForecast(final LocationModel locationModel, final LoadForecastCallback loadForecastCallback) {
-        mLocalDataSource.loadForecast(locationModel, new LoadForecastCallback() {
+    public void loadForecast(final LocationModel locationModel, final boolean manualRefresh, final LoadForecastCallback loadForecastCallback) {
+        mLocalDataSource.loadForecast(locationModel, manualRefresh, new LoadForecastCallback() {
             @Override
             public void onForecastLoaded(ForecastModel forecastModel) {
                 long diffInMinutes = 0;
@@ -41,17 +41,17 @@ public class ForecastRepository implements ForecastDataSource {
                     diffInMinutes = (new Date().getTime() - forecastModel.getUpdatedAt().getTime()) / 60000;
                 }
 
-                if (diffInMinutes > 15) {
-                    getUpdateFromRemoteDataSource(locationModel, loadForecastCallback);
+                if (diffInMinutes > 15 || manualRefresh) {
+                    getUpdateFromRemoteDataSource(locationModel, manualRefresh, loadForecastCallback);
                 } else {
-                    mLocalDataSource.loadForecast(locationModel, loadForecastCallback);
+                    mLocalDataSource.loadForecast(locationModel, manualRefresh, loadForecastCallback);
                 }
                 Log.i("TAG", String.valueOf(diffInMinutes));
             }
 
             @Override
             public void onDataNotAvailable(String errorMessage) {
-                getUpdateFromRemoteDataSource(locationModel, loadForecastCallback);
+                getUpdateFromRemoteDataSource(locationModel, manualRefresh, loadForecastCallback);
             }
         });
     }
@@ -61,8 +61,9 @@ public class ForecastRepository implements ForecastDataSource {
         mLocalDataSource.saveForecast(locationModel, forecastModel, saveForecastCallback);
     }
 
-    private void getUpdateFromRemoteDataSource(final LocationModel locationModel, final LoadForecastCallback loadForecastCallback) {
-        mRemoteDataSource.loadForecast(locationModel, new LoadForecastCallback() {
+    private void getUpdateFromRemoteDataSource(final LocationModel locationModel, final boolean manualRefresh,
+                                               final LoadForecastCallback loadForecastCallback) {
+        mRemoteDataSource.loadForecast(locationModel, manualRefresh, new LoadForecastCallback() {
             @Override
             public void onForecastLoaded(final ForecastModel forecastModel) {
                 saveForecast(locationModel, forecastModel, new SaveForecastCallback() {

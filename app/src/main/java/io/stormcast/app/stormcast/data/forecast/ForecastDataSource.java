@@ -10,7 +10,7 @@ import io.stormcast.app.stormcast.common.models.LocationModel;
 
 public interface ForecastDataSource {
 
-    void loadForecast(LocationModel locationModel, LoadForecastCallback loadForecastCallback);
+    void loadForecast(LocationModel locationModel, boolean manualRefresh, LoadForecastCallback loadForecastCallback);
 
     void saveForecast(LocationModel locationModel, ForecastModel forecastModel, SaveForecastCallback saveForecastCallback);
 

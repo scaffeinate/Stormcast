@@ -26,7 +26,7 @@ import io.stormcast.app.stormcast.data.forecast.remote.RemoteForecastDataSource;
  * Created by sudhar on 8/15/17.
  */
 
-public class ForecastFragment extends Fragment implements ForecastContract.View {
+public class ForecastFragment extends Fragment implements ForecastContract.View, SwipeRefreshLayout.OnRefreshListener {
 
     private static final String LOCATION = "LOCATION";
 
@@ -84,6 +84,8 @@ public class ForecastFragment extends Fragment implements ForecastContract.View 
         mLastUpdatedAt.setTextColor(textColor);
         mTemperatureTextView.setTextColor(textColor);
 
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+
         return view;
     }
 
@@ -94,7 +96,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View 
             @Override
             public void run() {
                 mSwipeRefreshLayout.setRefreshing(true);
-                mPresenter.loadForecast(mLocationModel);
+                mPresenter.loadForecast(mLocationModel, false);
             }
         }, 250);
     }
@@ -114,5 +116,10 @@ public class ForecastFragment extends Fragment implements ForecastContract.View 
     public void onDataNotAvailable(String errorMessage) {
         Toast.makeText(mContext, errorMessage, Toast.LENGTH_SHORT).show();
         mSwipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onRefresh() {
+        mPresenter.loadForecast(mLocationModel, true);
     }
 }

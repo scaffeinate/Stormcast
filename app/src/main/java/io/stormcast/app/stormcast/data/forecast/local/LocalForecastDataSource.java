@@ -28,7 +28,7 @@ public class LocalForecastDataSource implements ForecastDataSource {
     }
 
     @Override
-    public void loadForecast(LocationModel locationModel, LoadForecastCallback loadForecastCallback) {
+    public void loadForecast(LocationModel locationModel, boolean manualRefresh, LoadForecastCallback loadForecastCallback) {
         ForecastModel forecastModel = locationModel.getForecastModel();
         if (forecastModel == null) {
             loadForecastCallback.onDataNotAvailable("No forecast available");

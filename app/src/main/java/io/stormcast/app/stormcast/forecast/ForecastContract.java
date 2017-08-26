@@ -15,6 +15,6 @@ public interface ForecastContract {
     }
 
     interface Presenter {
-        void loadForecast(LocationModel locationModel);
+        void loadForecast(LocationModel locationModel, boolean manualRefresh);
     }
 }
