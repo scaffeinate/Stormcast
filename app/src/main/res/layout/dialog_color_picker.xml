@@ -23,6 +23,7 @@
         android:layout_alignLeft="@+id/pick_a_color_text_view"
         android:layout_below="@+id/pick_a_color_text_view"
         android:numColumns="5"
+        android:listSelector="@android:color/transparent"
         android:verticalSpacing="20dp"
         android:layout_marginTop="@dimen/dialog_color_picker_grid_margin_top" />
 </RelativeLayout>
