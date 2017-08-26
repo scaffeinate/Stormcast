@@ -80,7 +80,7 @@ public class ForecastRepository implements ForecastDataSource {
 
             @Override
             public void onDataNotAvailable(String errorMessage) {
-
+                loadForecastCallback.onDataNotAvailable(errorMessage);
             }
         });
     }
