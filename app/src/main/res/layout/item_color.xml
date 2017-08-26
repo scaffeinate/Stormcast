@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/color_indicator_selected"
-    android:clickable="true"
-    android:padding="@dimen/item_color_selected_padding">
+    android:clickable="true">
 
     <ImageButton
         android:id="@+id/color_image_button"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:background="@drawable/color_indicator"
+        android:layout_centerInParent="true"
         android:clickable="true" />
 </RelativeLayout>

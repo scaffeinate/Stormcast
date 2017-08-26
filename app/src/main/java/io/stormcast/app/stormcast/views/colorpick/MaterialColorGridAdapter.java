@@ -2,6 +2,7 @@ package io.stormcast.app.stormcast.views.colorpick;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -64,7 +65,8 @@ public class MaterialColorGridAdapter extends ArrayAdapter<ColorItem> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.colorImageButton.setBackgroundColor(Color.parseColor(colorItem.getColor()));
+        GradientDrawable drawable = (GradientDrawable) holder.colorImageButton.getBackground();
+        drawable.setColor(Color.parseColor(colorItem.getColor()));
 
         return convertView;
     }
