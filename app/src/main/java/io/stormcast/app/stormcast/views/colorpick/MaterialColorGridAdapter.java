@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -45,7 +47,7 @@ public class MaterialColorGridAdapter extends ArrayAdapter<ColorItem> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         ViewHolder holder = null;
-        ColorItem colorItem = colorItems.get(position);
+        final ColorItem colorItem = colorItems.get(position);
 
         if (convertView == null) {
             holder = new ViewHolder();
@@ -59,19 +61,19 @@ public class MaterialColorGridAdapter extends ArrayAdapter<ColorItem> {
                     convertView = inflater.inflate(R.layout.item_color_selected, null);
                     break;
             }
-            holder.colorImageButton = (ImageButton) convertView.findViewById(R.id.color_image_button);
+            holder.colorImageView = (ImageView) convertView.findViewById(R.id.color_image_button);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        GradientDrawable drawable = (GradientDrawable) holder.colorImageButton.getBackground();
+        GradientDrawable drawable = (GradientDrawable) holder.colorImageView.getBackground();
         drawable.setColor(Color.parseColor(colorItem.getColor()));
 
         return convertView;
     }
 
     static class ViewHolder {
-        private ImageButton colorImageButton;
+        private ImageView colorImageView;
     }
 }

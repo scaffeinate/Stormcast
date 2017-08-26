@@ -5,10 +5,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -33,7 +31,6 @@ import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -44,6 +41,7 @@ import io.stormcast.app.stormcast.common.models.LocationModelBuilder;
 import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 import io.stormcast.app.stormcast.data.locations.local.LocalLocationsDataSource;
 import io.stormcast.app.stormcast.data.locations.remote.RemoteLocationsDataSource;
+import io.stormcast.app.stormcast.views.colorpick.MaterialColorPickDialog;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -75,6 +73,8 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     private LocationsRepository mLocationsRepository;
     private AddLocationPresenter mPresenter;
     private LocationModelBuilder mLocationModelBuilder;
+    private MaterialColorPickDialog.Builder mBgColorDialogBuilder;
+    private MaterialColorPickDialog.Builder mTextColorDialogBuilder;
 
     public static AddLocationFragment newInstance() {
         AddLocationFragment addLocationFragment = new AddLocationFragment();
@@ -89,6 +89,8 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
                 RemoteLocationsDataSource.getInstance());
         mPresenter = new AddLocationPresenter(this, mLocationsRepository);
         mLocationModelBuilder = new LocationModelBuilder();
+        mBgColorDialogBuilder = MaterialColorPickDialog.with(mContext);
+        mTextColorDialogBuilder = MaterialColorPickDialog.with(mContext);
         setHasOptionsMenu(true);
     }
 
@@ -109,12 +111,6 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
         mTextColorImageButton.setOnClickListener(this);
         mAutoUnitsSwitch.setOnCheckedChangeListener(this);
 
-        GradientDrawable drawable = (GradientDrawable) mBackgroundColorImageButton.getBackground();
-        drawable.setColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
-
-        drawable = (GradientDrawable) mTextColorImageButton.getBackground();
-        drawable.setColor(ContextCompat.getColor(mContext, android.R.color.white));
-
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         return view;
@@ -124,12 +120,19 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        if(mActionBar != null) {
+        if (mActionBar != null) {
             mActionBar.setTitle(mContext.getResources().getString(R.string.add_location));
         }
 
+        String backgroundColor = LocationModel.DEFAULT_BACKGROUND_COLOR;
+        String textColor = LocationModel.DEFAULT_TEXT_COLOR;
+
         if (savedInstanceState != null) {
             final LocationModel restored = savedInstanceState.getParcelable(LOCATION);
+
+            backgroundColor = restored.getBackgroundColor();
+            textColor = restored.getTextColor();
+
             mLocationModelBuilder.setName(restored.getName())
                     .setLatitude(restored.getLatitude())
                     .setLongitude(restored.getLongitude())
@@ -137,28 +140,28 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
                     .setTextColor(restored.getTextColor())
                     .setUnit(restored.getUnit());
 
-            GradientDrawable drawable = (GradientDrawable) mBackgroundColorImageButton.getBackground();
-            drawable.setColor(Color.parseColor(restored.getBackgroundColor()));
-
-            drawable = (GradientDrawable) mTextColorImageButton.getBackground();
-            drawable.setColor(Color.parseColor(restored.getTextColor()));
-
-            new Handler().postDelayed(new Runnable() {
+            /*new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     addMarker(new LatLng(restored.getLatitude(), restored.getLongitude()));
                 }
-            }, 250);
+            }, 250);*/
         }
 
-        mMapView.postDelayed(new Runnable() {
+        GradientDrawable drawable = (GradientDrawable) mBackgroundColorImageButton.getBackground();
+        drawable.setColor(Color.parseColor(backgroundColor));
+
+        drawable = (GradientDrawable) mTextColorImageButton.getBackground();
+        drawable.setColor(Color.parseColor(textColor));
+
+        /*mMapView.postDelayed(new Runnable() {
             @Override
             public void run() {
                 mMapView.onCreate(savedInstanceState);
                 MapsInitializer.initialize(getActivity().getApplicationContext());
                 mMapView.onResume();
             }
-        }, 300);
+        }, 300);*/
     }
 
     @Override
@@ -192,7 +195,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
                 mEditText.clearFocus();
                 mLocationModelBuilder.setName(place.getName().toString())
                         .setLatLng(place.getLatLng());
-                addMarker(place.getLatLng());
+                //addMarker(place.getLatLng());
             }
         }
     }
@@ -216,7 +219,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
                 }
                 break;
             case R.id.background_color_image_button:
-                ColorPickerHelper.showColorPicker(mContext, R.color.colorPrimary, new ColorPickerHelper.ColorPickerCallback() {
+                ColorPickerHelper.showColorPicker(mBgColorDialogBuilder, new ColorPickerHelper.ColorPickerCallback() {
                     @Override
                     public void onColorSelected(String colorHex) {
                         GradientDrawable drawable = (GradientDrawable) mBackgroundColorImageButton.getBackground();
@@ -226,7 +229,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
                 });
                 break;
             case R.id.text_color_image_button:
-                ColorPickerHelper.showColorPicker(mContext, android.R.color.white, new ColorPickerHelper.ColorPickerCallback() {
+                ColorPickerHelper.showColorPicker(mTextColorDialogBuilder, new ColorPickerHelper.ColorPickerCallback() {
                     @Override
                     public void onColorSelected(String colorHex) {
                         GradientDrawable drawable = (GradientDrawable) mTextColorImageButton.getBackground();
@@ -279,7 +282,6 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     public void onLocationSaveFailed(String errorMessage) {
         Toast.makeText(mContext, errorMessage, Toast.LENGTH_LONG).show();
     }
-
 
     private void addMarker(LatLng latLng) {
         mCameraPosition = CameraPosition.builder()

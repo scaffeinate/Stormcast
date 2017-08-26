@@ -3,6 +3,7 @@ package io.stormcast.app.stormcast.forecast;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
+import com.github.pwittchen.weathericonview.WeatherIconView;
 
 import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.common.models.ForecastModel;
@@ -36,8 +37,11 @@ public class ForecastFragment extends Fragment implements ForecastContract.View 
     private ActionBar mActionBar;
     private LocationModel mLocationModel;
 
+    private WeatherIconView mWeatherIconView;
     private TextView mLocationName;
     private TextView mSummary;
+    private int backgroundColor;
+    private int textColor;
 
     public static ForecastFragment newInstance(LocationModel locationModel) {
         ForecastFragment forecastFragment = new ForecastFragment();
@@ -57,6 +61,8 @@ public class ForecastFragment extends Fragment implements ForecastContract.View 
         mPresenter = new ForecastPresenter(this, ForecastRepository.getInstance(
                 LocalForecastDataSource.getInstance(mContext),
                 RemoteForecastDataSource.getInstance()));
+        backgroundColor = Color.parseColor(mLocationModel.getBackgroundColor());
+        textColor = Color.parseColor(mLocationModel.getTextColor());
     }
 
     @Nullable
@@ -67,16 +73,26 @@ public class ForecastFragment extends Fragment implements ForecastContract.View 
 
         mLocationName = (TextView) view.findViewById(R.id.location_name_text_view);
         mSummary = (TextView) view.findViewById(R.id.summary_text_view);
+        mWeatherIconView = (WeatherIconView) view.findViewById(R.id.weather_icon_view);
 
-        view.setBackgroundColor(Color.parseColor(mLocationModel.getBackgroundColor()));
+        view.setBackgroundColor(backgroundColor);
+        mLocationName.setTextColor(textColor);
+        mSummary.setTextColor(textColor);
+        mWeatherIconView.setIconColor(textColor);
+
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mSwipeRefreshLayout.setRefreshing(true);
-        mPresenter.loadForecast(mLocationModel);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(true);
+                mPresenter.loadForecast(mLocationModel);
+            }
+        }, 250);
     }
 
     @Override

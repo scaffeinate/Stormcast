@@ -1,8 +1,5 @@
 package io.stormcast.app.stormcast.location.add;
 
-import android.content.Context;
-import android.widget.Toast;
-
 import io.stormcast.app.stormcast.views.colorpick.MaterialColorPickDialog;
 
 /**
@@ -11,13 +8,15 @@ import io.stormcast.app.stormcast.views.colorpick.MaterialColorPickDialog;
 
 public class ColorPickerHelper {
 
-    protected static void showColorPicker(final Context context, int defaultColor, final ColorPickerCallback callback) {
-        MaterialColorPickDialog.with(context).build().setOnColorPickedListener(new MaterialColorPickDialog.OnColorPickedListener() {
-            @Override
-            public void onClick(String colorHex) {
-                Toast.makeText(context, String.valueOf(colorHex), Toast.LENGTH_SHORT).show();
-            }
-        }).show();
+    protected static void showColorPicker(MaterialColorPickDialog.Builder builder, final ColorPickerCallback callback) {
+        builder.setTheme(MaterialColorPickDialog.ColorPickTheme.THEME_DARK)
+                .build()
+                .setOnColorPickedListener(new MaterialColorPickDialog.OnColorPickedListener() {
+                    @Override
+                    public void onClick(String colorHex) {
+                        callback.onColorSelected(colorHex);
+                    }
+                }).show();
     }
 
     interface ColorPickerCallback {
