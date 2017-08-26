@@ -30,12 +30,6 @@ import static java.lang.annotation.RetentionPolicy.SOURCE;
 
 public class MaterialColorPickDialog {
 
-    private static Builder mBuilder;
-
-    private static final String DEFAULT_TITLE = "Color Picker";
-    private static final String DEFAULT_POSITIVE_TEXT = "Ok";
-    private static final String DEFAULT_NEGATIVE_TEXT = "Cancel";
-
     private static final String THEME_LIGHT_BG_COLOR = "#FFFFFF";
     private static final String THEME_DARK_BG = "#404040";
     private static final String THEME_LIGHT_TEXT_COLOR = "#000000";
@@ -71,7 +65,7 @@ public class MaterialColorPickDialog {
 
         private Context mContext;
 
-        private String title = DEFAULT_TITLE;
+        private String title = null;
         private int theme = ColorPickTheme.THEME_LIGHT;
         private int icon = THEME_LIGHT_ICON;
 
@@ -123,6 +117,10 @@ public class MaterialColorPickDialog {
             this.mColorsGridView = (GridView) view.findViewById(R.id.colors_grid_view);
             this.mLayout = (RelativeLayout) view.findViewById(R.id.material_color_pick_layout);
 
+            if (this.title != null) {
+                mDialogBuilder.setTitle(title);
+            }
+
             this.setupTheme();
             this.fillGrid();
 
@@ -159,7 +157,7 @@ public class MaterialColorPickDialog {
                 if (display != null) {
                     Point size = new Point();
                     display.getSize(size);
-                    this.mAlertDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, (int) (0.60 * size.y));
+                    this.mAlertDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, (int) (0.65 * size.y));
                 }
             }
         }
@@ -202,7 +200,7 @@ public class MaterialColorPickDialog {
                     mSelectedIndex = position;
                     mAdapter.notifyDataSetChanged();
 
-                    this.mAlertDialog.hide();
+                    this.mAlertDialog.dismiss();
                     this.mOnColorPickedListener.onClick(colorItem.getColor());
                 }
             }

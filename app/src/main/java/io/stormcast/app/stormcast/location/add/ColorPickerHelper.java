@@ -8,8 +8,9 @@ import io.stormcast.app.stormcast.views.colorpick.MaterialColorPickDialog;
 
 public class ColorPickerHelper {
 
-    protected static void showColorPicker(MaterialColorPickDialog.Builder builder, final ColorPickerCallback callback) {
-        builder.setTheme(MaterialColorPickDialog.ColorPickTheme.THEME_DARK)
+    protected static void showColorPicker(MaterialColorPickDialog.Builder builder, String title, final ColorPickerCallback callback) {
+        builder.setTitle(title)
+                .setTheme(MaterialColorPickDialog.ColorPickTheme.THEME_LIGHT)
                 .build()
                 .setOnColorPickedListener(new MaterialColorPickDialog.OnColorPickedListener() {
                     @Override
