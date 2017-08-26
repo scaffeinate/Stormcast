@@ -41,6 +41,8 @@ public class LocationModel extends RealmObject implements Parcelable {
     private String backgroundColor = DEFAULT_BACKGROUND_COLOR, textColor = DEFAULT_TEXT_COLOR;
     private int unit = UNIT_AUTO;
 
+    private ForecastModel forecastModel;
+
     public LocationModel() {}
 
     protected LocationModel(LocationModelBuilder locationModelBuilder) {
@@ -111,6 +113,14 @@ public class LocationModel extends RealmObject implements Parcelable {
 
     public void setUnit(int unit) {
         if (unit != MINUS_ONE) this.unit = unit;
+    }
+
+    public ForecastModel getForecastModel() {
+        return forecastModel;
+    }
+
+    public void setForecastModel(ForecastModel forecastModel) {
+        this.forecastModel = forecastModel;
     }
 
     @Override
