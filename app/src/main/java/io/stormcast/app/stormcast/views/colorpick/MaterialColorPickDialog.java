@@ -1,5 +1,6 @@
 package io.stormcast.app.stormcast.views.colorpick;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -49,20 +50,20 @@ public class MaterialColorPickDialog {
         int THEME_DARK = 1;
     }
 
-    private static final List<ColorItem> mColorItems = new ArrayList<>();
+    private static final List<ColorItem> sColorItems = new ArrayList<>();
 
     public static Builder with(Context context) {
-        if (mBuilder == null) {
+        if (sColorItems.isEmpty()) {
             getColors(context);
-            mBuilder = new Builder(context);
         }
-        return mBuilder;
+
+        return new Builder(context);
     }
 
     private static void getColors(Context context) {
         String[] colors = context.getResources().getStringArray(R.array.colors);
         for (String color : colors) {
-            mColorItems.add(new ColorItem(color, false));
+            sColorItems.add(new ColorItem(color, false));
         }
     }
 
@@ -83,9 +84,13 @@ public class MaterialColorPickDialog {
         private MaterialColorGridAdapter mAdapter;
 
         private OnColorPickedListener mOnColorPickedListener = null;
+        private List<ColorItem> mColorsList;
+
+        private int mSelectedIndex = -1;
 
         protected Builder(Context context) {
             this.mContext = context;
+            this.mColorsList = deepCopy(sColorItems);
         }
 
         public Builder setTitle(String title) {
@@ -117,7 +122,6 @@ public class MaterialColorPickDialog {
             this.mTitle = (TextView) view.findViewById(R.id.pick_a_color_text_view);
             this.mColorsGridView = (GridView) view.findViewById(R.id.colors_grid_view);
             this.mLayout = (RelativeLayout) view.findViewById(R.id.material_color_pick_layout);
-            this.mColorsGridView.setOnItemClickListener(this);
 
             this.setupTheme();
             this.fillGrid();
@@ -127,8 +131,13 @@ public class MaterialColorPickDialog {
         }
 
         public void show() {
-            this.mAlertDialog.show();
-            this.limitHeight();
+            if (mContext instanceof Activity) {
+                Activity activity = (Activity) mContext;
+                if (!activity.isFinishing() && !activity.isDestroyed()) {
+                    this.mAlertDialog.show();
+                    this.limitHeight();
+                }
+            }
         }
 
         private View getView() {
@@ -138,8 +147,9 @@ public class MaterialColorPickDialog {
         }
 
         private void fillGrid() {
-            this.mAdapter = new MaterialColorGridAdapter(this.mContext, mColorItems);
+            this.mAdapter = new MaterialColorGridAdapter(this.mContext, mColorsList);
             this.mColorsGridView.setAdapter(mAdapter);
+            this.mColorsGridView.setOnItemClickListener(this);
         }
 
         private void limitHeight() {
@@ -149,7 +159,7 @@ public class MaterialColorPickDialog {
                 if (display != null) {
                     Point size = new Point();
                     display.getSize(size);
-                    this.mAlertDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, (int) (0.65 * size.y));
+                    this.mAlertDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, (int) (0.60 * size.y));
                 }
             }
         }
@@ -169,14 +179,32 @@ public class MaterialColorPickDialog {
             }
         }
 
+        private List<ColorItem> deepCopy(List<ColorItem> colorItems) {
+            List<ColorItem> copyList = new ArrayList<>();
+            for (int i = 0; i < colorItems.size(); i++) {
+                ColorItem colorItem = colorItems.get(i);
+                copyList.add(new ColorItem(colorItem.getColor(), colorItem.isSelected()));
+            }
+            return copyList;
+        }
+
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-            switch (view.getId()) {
-                case R.id.colors_grid_view:
-                    if (this.mOnColorPickedListener != null) {
-                        this.mOnColorPickedListener.onClick(mColorItems.get(position).getColor());
+            if (this.mOnColorPickedListener != null) {
+                ColorItem colorItem = mColorsList.get(position);
+                if (colorItem != null) {
+                    if (mSelectedIndex != -1) {
+                        ColorItem selectedItem = mColorsList.get(mSelectedIndex);
+                        selectedItem.setSelected(false);
                     }
-                    break;
+
+                    colorItem.setSelected(true);
+                    mSelectedIndex = position;
+                    mAdapter.notifyDataSetChanged();
+
+                    this.mAlertDialog.hide();
+                    this.mOnColorPickedListener.onClick(colorItem.getColor());
+                }
             }
         }
     }
