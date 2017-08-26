@@ -11,7 +11,6 @@
         android:layout_centerHorizontal="true"
         android:fontFamily="sans-serif-condensed"
         android:textAllCaps="true"
-        android:textColor="@color/textColor"
         android:textSize="@dimen/font_size_title"
         android:textStyle="bold" />
 
@@ -21,20 +20,41 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/location_name_text_view"
         android:layout_centerHorizontal="true"
-        custom:weatherIconColor="@color/textColor"
         custom:weatherIconResource="@string/wi_forecast_io_rain"
         custom:weatherIconSize="165" />
+
+    <TextView
+        android:id="@+id/temperature_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/weather_icon_view"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:fontFamily="sans-serif-condensed"
+        android:textAllCaps="true"
+        android:textSize="65sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/summary_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/weather_icon_view"
-        android:layout_marginTop="25dp"
+        android:layout_below="@+id/temperature_text_view"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
         android:fontFamily="sans-serif-condensed"
         android:textAllCaps="true"
-        android:textColor="@color/textColor"
         android:textSize="@dimen/font_size_title"
         android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/last_updated_at_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/summary_text_view"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:fontFamily="sans-serif-condensed"
+        android:textAllCaps="true"
+        android:textSize="@dimen/font_size_body" />
 </RelativeLayout>

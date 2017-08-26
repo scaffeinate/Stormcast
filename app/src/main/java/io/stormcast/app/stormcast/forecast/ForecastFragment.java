@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,12 +33,13 @@ public class ForecastFragment extends Fragment implements ForecastContract.View 
     private Context mContext;
     private ForecastPresenter mPresenter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private ActionBar mActionBar;
     private LocationModel mLocationModel;
 
     private WeatherIconView mWeatherIconView;
     private TextView mLocationName;
     private TextView mSummary;
+    private TextView mLastUpdatedAt;
+    private TextView mTemperatureTextView;
     private int backgroundColor;
     private int textColor;
 
@@ -74,11 +74,15 @@ public class ForecastFragment extends Fragment implements ForecastContract.View 
         mLocationName = (TextView) view.findViewById(R.id.location_name_text_view);
         mSummary = (TextView) view.findViewById(R.id.summary_text_view);
         mWeatherIconView = (WeatherIconView) view.findViewById(R.id.weather_icon_view);
+        mLastUpdatedAt = (TextView) view.findViewById(R.id.last_updated_at_text_view);
+        mTemperatureTextView = (TextView) view.findViewById(R.id.temperature_text_view);
 
         view.setBackgroundColor(backgroundColor);
         mLocationName.setTextColor(textColor);
         mSummary.setTextColor(textColor);
         mWeatherIconView.setIconColor(textColor);
+        mLastUpdatedAt.setTextColor(textColor);
+        mTemperatureTextView.setTextColor(textColor);
 
         return view;
     }
@@ -99,6 +103,10 @@ public class ForecastFragment extends Fragment implements ForecastContract.View 
     public void onForecastLoaded(ForecastModel forecastModel) {
         mLocationName.setText(mLocationModel.getName());
         mSummary.setText(forecastModel.getSummary());
+        android.text.format.DateFormat dateFormat = new android.text.format.DateFormat();
+        String lastUpdateAt = dateFormat.format("MM-dd-yyyy HH:mm:ss", forecastModel.getUpdatedAt()).toString();
+        mLastUpdatedAt.setText(new StringBuilder().append("Last Updated At: ").append(lastUpdateAt).toString());
+        mTemperatureTextView.setText(String.valueOf(forecastModel.getTemperature().intValue()));
         mSwipeRefreshLayout.setRefreshing(false);
     }
 

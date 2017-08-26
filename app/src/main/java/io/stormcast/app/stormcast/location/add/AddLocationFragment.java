@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -31,6 +32,7 @@ import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -140,12 +142,12 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
                     .setTextColor(restored.getTextColor())
                     .setUnit(restored.getUnit());
 
-            /*new Handler().postDelayed(new Runnable() {
+            new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     addMarker(new LatLng(restored.getLatitude(), restored.getLongitude()));
                 }
-            }, 250);*/
+            }, 250);
         }
 
         GradientDrawable drawable = (GradientDrawable) mBackgroundColorImageButton.getBackground();
@@ -154,14 +156,14 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
         drawable = (GradientDrawable) mTextColorImageButton.getBackground();
         drawable.setColor(Color.parseColor(textColor));
 
-        /*mMapView.postDelayed(new Runnable() {
+        mMapView.postDelayed(new Runnable() {
             @Override
             public void run() {
                 mMapView.onCreate(savedInstanceState);
                 MapsInitializer.initialize(getActivity().getApplicationContext());
                 mMapView.onResume();
             }
-        }, 300);*/
+        }, 300);
     }
 
     @Override
@@ -195,7 +197,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
                 mEditText.clearFocus();
                 mLocationModelBuilder.setName(place.getName().toString())
                         .setLatLng(place.getLatLng());
-                //addMarker(place.getLatLng());
+                addMarker(place.getLatLng());
             }
         }
     }
@@ -219,7 +221,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
                 }
                 break;
             case R.id.background_color_image_button:
-                ColorPickerHelper.showColorPicker(mBgColorDialogBuilder, new ColorPickerHelper.ColorPickerCallback() {
+                ColorPickerHelper.showColorPicker(mBgColorDialogBuilder, null, new ColorPickerHelper.ColorPickerCallback() {
                     @Override
                     public void onColorSelected(String colorHex) {
                         GradientDrawable drawable = (GradientDrawable) mBackgroundColorImageButton.getBackground();
@@ -229,7 +231,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
                 });
                 break;
             case R.id.text_color_image_button:
-                ColorPickerHelper.showColorPicker(mTextColorDialogBuilder, new ColorPickerHelper.ColorPickerCallback() {
+                ColorPickerHelper.showColorPicker(mTextColorDialogBuilder, null, new ColorPickerHelper.ColorPickerCallback() {
                     @Override
                     public void onColorSelected(String colorHex) {
                         GradientDrawable drawable = (GradientDrawable) mTextColorImageButton.getBackground();
