@@ -10,7 +10,10 @@ import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.common.models.ForecastModel;
@@ -32,6 +35,9 @@ public class ForecastFragment extends Fragment implements ForecastContract.View 
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private ActionBar mActionBar;
     private LocationModel mLocationModel;
+
+    private TextView mLocationName;
+    private TextView mSummary;
 
     public static ForecastFragment newInstance(LocationModel locationModel) {
         ForecastFragment forecastFragment = new ForecastFragment();
@@ -58,20 +64,25 @@ public class ForecastFragment extends Fragment implements ForecastContract.View 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_forecast, container, false);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+
+        mLocationName = (TextView) view.findViewById(R.id.location_name_text_view);
+        mSummary = (TextView) view.findViewById(R.id.summary_text_view);
+
         view.setBackgroundColor(Color.parseColor(mLocationModel.getBackgroundColor()));
         return view;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         mSwipeRefreshLayout.setRefreshing(true);
         mPresenter.loadForecast(mLocationModel);
     }
 
     @Override
     public void onForecastLoaded(ForecastModel forecastModel) {
-        Toast.makeText(mContext, forecastModel.getSummary(), Toast.LENGTH_SHORT).show();
+        mLocationName.setText(mLocationModel.getName());
+        mSummary.setText(forecastModel.getSummary());
         mSwipeRefreshLayout.setRefreshing(false);
     }
 

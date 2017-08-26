@@ -124,7 +124,9 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        mActionBar.setTitle("Add LocationModel");
+        if(mActionBar != null) {
+            mActionBar.setTitle(mContext.getResources().getString(R.string.add_location));
+        }
 
         if (savedInstanceState != null) {
             final LocationModel restored = savedInstanceState.getParcelable(LOCATION);
@@ -263,8 +265,8 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     }
 
     @Override
-    public void invalidLocation(String message) {
-        Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
+    public void invalidLocation(String errorMessage) {
+        Toast.makeText(mContext, errorMessage, Toast.LENGTH_LONG).show();
     }
 
     @Override

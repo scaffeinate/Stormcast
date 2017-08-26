@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
@@ -33,6 +34,7 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
 
     private Context mContext;
 
+    private ActionBar mActionBar;
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
     private TextView mNoDataTextView;
@@ -74,8 +76,13 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (mActionBar != null) {
+            mActionBar.setTitle(mContext.getResources().getString(R.string.locations));
+        }
+
         mPresenter.getLocations();
     }
 

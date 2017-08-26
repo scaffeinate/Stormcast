@@ -22,7 +22,7 @@ public class AddLocationPresenter implements AddLocationContract.Presenter {
     public void validateLocation(LocationModel locationModel) {
         if (locationModel.getName() == null || locationModel.getName().trim().isEmpty() ||
                 locationModel.getLatitude() == -1 || locationModel.getLongitude() == -1) {
-            mView.invalidLocation("LocationModel is invalid");
+            mView.invalidLocation("Invalid Location");
             return;
         }
         mView.onValidLocation(locationModel);

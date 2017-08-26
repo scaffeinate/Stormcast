@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/location_name_text_view"
@@ -17,13 +16,25 @@
         android:textStyle="bold" />
 
     <com.github.pwittchen.weathericonview.WeatherIconView
-        android:id="@+id/my_weather_icon"
+        android:id="@+id/weather_icon_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/location_name_text_view"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/item_overview_weather_icon_margin_top"
         custom:weatherIconColor="@color/textColor"
-        custom:weatherIconResource="@string/wi_day_sunny_overcast"
-        custom:weatherIconSize="115" />
+        custom:weatherIconResource="@string/wi_forecast_io_rain"
+        custom:weatherIconSize="165" />
+
+    <TextView
+        android:id="@+id/summary_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/weather_icon_view"
+        android:layout_marginTop="25dp"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="sans-serif-condensed"
+        android:textAllCaps="true"
+        android:textColor="@color/textColor"
+        android:textSize="@dimen/font_size_title"
+        android:textStyle="bold" />
 </RelativeLayout>
