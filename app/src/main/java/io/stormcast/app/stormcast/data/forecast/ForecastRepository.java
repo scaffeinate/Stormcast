@@ -1,7 +1,5 @@
 package io.stormcast.app.stormcast.data.forecast;
 
-import android.util.Log;
-
 import java.util.Date;
 
 import io.stormcast.app.stormcast.common.models.ForecastModel;
@@ -33,27 +31,17 @@ public class ForecastRepository implements ForecastDataSource {
 
     @Override
     public void loadForecast(final LocationModel locationModel, final boolean manualRefresh, final LoadForecastCallback loadForecastCallback) {
-        mLocalDataSource.loadForecast(locationModel, manualRefresh, new LoadForecastCallback() {
-            @Override
-            public void onForecastLoaded(ForecastModel forecastModel) {
-                long diffInMinutes = 0;
-                if (forecastModel != null && forecastModel.getUpdatedAt() != null) {
-                    diffInMinutes = (new Date().getTime() - forecastModel.getUpdatedAt().getTime()) / 60000;
-                }
+        ForecastModel forecastModel = locationModel.getForecastModel();
+        long diffInMinutes = 0;
+        if (forecastModel != null && forecastModel.getUpdatedAt() != null) {
+            diffInMinutes = (new Date().getTime() - forecastModel.getUpdatedAt().getTime()) / 60000;
+        }
 
-                if (diffInMinutes > 15 || manualRefresh) {
-                    getUpdateFromRemoteDataSource(locationModel, manualRefresh, loadForecastCallback);
-                } else {
-                    mLocalDataSource.loadForecast(locationModel, manualRefresh, loadForecastCallback);
-                }
-                Log.i("TAG", String.valueOf(diffInMinutes));
-            }
-
-            @Override
-            public void onDataNotAvailable(String errorMessage) {
-                getUpdateFromRemoteDataSource(locationModel, manualRefresh, loadForecastCallback);
-            }
-        });
+        if (diffInMinutes > 15 || manualRefresh) {
+            getUpdateFromRemoteDataSource(locationModel, manualRefresh, loadForecastCallback);
+        } else {
+            loadForecastCallback.onForecastLoaded(forecastModel);
+        }
     }
 
     @Override
@@ -81,7 +69,7 @@ public class ForecastRepository implements ForecastDataSource {
 
             @Override
             public void onDataNotAvailable(String errorMessage) {
-                loadForecastCallback.onDataNotAvailable(errorMessage);
+                mLocalDataSource.loadForecast(locationModel, manualRefresh, loadForecastCallback);
             }
         });
     }
