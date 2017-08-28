@@ -7,6 +7,8 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ import com.github.pwittchen.weathericonview.WeatherIconView;
 import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.common.models.ForecastModel;
 import io.stormcast.app.stormcast.common.models.LocationModel;
+import io.stormcast.app.stormcast.common.network.Forecast;
 import io.stormcast.app.stormcast.data.forecast.ForecastRepository;
 import io.stormcast.app.stormcast.data.forecast.local.LocalForecastDataSource;
 import io.stormcast.app.stormcast.data.forecast.remote.RemoteForecastDataSource;
@@ -35,11 +38,15 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private LocationModel mLocationModel;
 
+    private HourlyForecastAdapter mHourlyAdapter;
+
     private WeatherIconView mWeatherIconView;
     private TextView mLocationName;
     private TextView mSummary;
     private TextView mLastUpdatedAt;
     private TextView mTemperatureTextView;
+    private RecyclerView mHourlyRecyclerView;
+
     private int backgroundColor;
     private int textColor;
 
@@ -75,6 +82,11 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         mSummary = (TextView) view.findViewById(R.id.summary_text_view);
         mWeatherIconView = (WeatherIconView) view.findViewById(R.id.weather_icon_view);
         mTemperatureTextView = (TextView) view.findViewById(R.id.temperature_text_view);
+        mHourlyRecyclerView = (RecyclerView) view.findViewById(R.id.hourly_forecast_recycler_view);
+
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+        mHourlyRecyclerView.setLayoutManager(layoutManager);
 
         view.setBackgroundColor(backgroundColor);
         mLocationName.setTextColor(textColor);
@@ -108,6 +120,9 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         //mLastUpdatedAt.setText(new StringBuilder().append("Last Updated At: ").append(lastUpdateAt).toString());
         mTemperatureTextView.setText(String.valueOf(forecastModel.getTemperature().intValue()));
         mSwipeRefreshLayout.setRefreshing(false);
+
+        mHourlyAdapter = new HourlyForecastAdapter(forecastModel.getHourlyModels(), textColor);
+        mHourlyRecyclerView.setAdapter(mHourlyAdapter);
     }
 
     @Override
