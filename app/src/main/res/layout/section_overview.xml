@@ -29,10 +29,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/weather_icon_view"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="sans-serif-condensed"
         android:textAllCaps="true"
-        android:textSize="65sp"
+        android:textSize="70sp"
         android:textStyle="bold" />
 
     <TextView
@@ -41,20 +41,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/temperature_text_view"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="15dp"
         android:fontFamily="sans-serif-condensed"
         android:textAllCaps="true"
         android:textSize="@dimen/font_size_title"
         android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/last_updated_at_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/summary_text_view"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
-        android:fontFamily="sans-serif-condensed"
-        android:textAllCaps="true"
-        android:textSize="@dimen/font_size_body" />
 </RelativeLayout>

@@ -1,12 +1,9 @@
 package io.stormcast.app.stormcast.forecast;
 
 import android.support.annotation.NonNull;
-import android.widget.Toast;
 
-import io.stormcast.app.stormcast.common.mappers.ForecastMapper;
 import io.stormcast.app.stormcast.common.models.ForecastModel;
 import io.stormcast.app.stormcast.common.models.LocationModel;
-import io.stormcast.app.stormcast.common.network.Forecast;
 import io.stormcast.app.stormcast.data.forecast.ForecastDataSource;
 import io.stormcast.app.stormcast.data.forecast.ForecastRepository;
 
@@ -28,8 +25,8 @@ public class ForecastPresenter implements ForecastContract.Presenter {
     }
 
     @Override
-    public void loadForecast(final LocationModel locationModel, boolean manualRefresh) {
-        mRepository.loadForecast(locationModel, manualRefresh, new ForecastDataSource.LoadForecastCallback() {
+    public void loadForecast(final LocationModel locationModel, boolean forceRefresh) {
+        mRepository.loadForecast(locationModel, forceRefresh, new ForecastDataSource.LoadForecastCallback() {
             @Override
             public void onForecastLoaded(ForecastModel forecastModel) {
                 mView.onForecastLoaded(forecastModel);

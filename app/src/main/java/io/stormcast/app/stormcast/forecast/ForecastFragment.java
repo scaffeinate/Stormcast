@@ -74,14 +74,12 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         mLocationName = (TextView) view.findViewById(R.id.location_name_text_view);
         mSummary = (TextView) view.findViewById(R.id.summary_text_view);
         mWeatherIconView = (WeatherIconView) view.findViewById(R.id.weather_icon_view);
-        mLastUpdatedAt = (TextView) view.findViewById(R.id.last_updated_at_text_view);
         mTemperatureTextView = (TextView) view.findViewById(R.id.temperature_text_view);
 
         view.setBackgroundColor(backgroundColor);
         mLocationName.setTextColor(textColor);
         mSummary.setTextColor(textColor);
         mWeatherIconView.setIconColor(textColor);
-        mLastUpdatedAt.setTextColor(textColor);
         mTemperatureTextView.setTextColor(textColor);
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
@@ -107,7 +105,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         mSummary.setText(forecastModel.getSummary());
         android.text.format.DateFormat dateFormat = new android.text.format.DateFormat();
         String lastUpdateAt = dateFormat.format("MM-dd-yyyy HH:mm:ss", forecastModel.getUpdatedAt()).toString();
-        mLastUpdatedAt.setText(new StringBuilder().append("Last Updated At: ").append(lastUpdateAt).toString());
+        //mLastUpdatedAt.setText(new StringBuilder().append("Last Updated At: ").append(lastUpdateAt).toString());
         mTemperatureTextView.setText(String.valueOf(forecastModel.getTemperature().intValue()));
         mSwipeRefreshLayout.setRefreshing(false);
     }

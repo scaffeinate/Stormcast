@@ -15,7 +15,7 @@
 
             <include
                 android:id="@+id/overview"
-                layout="@layout/item_overview" />
+                layout="@layout/section_overview" />
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.v4.widget.SwipeRefreshLayout>

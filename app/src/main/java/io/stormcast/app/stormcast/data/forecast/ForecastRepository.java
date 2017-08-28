@@ -30,15 +30,15 @@ public class ForecastRepository implements ForecastDataSource {
     }
 
     @Override
-    public void loadForecast(final LocationModel locationModel, final boolean manualRefresh, final LoadForecastCallback loadForecastCallback) {
+    public void loadForecast(final LocationModel locationModel, final boolean forceRefresh, final LoadForecastCallback loadForecastCallback) {
         ForecastModel forecastModel = locationModel.getForecastModel();
         long diffInMinutes = Long.MAX_VALUE;
         if (forecastModel != null && forecastModel.getUpdatedAt() != null) {
             diffInMinutes = (new Date().getTime() - forecastModel.getUpdatedAt().getTime()) / 60000;
         }
 
-        if (forecastModel == null || diffInMinutes > 15 || manualRefresh) {
-            getUpdateFromRemoteDataSource(locationModel, manualRefresh, loadForecastCallback);
+        if (forecastModel == null || diffInMinutes > 15 || forceRefresh) {
+            getUpdateFromRemoteDataSource(locationModel, forceRefresh, loadForecastCallback);
         } else {
             loadForecastCallback.onForecastLoaded(forecastModel);
         }
@@ -49,9 +49,9 @@ public class ForecastRepository implements ForecastDataSource {
         mLocalDataSource.saveForecast(locationModel, forecastModel, saveForecastCallback);
     }
 
-    private void getUpdateFromRemoteDataSource(final LocationModel locationModel, final boolean manualRefresh,
+    private void getUpdateFromRemoteDataSource(final LocationModel locationModel, final boolean forceRefresh,
                                                final LoadForecastCallback loadForecastCallback) {
-        mRemoteDataSource.loadForecast(locationModel, manualRefresh, new LoadForecastCallback() {
+        mRemoteDataSource.loadForecast(locationModel, forceRefresh, new LoadForecastCallback() {
             @Override
             public void onForecastLoaded(final ForecastModel forecastModel) {
                 saveForecast(locationModel, forecastModel, new SaveForecastCallback() {
@@ -69,7 +69,7 @@ public class ForecastRepository implements ForecastDataSource {
 
             @Override
             public void onDataNotAvailable(String errorMessage) {
-                mLocalDataSource.loadForecast(locationModel, manualRefresh, loadForecastCallback);
+                mLocalDataSource.loadForecast(locationModel, forceRefresh, loadForecastCallback);
             }
         });
     }

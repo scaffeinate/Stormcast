@@ -28,11 +28,13 @@ public class RemoteForecastDataSource implements ForecastDataSource {
     }
 
     @Override
-    public void loadForecast(final LocationModel locationModel, boolean manualRefresh, final LoadForecastCallback loadForecastCallback) {
+    public void loadForecast(final LocationModel locationModel, boolean forceRefresh, final LoadForecastCallback loadForecastCallback) {
         mApiClient.loadForecast(locationModel, new DarkSkyApiClient.ApiCallback() {
             @Override
             public void onLoadForecast(Forecast forecast) {
-                loadForecastCallback.onForecastLoaded(ForecastMapper.map(forecast));
+                ForecastModel forecastModel = ForecastMapper.map(forecast);
+                forecastModel.setHourlyModels(ForecastMapper.mapHourlyData(forecast));
+                loadForecastCallback.onForecastLoaded(forecastModel);
             }
 
             @Override
