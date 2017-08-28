@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
-import io.stormcast.app.stormcast.R;
 
 /**
  * Created by sudhar on 8/15/17.
@@ -54,6 +53,7 @@ public class LocationModel extends RealmObject implements Parcelable {
         setBackgroundColor(locationModelBuilder.backgroundColor);
         setTextColor(locationModelBuilder.textColor);
         setUnit(locationModelBuilder.unit);
+        setForecastModel(locationModelBuilder.forecastModel);
     }
 
     private LocationModel(Parcel parcel) {
@@ -63,6 +63,7 @@ public class LocationModel extends RealmObject implements Parcelable {
         setBackgroundColor(parcel.readString());
         setTextColor(parcel.readString());
         setUnit(parcel.readInt());
+        setForecastModel((ForecastModel) parcel.readParcelable(ForecastModel.class.getClassLoader()));
     }
 
     public String getName() {
@@ -131,12 +132,13 @@ public class LocationModel extends RealmObject implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
+    public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeString(this.name);
         parcel.writeDouble(this.latitude);
         parcel.writeDouble(this.longitude);
         parcel.writeString(this.backgroundColor);
         parcel.writeString(this.textColor);
         parcel.writeInt(this.unit);
+        parcel.writeParcelable(this.forecastModel, flags);
     }
 }

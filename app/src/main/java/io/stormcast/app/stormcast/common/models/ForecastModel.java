@@ -3,8 +3,11 @@ package io.stormcast.app.stormcast.common.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.Required;
 
@@ -27,10 +30,14 @@ public class ForecastModel extends RealmObject implements Parcelable {
     @Required
     private Date updatedAt;
 
+    private RealmList<HourlyModel> hourlyModels;
+
     private double humidity;
     private double windSpeed;
     private double pressure;
     private double visibility;
+
+    private String units;
 
     public ForecastModel() {
     }
@@ -47,20 +54,26 @@ public class ForecastModel extends RealmObject implements Parcelable {
         setPressure(in.readDouble());
         setVisibility(in.readDouble());
         setUpdatedAt((Date) in.readValue(Date.class.getClassLoader()));
+        List<HourlyModel> hourlyModels = new ArrayList<>();
+        in.readList(hourlyModels, null);
+        setHourlyModels(hourlyModels);
+        setUnits(in.readString());
     }
 
     protected ForecastModel(ForecastModelBuilder builder) {
-        setTimezone(builder.getTimezone());
-        setCurrentTime(builder.getCurrentTime());
-        setSummary(builder.getSummary());
-        setIcon(builder.getIcon());
-        setTemperature(builder.getTemperature());
-        setApparentTemperature(builder.getApparentTemperature());
-        setHumidity(builder.getHumidity());
-        setWindSpeed(builder.getWindSpeed());
-        setPressure(builder.getPressure());
-        setVisibility(builder.getVisibility());
-        setUpdatedAt(builder.getUpdatedAt());
+        setTimezone(builder.timezone);
+        setCurrentTime(builder.currentTime);
+        setSummary(builder.summary);
+        setIcon(builder.icon);
+        setTemperature(builder.temperature);
+        setApparentTemperature(builder.apparentTemperature);
+        setHumidity(builder.humidity);
+        setWindSpeed(builder.windSpeed);
+        setPressure(builder.pressure);
+        setVisibility(builder.visibility);
+        setUpdatedAt(builder.updatedAt);
+        setHourlyModels(builder.hourlyModels);
+        setUnits(builder.units);
     }
 
     public String getTimezone() {
@@ -151,6 +164,24 @@ public class ForecastModel extends RealmObject implements Parcelable {
         this.updatedAt = updatedAt;
     }
 
+    public List<HourlyModel> getHourlyModels() {
+        return hourlyModels;
+    }
+
+    public void setHourlyModels(List<HourlyModel> hourlyModels) {
+        if (hourlyModels != null) {
+            this.hourlyModels = new RealmList<HourlyModel>(hourlyModels.toArray(new HourlyModel[]{}));
+        }
+    }
+
+    public String getUnits() {
+        return units;
+    }
+
+    public void setUnits(String units) {
+        this.units = units;
+    }
+
     public static final Creator<ForecastModel> CREATOR = new Creator<ForecastModel>() {
         @Override
         public ForecastModel createFromParcel(Parcel in) {
@@ -181,5 +212,7 @@ public class ForecastModel extends RealmObject implements Parcelable {
         parcel.writeDouble(this.pressure);
         parcel.writeDouble(this.visibility);
         parcel.writeValue(this.updatedAt);
+        parcel.writeList(this.hourlyModels);
+        parcel.writeString(this.units);
     }
 }

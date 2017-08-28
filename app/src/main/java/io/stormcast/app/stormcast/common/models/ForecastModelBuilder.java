@@ -1,24 +1,27 @@
 package io.stormcast.app.stormcast.common.models;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by sudharti on 8/25/17.
  */
 
 public class ForecastModelBuilder {
-    private String timezone;
-    private Integer currentTime;
-    private String summary;
-    private String icon;
-    private Double temperature, apparentTemperature;
+    protected String timezone;
+    protected Integer currentTime;
+    protected String summary;
+    protected String icon;
+    protected Double temperature, apparentTemperature;
 
-    private double humidity;
-    private double windSpeed;
-    private double pressure;
-    private double visibility;
+    protected double humidity;
+    protected double windSpeed;
+    protected double pressure;
+    protected double visibility;
 
-    private Date updatedAt;
+    protected Date updatedAt;
+    protected List<HourlyModel> hourlyModels;
+    protected String units;
 
     public ForecastModelBuilder setTimezone(String timezone) {
         this.timezone = timezone;
@@ -70,52 +73,18 @@ public class ForecastModelBuilder {
         return this;
     }
 
-    public String getTimezone() {
-        return timezone;
-    }
-
-    public Integer getCurrentTime() {
-        return currentTime;
-    }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public String getIcon() {
-        return icon;
-    }
-
-    public Double getTemperature() {
-        return temperature;
-    }
-
-    public Double getApparentTemperature() {
-        return apparentTemperature;
-    }
-
-    public double getHumidity() {
-        return humidity;
-    }
-
-    public double getWindSpeed() {
-        return windSpeed;
-    }
-
-    public double getPressure() {
-        return pressure;
-    }
-
-    public double getVisibility() {
-        return visibility;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
     public ForecastModelBuilder setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+        return this;
+    }
+
+    public ForecastModelBuilder setHourlyModels(List<HourlyModel> hourlyModels) {
+        this.hourlyModels = hourlyModels;
+        return this;
+    }
+
+    public ForecastModelBuilder setUnits(String units) {
+        this.units = units;
         return this;
     }
 
