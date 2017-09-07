@@ -45,7 +45,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     private TextView mSummary;
     private TextView mLastUpdatedAt;
     private TextView mTemperatureTextView;
-    private RecyclerView mHourlyRecyclerView;
+    //private RecyclerView mHourlyRecyclerView;
 
     private int backgroundColor;
     private int textColor;
@@ -82,11 +82,11 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         mSummary = (TextView) view.findViewById(R.id.summary_text_view);
         mWeatherIconView = (WeatherIconView) view.findViewById(R.id.weather_icon_view);
         mTemperatureTextView = (TextView) view.findViewById(R.id.temperature_text_view);
-        mHourlyRecyclerView = (RecyclerView) view.findViewById(R.id.hourly_forecast_recycler_view);
+        //mHourlyRecyclerView = (RecyclerView) view.findViewById(R.id.hourly_forecast_recycler_view);
 
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
-        mHourlyRecyclerView.setLayoutManager(layoutManager);
+       // mHourlyRecyclerView.setLayoutManager(layoutManager);
 
         view.setBackgroundColor(backgroundColor);
         mLocationName.setTextColor(textColor);
@@ -122,7 +122,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         mSwipeRefreshLayout.setRefreshing(false);
 
         mHourlyAdapter = new HourlyForecastAdapter(forecastModel.getHourlyModels(), textColor);
-        mHourlyRecyclerView.setAdapter(mHourlyAdapter);
+        //mHourlyRecyclerView.setAdapter(mHourlyAdapter);
     }
 
     @Override

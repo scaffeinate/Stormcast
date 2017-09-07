@@ -6,25 +6,20 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:descendantFocusability="beforeDescendants"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="@dimen/fragment_forecast_padding">
+            android:padding="20dp">
 
             <include
                 android:id="@+id/overview"
                 layout="@layout/section_overview" />
 
-
-            <include
-                android:id="@+id/hourly_forecast_recycler_view"
-                layout="@layout/section_hourly_forecast"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/overview"
-                android:layout_marginTop="100dp" />
         </RelativeLayout>
     </ScrollView>
 </android.support.v4.widget.SwipeRefreshLayout>
