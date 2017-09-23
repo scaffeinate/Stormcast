@@ -11,11 +11,11 @@ public class TypeFaceUtil {
     protected static Typeface getTypeFace(Context context, String fontWeight) {
         if(fontWeight != null) {
             if (fontWeight.equals("bold")) {
-                return Typeface.createFromAsset(context.getAssets(), "fonts/FuturaPTMedium.otf");
+                return Typeface.createFromAsset(context.getAssets(), "fonts/renner-medium.otf");
             } else if (fontWeight.equals("bolder")) {
-                return Typeface.createFromAsset(context.getAssets(), "fonts/FuturaPTDemi.otf");
+                return Typeface.createFromAsset(context.getAssets(), "fonts/renner-bold.otf");
             }
         }
-        return Typeface.createFromAsset(context.getAssets(), "fonts/FuturaPTBook.otf");
+        return Typeface.createFromAsset(context.getAssets(), "fonts/renner-book.otf");
     }
 }
