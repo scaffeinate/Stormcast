@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,6 +26,7 @@ import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 import io.stormcast.app.stormcast.data.locations.local.LocalLocationsDataSource;
 import io.stormcast.app.stormcast.data.locations.remote.RemoteLocationsDataSource;
 import io.stormcast.app.stormcast.location.add.AddLocationFragment;
+import io.stormcast.app.stormcast.views.styled.StyledTextView;
 
 /**
  * Created by sudhar on 8/15/17.
@@ -34,6 +36,8 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
 
     private Context mContext;
 
+    private Toolbar mToolbar;
+    private StyledTextView mToolbarTitle;
     private ActionBar mActionBar;
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
@@ -78,7 +82,9 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        mToolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        mToolbarTitle = (StyledTextView) mToolbar.findViewById(R.id.toolbar_title);
+        mToolbarTitle.setText("Locations");
         mPresenter.getLocations();
     }
 

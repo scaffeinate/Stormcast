@@ -8,8 +8,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -44,6 +44,7 @@ import io.stormcast.app.stormcast.data.locations.local.LocalLocationsDataSource;
 import io.stormcast.app.stormcast.data.locations.remote.RemoteLocationsDataSource;
 import io.stormcast.app.stormcast.views.colorpick.MaterialColorPickDialog;
 import io.stormcast.app.stormcast.views.styled.StyledEditText;
+import io.stormcast.app.stormcast.views.styled.StyledTextView;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -62,7 +63,8 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
 
     private Context mContext;
 
-    private ActionBar mActionBar;
+    private Toolbar mToolbar;
+    private StyledTextView mToolbarTitle;
     private StyledEditText mEditText;
     private MapView mMapView;
     private ImageButton mBackgroundColorImageButton;
@@ -113,18 +115,18 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
         mTextColorImageButton.setOnClickListener(this);
         mAutoUnitsSwitch.setOnCheckedChangeListener(this);
 
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        if (mActionBar != null) {
-            mActionBar.setTitle(mContext.getResources().getString(R.string.add_location));
-        }
+        mToolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        mToolbarTitle = (StyledTextView) mToolbar.findViewById(R.id.toolbar_title);
+        mToolbarTitle.setText("Add Location");
+
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         String backgroundColor = LocationModel.DEFAULT_BACKGROUND_COLOR;
         String textColor = LocationModel.DEFAULT_TEXT_COLOR;
