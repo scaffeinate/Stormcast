@@ -10,6 +10,9 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.github.pwittchen.weathericonview.WeatherIconView;
 
 import java.util.List;
 
@@ -29,6 +32,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, View.On
     private Context mContext;
 
     private ViewPager mViewPager;
+    private WeatherIconView mSplashIcon;
     private FloatingActionButton mButton;
 
     private HomeViewPagerAdapter mViewPagerAdapter;
@@ -54,6 +58,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, View.On
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View mView = inflater.inflate(R.layout.fragment_home, container, false);
         mViewPager = (ViewPager) mView.findViewById(R.id.view_pager);
+        mSplashIcon = (WeatherIconView) mView.findViewById(R.id.splash_storm_icon);
         mButton = (FloatingActionButton) mView.findViewById(R.id.locations_button);
         mButton.setOnClickListener(this);
         return mView;
@@ -83,7 +88,8 @@ public class HomeFragment extends Fragment implements HomeContract.View, View.On
 
     @Override
     public void onDataNotAvailable() {
-
+        mViewPager.setVisibility(View.GONE);
+        mSplashIcon.setVisibility(View.VISIBLE);
     }
 
     @Override

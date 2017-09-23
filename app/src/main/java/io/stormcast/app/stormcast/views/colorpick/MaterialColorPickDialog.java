@@ -34,8 +34,6 @@ public class MaterialColorPickDialog {
     private static final String THEME_DARK_BG = "#404040";
     private static final String THEME_LIGHT_TEXT_COLOR = "#000000";
     private static final String THEME_DARK_TEXT_COLOR = "#F7F7F7";
-    private static final int THEME_LIGHT_ICON = R.drawable.ic_eyedropper_variant_grey600_24dp;
-    private static final int THEME_DARK_ICON = R.drawable.ic_eyedropper_variant_white_24dp;
 
     @Retention(SOURCE)
     @IntDef({ColorPickTheme.THEME_LIGHT, ColorPickTheme.THEME_DARK})
@@ -67,7 +65,6 @@ public class MaterialColorPickDialog {
 
         private String title = null;
         private int theme = ColorPickTheme.THEME_LIGHT;
-        private int icon = THEME_LIGHT_ICON;
 
         private AlertDialog.Builder mDialogBuilder;
         private AlertDialog mAlertDialog;
@@ -89,11 +86,6 @@ public class MaterialColorPickDialog {
 
         public Builder setTitle(String title) {
             this.title = title;
-            return this;
-        }
-
-        public Builder setIcon(int icon) {
-            this.icon = icon;
             return this;
         }
 
@@ -167,12 +159,10 @@ public class MaterialColorPickDialog {
                 case ColorPickTheme.THEME_LIGHT:
                     this.mLayout.setBackgroundColor(Color.parseColor(THEME_LIGHT_BG_COLOR));
                     this.mTitle.setTextColor(Color.parseColor(THEME_LIGHT_TEXT_COLOR));
-                    this.setIcon(THEME_LIGHT_ICON);
                     break;
                 case ColorPickTheme.THEME_DARK:
                     this.mLayout.setBackgroundColor(Color.parseColor(THEME_DARK_BG));
                     this.mTitle.setTextColor(Color.parseColor(THEME_DARK_TEXT_COLOR));
-                    this.setIcon(THEME_DARK_ICON);
                     break;
             }
         }
