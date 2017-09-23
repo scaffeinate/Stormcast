@@ -29,12 +29,10 @@
         custom:weatherIconResource="@string/wi_forecast_io_rain"
         custom:weatherIconSize="165" />
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/temperature_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/weather_icon_view"
-        android:layout_alignRight="@+id/weather_icon_view"
         android:layout_below="@+id/weather_icon_view"
         android:layout_marginTop="25dp">
 
@@ -42,41 +40,37 @@
             android:id="@+id/temperature_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical|right"
             android:gravity="right"
             android:textAllCaps="true"
-            android:textSize="70sp"
+            android:textSize="55sp"
             typeface:tv_weight="bold" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical|left"
+            android:layout_marginLeft="25dp"
+            android:gravity="left"
             android:orientation="vertical">
 
             <io.stormcast.app.stormcast.views.styled.StyledTextView
+                android:id="@+id/wind_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-condensed"
-                android:text="17 mph"
-                android:textColor="@android:color/white"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textSize="@dimen/font_size_subheading" />
 
             <io.stormcast.app.stormcast.views.styled.StyledTextView
+                android:id="@+id/humidity_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:fontFamily="sans-serif-condensed"
-                android:text="5%"
-                android:textColor="@android:color/white"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textSize="@dimen/font_size_subheading" />
         </LinearLayout>
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <io.stormcast.app.stormcast.views.styled.StyledTextView
         android:id="@+id/summary_text_view"

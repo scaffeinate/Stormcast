@@ -18,7 +18,7 @@
             android:padding="20dp">
 
             <include
-                android:id="@+id/overview"
+                android:id="@+id/overview_layout"
                 layout="@layout/section_overview" />
 
         </RelativeLayout>

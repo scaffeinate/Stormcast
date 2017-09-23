@@ -11,7 +11,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.github.pwittchen.weathericonview.WeatherIconView;
@@ -39,12 +40,14 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
 
     private HourlyForecastAdapter mHourlyAdapter;
 
+    private RelativeLayout mOverviewLayout;
+
     private WeatherIconView mWeatherIconView;
     private StyledTextView mLocationName;
-    private StyledTextView mSummary;
-    private TextView mLastUpdatedAt;
+    private StyledTextView mSummaryTextView;
     private StyledTextView mTemperatureTextView;
-    //private RecyclerView mHourlyRecyclerView;
+    private StyledTextView mWindTextView;
+    private StyledTextView mHumidityTextView;
 
     private int backgroundColor;
     private int textColor;
@@ -76,22 +79,21 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_forecast, container, false);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+        mOverviewLayout = (RelativeLayout) view.findViewById(R.id.overview_layout);
 
         mLocationName = (StyledTextView) view.findViewById(R.id.location_name_text_view);
-        mSummary = (StyledTextView) view.findViewById(R.id.summary_text_view);
-        mWeatherIconView = (WeatherIconView) view.findViewById(R.id.weather_icon_view);
+        mSummaryTextView = (StyledTextView) view.findViewById(R.id.summary_text_view);
         mTemperatureTextView = (StyledTextView) view.findViewById(R.id.temperature_text_view);
-        //mHourlyRecyclerView = (RecyclerView) view.findViewById(R.id.hourly_forecast_recycler_view);
+        mWindTextView = (StyledTextView) view.findViewById(R.id.wind_text_view);
+        mHumidityTextView = (StyledTextView) view.findViewById(R.id.humidity_text_view);
+
+        mWeatherIconView = (WeatherIconView) view.findViewById(R.id.weather_icon_view);
 
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
-       // mHourlyRecyclerView.setLayoutManager(layoutManager);
 
         view.setBackgroundColor(backgroundColor);
-        mLocationName.setTextColor(textColor);
-        mSummary.setTextColor(textColor);
-        mWeatherIconView.setIconColor(textColor);
-        mTemperatureTextView.setTextColor(textColor);
+        setColors(mOverviewLayout);
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
@@ -113,15 +115,26 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     @Override
     public void onForecastLoaded(ForecastModel forecastModel) {
         mLocationName.setText(mLocationModel.getName());
-        mSummary.setText(forecastModel.getSummary());
-        android.text.format.DateFormat dateFormat = new android.text.format.DateFormat();
-        String lastUpdateAt = dateFormat.format("MM-dd-yyyy HH:mm:ss", forecastModel.getUpdatedAt()).toString();
-        //mLastUpdatedAt.setText(new StringBuilder().append("Last Updated At: ").append(lastUpdateAt).toString());
-        mTemperatureTextView.setText(String.valueOf(forecastModel.getTemperature().intValue()));
-        mSwipeRefreshLayout.setRefreshing(false);
+        mSummaryTextView.setText(forecastModel.getSummary());
 
-        mHourlyAdapter = new HourlyForecastAdapter(forecastModel.getHourlyModels(), textColor);
-        //mHourlyRecyclerView.setAdapter(mHourlyAdapter);
+        String units = forecastModel.getUnits();
+        String speedUnit = "kph";
+        String temperatureUnit = "C";
+        int temperature = forecastModel.getTemperature().intValue();
+        int windSpeed = (int) (forecastModel.getWindSpeed() * 3.6);
+        int humidity = (int) (forecastModel.getHumidity() * 100);
+
+        if (units.equals("us")) {
+            speedUnit = "mph";
+            temperatureUnit = "F";
+            windSpeed *= 0.62;
+        }
+
+        mTemperatureTextView.setText(new StringBuilder().append(temperature).append("\u00b0").append(temperatureUnit).toString());
+        mWindTextView.setText(new StringBuilder().append(windSpeed).append(speedUnit).toString());
+        mHumidityTextView.setText(new StringBuilder().append(humidity).append("%").toString());
+
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -133,5 +146,19 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     @Override
     public void onRefresh() {
         mPresenter.loadForecast(mLocationModel, true);
+    }
+
+    private void setColors(ViewGroup viewGroup) {
+        int numChildren = viewGroup.getChildCount();
+        for (int i = 0; i < numChildren; i++) {
+            View view = viewGroup.getChildAt(i);
+            if (view instanceof StyledTextView) {
+                ((StyledTextView) view).setTextColor(textColor);
+            } else if (view instanceof WeatherIconView) {
+                ((WeatherIconView) view).setIconColor(textColor);
+            } else if (view instanceof RelativeLayout || view instanceof LinearLayout) {
+                setColors((ViewGroup) view);
+            }
+        }
     }
 }
