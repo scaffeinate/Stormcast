@@ -43,7 +43,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     private StyledTextView mLocationName;
     private StyledTextView mSummary;
     private TextView mLastUpdatedAt;
-    private TextView mTemperatureTextView;
+    private StyledTextView mTemperatureTextView;
     //private RecyclerView mHourlyRecyclerView;
 
     private int backgroundColor;
@@ -80,7 +80,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         mLocationName = (StyledTextView) view.findViewById(R.id.location_name_text_view);
         mSummary = (StyledTextView) view.findViewById(R.id.summary_text_view);
         mWeatherIconView = (WeatherIconView) view.findViewById(R.id.weather_icon_view);
-        mTemperatureTextView = (TextView) view.findViewById(R.id.temperature_text_view);
+        mTemperatureTextView = (StyledTextView) view.findViewById(R.id.temperature_text_view);
         //mHourlyRecyclerView = (RecyclerView) view.findViewById(R.id.hourly_forecast_recycler_view);
 
         LinearLayoutManager layoutManager
