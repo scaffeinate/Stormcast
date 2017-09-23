@@ -6,7 +6,7 @@
     android:clickable="true"
     android:padding="@dimen/item_location_padding">
 
-    <io.stormcast.app.stormcast.views.text.StyledTextView
+    <io.stormcast.app.stormcast.views.styled.StyledTextView
         android:id="@+id/location_name_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

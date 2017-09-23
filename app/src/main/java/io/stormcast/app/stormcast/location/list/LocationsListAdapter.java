@@ -9,7 +9,7 @@ import java.util.List;
 
 import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.common.models.LocationModel;
-import io.stormcast.app.stormcast.views.text.StyledTextView;
+import io.stormcast.app.stormcast.views.styled.StyledTextView;
 
 /**
  * Created by sudhar on 8/15/17.

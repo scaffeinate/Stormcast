@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:padding="@dimen/dialog_color_picker_padding">
 
-    <io.stormcast.app.stormcast.views.text.StyledTextView
+    <io.stormcast.app.stormcast.views.styled.StyledTextView
         android:id="@+id/pick_a_color_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

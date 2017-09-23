@@ -1,4 +1,4 @@
-package io.stormcast.app.stormcast.views.text;
+package io.stormcast.app.stormcast.views.styled;
 
 import android.content.Context;
 import android.content.res.TypedArray;

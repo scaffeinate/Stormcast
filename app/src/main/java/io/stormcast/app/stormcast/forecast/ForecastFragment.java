@@ -22,7 +22,7 @@ import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.data.forecast.ForecastRepository;
 import io.stormcast.app.stormcast.data.forecast.local.LocalForecastDataSource;
 import io.stormcast.app.stormcast.data.forecast.remote.RemoteForecastDataSource;
-import io.stormcast.app.stormcast.views.text.StyledTextView;
+import io.stormcast.app.stormcast.views.styled.StyledTextView;
 
 /**
  * Created by sudhar on 8/15/17.

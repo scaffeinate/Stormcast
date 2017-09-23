@@ -17,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -44,7 +43,7 @@ import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 import io.stormcast.app.stormcast.data.locations.local.LocalLocationsDataSource;
 import io.stormcast.app.stormcast.data.locations.remote.RemoteLocationsDataSource;
 import io.stormcast.app.stormcast.views.colorpick.MaterialColorPickDialog;
-import io.stormcast.app.stormcast.views.text.StyledEditText;
+import io.stormcast.app.stormcast.views.styled.StyledEditText;
 
 import static android.app.Activity.RESULT_OK;
 
