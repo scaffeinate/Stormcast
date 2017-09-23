@@ -6,15 +6,14 @@
     android:clickable="true"
     android:padding="@dimen/item_location_padding">
 
-    <TextView
+    <io.stormcast.app.stormcast.views.text.StyledTextView
         android:id="@+id/location_name_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/font_size_body"
-        android:textStyle="bold" />
+        android:textSize="@dimen/font_size_body" />
 
     <ImageView
         android:id="@+id/reorder_icon"

@@ -44,6 +44,7 @@ import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 import io.stormcast.app.stormcast.data.locations.local.LocalLocationsDataSource;
 import io.stormcast.app.stormcast.data.locations.remote.RemoteLocationsDataSource;
 import io.stormcast.app.stormcast.views.colorpick.MaterialColorPickDialog;
+import io.stormcast.app.stormcast.views.text.StyledEditText;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -63,7 +64,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     private Context mContext;
 
     private ActionBar mActionBar;
-    private EditText mEditText;
+    private StyledEditText mEditText;
     private MapView mMapView;
     private ImageButton mBackgroundColorImageButton;
     private ImageButton mTextColorImageButton;
@@ -100,7 +101,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_location, container, false);
-        mEditText = (EditText) view.findViewById(R.id.location_edit_text);
+        mEditText = (StyledEditText) view.findViewById(R.id.location_edit_text);
         mMapView = (MapView) view.findViewById(R.id.location_map_view);
         mBackgroundColorImageButton = (ImageButton) view.findViewById(R.id.background_color_image_button);
         mTextColorImageButton = (ImageButton) view.findViewById(R.id.text_color_image_button);

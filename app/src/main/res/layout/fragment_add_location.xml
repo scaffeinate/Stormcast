@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:padding="@dimen/fragment_add_location_padding">
 
-        <EditText
+        <io.stormcast.app.stormcast.views.text.StyledEditText
             android:id="@+id/location_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
             android:textStyle="bold">
 
             <requestFocus />
-        </EditText>
+        </io.stormcast.app.stormcast.views.text.StyledEditText>
 
         <com.google.android.gms.maps.MapView
             android:id="@+id/location_map_view"

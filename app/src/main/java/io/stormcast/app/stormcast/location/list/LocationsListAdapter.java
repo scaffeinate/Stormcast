@@ -4,12 +4,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.util.List;
 
 import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.common.models.LocationModel;
+import io.stormcast.app.stormcast.views.text.StyledTextView;
 
 /**
  * Created by sudhar on 8/15/17.
@@ -43,13 +43,13 @@ public class LocationsListAdapter extends RecyclerView.Adapter<LocationsListAdap
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         private final View parentView;
-        private final TextView nameTextView;
+        private final StyledTextView nameTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             this.parentView = itemView;
 
-            nameTextView = (TextView) itemView.findViewById(R.id.location_name_text_view);
+            nameTextView = (StyledTextView) itemView.findViewById(R.id.location_name_text_view);
         }
     }
 }

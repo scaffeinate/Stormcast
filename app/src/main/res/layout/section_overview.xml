@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <io.stormcast.app.stormcast.views.text.StyledTextView
         android:id="@+id/location_name_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -12,7 +12,6 @@
         android:layout_alignParentTop="true"
         android:layout_alignRight="@+id/weather_icon_view"
         android:layout_marginTop="30dp"
-        android:fontFamily="sans-serif-condensed"
         android:gravity="center"
         android:textAllCaps="true"
         android:textSize="@dimen/font_size_title"
@@ -79,7 +78,7 @@
 
     </RelativeLayout>
 
-    <TextView
+    <io.stormcast.app.stormcast.views.text.StyledTextView
         android:id="@+id/summary_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -87,7 +86,6 @@
         android:layout_alignRight="@+id/weather_icon_view"
         android:layout_below="@+id/temperature_layout"
         android:layout_marginTop="35dp"
-        android:fontFamily="sans-serif-condensed"
         android:gravity="center"
         android:textAllCaps="true"
         android:textSize="@dimen/font_size_title"

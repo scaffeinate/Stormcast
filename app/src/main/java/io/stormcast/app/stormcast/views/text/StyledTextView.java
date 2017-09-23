@@ -1,4 +1,4 @@
-package io.stormcast.app.stormcast.views.colorpick;
+package io.stormcast.app.stormcast.views.text;
 
 import android.content.Context;
 import android.graphics.Typeface;
