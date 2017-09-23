@@ -79,10 +79,6 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        if (mActionBar != null) {
-            mActionBar.setTitle(mContext.getResources().getString(R.string.locations));
-        }
-
         mPresenter.getLocations();
     }
 

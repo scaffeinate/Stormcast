@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:textColor="@android:color/white"
+        android:textColor="@color/textColorDark"
         android:textSize="@dimen/font_size_body" />
 
     <ImageView
@@ -21,5 +21,5 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/ic_reorder_horizontal_white_24dp" />
+        android:src="@drawable/ic_reorder_horizontal_grey600_36dp" />
 </RelativeLayout>

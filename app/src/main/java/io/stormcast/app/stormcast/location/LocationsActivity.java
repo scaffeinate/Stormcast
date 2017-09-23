@@ -3,8 +3,8 @@ package io.stormcast.app.stormcast.location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
 import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.location.list.LocationsListFragment;
@@ -15,8 +15,8 @@ import io.stormcast.app.stormcast.location.list.LocationsListFragment;
 
 public class LocationsActivity extends AppCompatActivity {
 
+    private Toolbar mToolbar;
     private FragmentManager mFragmentManager;
-    private ActionBar mActionBar;
     private LocationsListFragment mLocationsListFragment;
 
     @Override
@@ -24,8 +24,11 @@ public class LocationsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_locations);
 
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         mFragmentManager = getSupportFragmentManager();
-        mActionBar = getSupportActionBar();
 
         if (savedInstanceState == null) {
             mLocationsListFragment = LocationsListFragment.newInstance();
@@ -34,7 +37,5 @@ public class LocationsActivity extends AppCompatActivity {
                     .replace(R.id.locations_content, mLocationsListFragment)
                     .commit();
         }
-
-        if (mActionBar != null) mActionBar.setTitle("Locations");
     }
 }
