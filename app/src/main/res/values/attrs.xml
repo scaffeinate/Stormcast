@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="StyledTextView">
-        <attr name="tv_weight" format="string" />
-    </declare-styleable>
-    <declare-styleable name="StyledEditText">
-        <attr name="et_weight" format="string" />
-    </declare-styleable>
-    <declare-styleable name="StyledRadioButton">
-        <attr name="rb_weight" format="string" />
+    <declare-styleable name="StyledView">
+        <attr name="weight" format="string" />
     </declare-styleable>
 </resources>
