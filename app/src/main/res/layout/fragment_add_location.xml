@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/customize_text_view"
             android:layout_marginTop="15dp"
-            android:background="@drawable/color_rounded_corners_layout"
+            android:background="@drawable/shape_rounded_corners"
             android:padding="22dp">
 
             <io.stormcast.app.stormcast.views.styled.StyledTextView
@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/background_color_layout"
             android:layout_marginTop="@dimen/fragment_add_location_margin_top"
-            android:background="@drawable/color_rounded_corners_layout"
+            android:background="@drawable/shape_rounded_corners"
             android:padding="22dp">
 
             <io.stormcast.app.stormcast.views.styled.StyledTextView
