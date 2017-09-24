@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:map="http://schemas.android.com/apk/res-auto"
-    xmlns:typeface="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -36,147 +36,72 @@
             android:layout_marginTop="@dimen/fragment_add_location_margin_top"
             map:liteMode="true" />
 
-        <RelativeLayout
-            android:id="@+id/customize_layout"
-            android:layout_width="match_parent"
+        <io.stormcast.app.stormcast.views.styled.StyledTextView
+            android:id="@+id/customize_text_view"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/location_map_view"
-            android:layout_marginTop="@dimen/fragment_add_location_margin_top">
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/fragment_add_location_margin_top"
+            android:text="@string/customize"
+            android:textColor="@color/textColorDark"
+            android:textSize="@dimen/font_size_subheading"
+            custom:weight="bolder" />
+
+        <RelativeLayout
+            android:id="@+id/background_color_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/customize_text_view"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/color_rounded_corners_layout"
+            android:padding="22dp">
 
             <io.stormcast.app.stormcast.views.styled.StyledTextView
-                android:id="@+id/customize_text_view"
+                android:id="@+id/background_color_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:text="@string/customize"
-                android:textColor="@color/textColorDark"
-                android:textSize="@dimen/font_size_subheading"
-                typeface:tv_weight="bolder" />
-
-            <RelativeLayout
-                android:id="@+id/background_color_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/customize_text_view"
-                android:layout_marginTop="@dimen/fragment_add_location_margin_top">
-
-                <io.stormcast.app.stormcast.views.styled.StyledTextView
-                    android:id="@+id/background_color_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:text="@string/background_color"
-                    android:textColor="@color/textColorDark"
-                    android:textSize="@dimen/font_size_body" />
-
-                <ImageButton
-                    android:id="@+id/background_color_image_button"
-                    android:layout_width="@dimen/color_indicator_size"
-                    android:layout_height="@dimen/color_indicator_size"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/color_indicator"
-                    android:clickable="true" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/text_color_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/background_color_layout"
-                android:layout_marginTop="@dimen/fragment_add_location_margin_top">
-
-                <io.stormcast.app.stormcast.views.styled.StyledTextView
-                    android:id="@+id/text_color_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:text="@string/text_color"
-                    android:textColor="@color/textColorDark"
-                    android:textSize="@dimen/font_size_body" />
-
-                <ImageButton
-                    android:id="@+id/text_color_image_button"
-                    android:layout_width="@dimen/color_indicator_size"
-                    android:layout_height="@dimen/color_indicator_size"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginTop="@dimen/fragment_add_location_margin_top"
-                    android:background="@drawable/color_indicator"
-                    android:clickable="true" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/auto_units_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/text_color_layout"
-                android:layout_marginTop="@dimen/fragment_add_location_margin_top">
-
-                <io.stormcast.app.stormcast.views.styled.StyledTextView
-                    android:id="@+id/auto_units_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:text="@string/auto_units"
-                    android:textColor="@color/textColorDark"
-                    android:textSize="@dimen/font_size_body" />
-
-                <Switch
-                    android:id="@+id/auto_units_switch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:checked="true" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/units_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/auto_units_layout"
-                android:layout_marginTop="@dimen/fragment_add_location_margin_top"
-                android:visibility="gone">
-
-                <io.stormcast.app.stormcast.views.styled.StyledTextView
-                    android:id="@+id/units_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:text="@string/units"
-                    android:textColor="@color/textColorDark"
-                    android:textSize="@dimen/font_size_body" />
-
-                <RadioGroup
-                    android:id="@+id/units_radio_group"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:orientation="horizontal">
-
-                    <io.stormcast.app.stormcast.views.styled.StyledRadioButton
-                        android:id="@+id/imperial_radio_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:text="@string/imperial"
-                        android:textColor="@color/textColorDark"
-                        android:textSize="@dimen/font_size_body" />
-
-                    <io.stormcast.app.stormcast.views.styled.StyledRadioButton
-                        android:id="@+id/metric_radio_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:text="@string/metric"
-                        android:textColor="@color/textColorDark"
-                        android:textSize="@dimen/font_size_body" />
-                </RadioGroup>
-            </RelativeLayout>
+                android:layout_centerInParent="true"
+                android:text="@string/background_color"
+                android:textColor="@color/textColorLight"
+                android:textSize="@dimen/font_size_body" />
         </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/text_color_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/background_color_layout"
+            android:layout_marginTop="@dimen/fragment_add_location_margin_top"
+            android:background="@drawable/color_rounded_corners_layout"
+            android:padding="22dp">
+
+            <io.stormcast.app.stormcast.views.styled.StyledTextView
+                android:id="@+id/text_color_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/text_color"
+                android:textColor="@color/textColorDark"
+                android:textSize="@dimen/font_size_body" />
+        </RelativeLayout>
+
+        <io.stormcast.app.stormcast.views.styled.StyledTextView
+            android:id="@+id/units_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_color_layout"
+            android:layout_centerHorizontal="true"
+            android:text="@string/units"
+            android:textColor="@color/textColorDark"
+            android:textSize="@dimen/font_size_subheading"
+            android:layout_marginTop="20dp"
+            custom:weight="bolder" />
+
+        <io.stormcast.app.stormcast.views.toggle.ToggleSwitch
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/units_text_view"
+            android:layout_marginTop="15dp" />
     </RelativeLayout>
 </ScrollView>

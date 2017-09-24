@@ -16,11 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
-import android.widget.ImageButton;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -51,8 +47,7 @@ import static android.app.Activity.RESULT_OK;
 /**
  * Created by sudhar on 8/15/17.
  */
-public class AddLocationFragment extends Fragment implements View.OnClickListener, OnMapReadyCallback,
-        CompoundButton.OnCheckedChangeListener, AddLocationContract.View {
+public class AddLocationFragment extends Fragment implements View.OnClickListener, OnMapReadyCallback, AddLocationContract.View {
 
     private static final String TAG = AddLocationFragment.class.toString();
 
@@ -67,11 +62,8 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     private StyledTextView mToolbarTitle;
     private StyledEditText mEditText;
     private MapView mMapView;
-    private ImageButton mBackgroundColorImageButton;
-    private ImageButton mTextColorImageButton;
-    private Switch mAutoUnitsSwitch;
-    private RadioGroup mUnitsRadioGroup;
-    private RelativeLayout unitsLayout;
+    private RelativeLayout mBackgroundColorLayout;
+    private RelativeLayout mTextColorLayout;
 
     private CameraPosition mCameraPosition;
     private LocationsRepository mLocationsRepository;
@@ -104,16 +96,12 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
         View view = inflater.inflate(R.layout.fragment_add_location, container, false);
         mEditText = (StyledEditText) view.findViewById(R.id.location_edit_text);
         mMapView = (MapView) view.findViewById(R.id.location_map_view);
-        mBackgroundColorImageButton = (ImageButton) view.findViewById(R.id.background_color_image_button);
-        mTextColorImageButton = (ImageButton) view.findViewById(R.id.text_color_image_button);
-        mAutoUnitsSwitch = (Switch) view.findViewById(R.id.auto_units_switch);
-        mUnitsRadioGroup = (RadioGroup) view.findViewById(R.id.units_radio_group);
-        unitsLayout = (RelativeLayout) view.findViewById(R.id.units_layout);
+        mBackgroundColorLayout = (RelativeLayout) view.findViewById(R.id.background_color_layout);
+        mTextColorLayout = (RelativeLayout) view.findViewById(R.id.text_color_layout);
 
         mEditText.setOnClickListener(this);
-        mBackgroundColorImageButton.setOnClickListener(this);
-        mTextColorImageButton.setOnClickListener(this);
-        mAutoUnitsSwitch.setOnCheckedChangeListener(this);
+        mBackgroundColorLayout.setOnClickListener(this);
+        mTextColorLayout.setOnClickListener(this);
 
         return view;
     }
@@ -152,18 +140,18 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
             }, 250);
         }
 
-        GradientDrawable drawable = (GradientDrawable) mBackgroundColorImageButton.getBackground();
+        GradientDrawable drawable = (GradientDrawable) mBackgroundColorLayout.getBackground();
         drawable.setColor(Color.parseColor(backgroundColor));
 
-        drawable = (GradientDrawable) mTextColorImageButton.getBackground();
+        drawable = (GradientDrawable) mTextColorLayout.getBackground();
         drawable.setColor(Color.parseColor(textColor));
 
         mMapView.postDelayed(new Runnable() {
             @Override
             public void run() {
-                mMapView.onCreate(savedInstanceState);
+                /*mMapView.onCreate(savedInstanceState);
                 MapsInitializer.initialize(getActivity().getApplicationContext());
-                mMapView.onResume();
+                mMapView.onResume();*/
             }
         }, 300);
     }
@@ -178,8 +166,6 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save_location_menu_item:
-                mLocationModelBuilder.setUnit(mAutoUnitsSwitch.isChecked() ? LocationModel.UNIT_AUTO :
-                        (mUnitsRadioGroup.getCheckedRadioButtonId() == R.id.imperial_radio_button) ? LocationModel.UNIT_IMPERIAL : LocationModel.UNIT_METRIC);
                 mPresenter.validateLocation(mLocationModelBuilder.build());
                 return true;
             case android.R.id.home:
@@ -214,7 +200,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
                             .setTypeFilter(AutocompleteFilter.TYPE_FILTER_CITIES)
                             .build();
                     Intent intent = new PlaceAutocomplete
-                            .IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
+                            .IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
                             .setFilter(filter)
                             .build(getActivity());
                     startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
@@ -222,35 +208,26 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
                     e.printStackTrace();
                 }
                 break;
-            case R.id.background_color_image_button:
+            case R.id.background_color_layout:
                 ColorPickerHelper.showColorPicker(mBgColorDialogBuilder, null, new ColorPickerHelper.ColorPickerCallback() {
                     @Override
                     public void onColorSelected(String colorHex) {
-                        GradientDrawable drawable = (GradientDrawable) mBackgroundColorImageButton.getBackground();
+                        GradientDrawable drawable = (GradientDrawable) mBackgroundColorLayout.getBackground();
                         drawable.setColor(Color.parseColor(colorHex));
                         mLocationModelBuilder.setBackgroundColor(colorHex);
                     }
                 });
                 break;
-            case R.id.text_color_image_button:
+            case R.id.text_color_layout:
                 ColorPickerHelper.showColorPicker(mTextColorDialogBuilder, null, new ColorPickerHelper.ColorPickerCallback() {
                     @Override
                     public void onColorSelected(String colorHex) {
-                        GradientDrawable drawable = (GradientDrawable) mTextColorImageButton.getBackground();
+                        GradientDrawable drawable = (GradientDrawable) mTextColorLayout.getBackground();
                         drawable.setColor(Color.parseColor(colorHex));
                         mLocationModelBuilder.setTextColor(colorHex);
                     }
                 });
                 break;
-        }
-    }
-
-    @Override
-    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-        if (b) {
-            unitsLayout.setVisibility(View.GONE);
-        } else {
-            unitsLayout.setVisibility(View.VISIBLE);
         }
     }
 
