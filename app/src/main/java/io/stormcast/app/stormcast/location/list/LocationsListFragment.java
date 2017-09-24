@@ -4,11 +4,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -38,7 +38,6 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
 
     private Toolbar mToolbar;
     private StyledTextView mToolbarTitle;
-    private ActionBar mActionBar;
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
     private TextView mNoDataTextView;
@@ -46,6 +45,9 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
 
     private LocationsRepository mLocationsRepository;
     private LocationsListPresenter mPresenter;
+
+    private ItemTouchHelper mItemTouchHelper;
+    private ItemTouchHelper.Callback mCallback;
 
     public static LocationsListFragment newInstance() {
         LocationsListFragment locationsListFragment = new LocationsListFragment();
@@ -115,6 +117,10 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
         mAdapter = new LocationsListAdapter(locationModelList);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setVisibility(View.VISIBLE);
+
+        mCallback = new ItemTouchHelperCallback(mAdapter);
+        mItemTouchHelper = new ItemTouchHelper(mCallback);
+        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
 
     @Override

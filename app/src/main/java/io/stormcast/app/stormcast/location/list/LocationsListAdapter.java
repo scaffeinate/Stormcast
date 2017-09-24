@@ -14,7 +14,7 @@ import io.stormcast.app.stormcast.views.styled.StyledTextView;
 /**
  * Created by sudhar on 8/15/17.
  */
-public class LocationsListAdapter extends RecyclerView.Adapter<LocationsListAdapter.ViewHolder> {
+public class LocationsListAdapter extends RecyclerView.Adapter<LocationsListAdapter.ViewHolder> implements ItemTouchHelperAdapter {
 
     private List<LocationModel> mLocationModelList;
 
@@ -41,14 +41,22 @@ public class LocationsListAdapter extends RecyclerView.Adapter<LocationsListAdap
         return mLocationModelList.size();
     }
 
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        mLocationModelList.remove(position);
+        notifyItemRemoved(position);
+    }
+
     static class ViewHolder extends RecyclerView.ViewHolder {
-        private final View parentView;
         private final StyledTextView nameTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            this.parentView = itemView;
-
             nameTextView = (StyledTextView) itemView.findViewById(R.id.location_name_text_view);
         }
     }
