@@ -39,15 +39,16 @@ public class LocalLocationsDataSource implements LocationsDataSource {
     public void saveLocation(final LocationModel locationModel, final SaveLocationCallback saveLocationCallback) {
         try {
             SQLiteDatabase database = mLocationsDbHelper.getWritableDatabase();
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(PersistenceContract.LocationEntry.NAME, locationModel.getName());
-            contentValues.put(PersistenceContract.LocationEntry.LATITUDE, locationModel.getLatitude());
-            contentValues.put(PersistenceContract.LocationEntry.LONGITUDE, locationModel.getLongitude());
-            contentValues.put(PersistenceContract.LocationEntry.BG_COLOR, locationModel.getBackgroundColor());
-            contentValues.put(PersistenceContract.LocationEntry.TEXT_COLOR, locationModel.getTextColor());
-            contentValues.put(PersistenceContract.LocationEntry.UNIT, locationModel.getUnit());
+            ContentValues cv = new ContentValues();
+            cv.put(PersistenceContract.LocationEntry.NAME, locationModel.getName());
+            cv.put(PersistenceContract.LocationEntry.LATITUDE, locationModel.getLatitude());
+            cv.put(PersistenceContract.LocationEntry.LONGITUDE, locationModel.getLongitude());
+            cv.put(PersistenceContract.LocationEntry.BG_COLOR, locationModel.getBackgroundColor());
+            cv.put(PersistenceContract.LocationEntry.TEXT_COLOR, locationModel.getTextColor());
+            cv.put(PersistenceContract.LocationEntry.UNIT, locationModel.getUnit());
+            cv.put(PersistenceContract.LocationEntry.POSITION, locationModel.getPosition());
 
-            database.insertOrThrow(PersistenceContract.LocationEntry.TABLE_NAME, null, contentValues);
+            database.insertOrThrow(PersistenceContract.LocationEntry.TABLE_NAME, null, cv);
             database.close();
             saveLocationCallback.onLocationSaved();
         } catch (SQLiteConstraintException e) {
@@ -66,30 +67,31 @@ public class LocalLocationsDataSource implements LocationsDataSource {
                 PersistenceContract.LocationEntry.LONGITUDE,
                 PersistenceContract.LocationEntry.BG_COLOR,
                 PersistenceContract.LocationEntry.TEXT_COLOR,
+                PersistenceContract.LocationEntry.POSITION,
                 PersistenceContract.LocationEntry.UNIT
         };
 
-        Cursor cursor = database.query(PersistenceContract.LocationEntry.TABLE_NAME, projection, null, null, null, null, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-                LocationModelBuilder locationBuilder = new LocationModelBuilder();
-                locationBuilder.setId(cursor.getInt(cursor.getColumnIndexOrThrow(PersistenceContract.LocationEntry.ID)));
-                locationBuilder.setName(cursor.getString(cursor.getColumnIndexOrThrow(PersistenceContract.LocationEntry.NAME)));
-                locationBuilder.setBackgroundColor(cursor.getString(cursor.getColumnIndexOrThrow(PersistenceContract.LocationEntry.BG_COLOR)));
-                locationBuilder.setTextColor(cursor.getString(cursor.getColumnIndexOrThrow(PersistenceContract.LocationEntry.TEXT_COLOR)));
-                locationBuilder.setUnit(cursor.getInt(cursor.getColumnIndexOrThrow(PersistenceContract.LocationEntry.UNIT)));
-                locationBuilder.setLatitude(cursor.getDouble(cursor.getColumnIndexOrThrow(PersistenceContract.LocationEntry.LATITUDE)));
-                locationBuilder.setLongitude(cursor.getDouble(cursor.getColumnIndexOrThrow(PersistenceContract.LocationEntry.LONGITUDE)));
+        Cursor c = database.query(PersistenceContract.LocationEntry.TABLE_NAME, projection, null, null, null, null, PersistenceContract.LocationEntry.POSITION);
+        if (c != null) {
+            c.moveToFirst();
+            while (!c.isAfterLast()) {
+                LocationModel locationModel = new LocationModelBuilder()
+                        .setId(c.getInt(c.getColumnIndex(PersistenceContract.LocationEntry.ID)))
+                        .setName(c.getString(c.getColumnIndex(PersistenceContract.LocationEntry.NAME)))
+                        .setBackgroundColor(c.getString(c.getColumnIndex(PersistenceContract.LocationEntry.BG_COLOR)))
+                        .setTextColor(c.getString(c.getColumnIndex(PersistenceContract.LocationEntry.TEXT_COLOR)))
+                        .setUnit(c.getInt(c.getColumnIndex(PersistenceContract.LocationEntry.UNIT)))
+                        .setLatitude(c.getDouble(c.getColumnIndex(PersistenceContract.LocationEntry.LATITUDE)))
+                        .setLongitude(c.getDouble(c.getColumnIndex(PersistenceContract.LocationEntry.LONGITUDE)))
+                        .setPosition(c.getInt(c.getColumnIndex(PersistenceContract.LocationEntry.POSITION)))
+                        .build();
 
-                locationList.add(locationBuilder.build());
-                cursor.moveToNext();
+                locationList.add(locationModel);
+                c.moveToNext();
             }
         }
 
-        if (cursor != null) {
-            cursor.close();
-        }
+        if (c != null) c.close();
         database.close();
 
         if (locationList.isEmpty()) {

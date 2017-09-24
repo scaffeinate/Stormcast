@@ -132,7 +132,7 @@ public class MaterialColorPickDialog {
 
         private View getView() {
             LayoutInflater inflater = LayoutInflater.from(this.mContext);
-            View view = inflater.inflate(R.layout.dialog_color_picker, null);
+            View view = inflater.inflate(R.layout.view_color_picker_dialog, null);
             return view;
         }
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:typeface="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:id="@+id/material_color_pick_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,7 +15,7 @@
         android:layout_alignParentTop="true"
         android:text="@string/pick_a_color"
         android:textSize="@dimen/font_size_subheading"
-        typeface:tv_weight="bolder" />
+        custom:weight="bolder" />
 
     <GridView
         android:id="@+id/colors_grid_view"
