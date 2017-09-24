@@ -1,27 +1,16 @@
 package io.stormcast.app.stormcast.common.models;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by sudharti on 8/25/17.
  */
 
 public class ForecastModelBuilder {
-    protected String timezone;
-    protected Integer currentTime;
-    protected String summary;
-    protected String icon;
-    protected Double temperature, apparentTemperature;
-
-    protected double humidity;
-    protected double windSpeed;
-    protected double pressure;
-    protected double visibility;
-
+    protected String timezone, summary, icon, units;
+    protected int currentTime;
+    protected double temperature, apparentTemperature, humidity, windSpeed, pressure, visibility;
     protected Date updatedAt;
-    protected List<HourlyModel> hourlyModels;
-    protected String units;
 
     public ForecastModelBuilder setTimezone(String timezone) {
         this.timezone = timezone;
@@ -75,11 +64,6 @@ public class ForecastModelBuilder {
 
     public ForecastModelBuilder setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
-        return this;
-    }
-
-    public ForecastModelBuilder setHourlyModels(List<HourlyModel> hourlyModels) {
-        this.hourlyModels = hourlyModels;
         return this;
     }
 

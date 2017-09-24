@@ -3,15 +3,11 @@ package io.stormcast.app.stormcast.common.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
-import io.realm.annotations.Required;
-
 /**
  * Created by sudhar on 8/15/17.
  */
 
-public class LocationModel extends RealmObject implements Parcelable {
+public class LocationModel implements Parcelable {
 
     public static final int UNIT_IMPERIAL = 0;
     public static final int UNIT_METRIC = 1;
@@ -33,12 +29,8 @@ public class LocationModel extends RealmObject implements Parcelable {
     private static final double DEFAULT_LATITUDE = 0;
     private static final double DEFAULT_LONGITUDE = 0;
 
-    @PrimaryKey
-    @Required
-    private String name;
-    @Required
-    private Double latitude = DEFAULT_LATITUDE, longitude = DEFAULT_LONGITUDE;
-    private String backgroundColor = DEFAULT_BACKGROUND_COLOR, textColor = DEFAULT_TEXT_COLOR;
+    private String name, backgroundColor = DEFAULT_BACKGROUND_COLOR, textColor = DEFAULT_TEXT_COLOR;
+    private double latitude = DEFAULT_LATITUDE, longitude = DEFAULT_LONGITUDE;
     private int unit = UNIT_AUTO;
 
     private ForecastModel forecastModel;
