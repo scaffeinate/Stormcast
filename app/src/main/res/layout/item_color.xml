@@ -8,5 +8,5 @@
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_centerInParent="true"
-        android:background="@drawable/color_indicator" />
+        android:background="@drawable/shape_color_item" />
 </RelativeLayout>
