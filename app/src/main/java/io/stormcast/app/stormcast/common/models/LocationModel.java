@@ -12,7 +12,7 @@ public class LocationModel implements Parcelable {
     public static final int UNIT_IMPERIAL = 0;
     public static final int UNIT_METRIC = 1;
     public static final int UNIT_AUTO = 2;
-    public static final String DEFAULT_BACKGROUND_COLOR = "#019c70";
+    public static final String DEFAULT_BACKGROUND_COLOR = "#651FFF";
     public static final String DEFAULT_TEXT_COLOR = "#FFFFFF";
     protected final static int MINUS_ONE = -1;
     private static final double DEFAULT_LATITUDE = 0;
@@ -21,8 +21,6 @@ public class LocationModel implements Parcelable {
     private String name, backgroundColor = DEFAULT_BACKGROUND_COLOR, textColor = DEFAULT_TEXT_COLOR;
     private double latitude = DEFAULT_LATITUDE, longitude = DEFAULT_LONGITUDE;
     private int unit = UNIT_AUTO, position = 0;
-
-    private ForecastModel forecastModel;
 
     public LocationModel() {
     }
@@ -80,7 +78,9 @@ public class LocationModel implements Parcelable {
     }
 
     public void setBackgroundColor(String backgroundColor) {
-        this.backgroundColor = backgroundColor;
+        if (backgroundColor != null && !backgroundColor.trim().isEmpty()) {
+            this.backgroundColor = backgroundColor;
+        }
     }
 
     public String getTextColor() {
@@ -88,7 +88,9 @@ public class LocationModel implements Parcelable {
     }
 
     public void setTextColor(String textColor) {
-        this.textColor = textColor;
+        if (textColor != null && !textColor.trim().isEmpty()) {
+            this.textColor = textColor;
+        }
     }
 
     public int getUnit() {

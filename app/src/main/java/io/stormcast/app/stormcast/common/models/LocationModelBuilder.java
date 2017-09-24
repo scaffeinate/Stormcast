@@ -13,8 +13,9 @@ public class LocationModelBuilder {
     protected String backgroundColor = null, textColor = null;
     protected int unit = LocationModel.MINUS_ONE, position = 0;
 
-    public void setId(int id) {
+    public LocationModelBuilder setId(int id) {
         this.id = id;
+        return this;
     }
 
     public LocationModelBuilder setName(String name) {
