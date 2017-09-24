@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
-    xmlns:typeface="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="25dp">
@@ -17,7 +16,7 @@
         android:gravity="center"
         android:textAllCaps="true"
         android:textSize="@dimen/font_size_title"
-        typeface:tv_weight="bold" />
+        custom:weight="bold" />
 
     <com.github.pwittchen.weathericonview.WeatherIconView
         android:id="@+id/weather_icon_view"
@@ -46,7 +45,7 @@
             android:gravity="right"
             android:textAllCaps="true"
             android:textSize="55sp"
-            typeface:tv_weight="bold" />
+            custom:weight="bold" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -84,5 +83,5 @@
         android:gravity="center"
         android:textAllCaps="true"
         android:textSize="@dimen/font_size_title"
-        typeface:tv_weight="bold" />
+        custom:weight="bold" />
 </RelativeLayout>
