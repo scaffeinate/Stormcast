@@ -13,7 +13,7 @@ import io.stormcast.app.stormcast.data.PersistenceContract;
 public class LocationsDbHelper extends SQLiteOpenHelper {
 
     private final static String CREATE_TABLE_SQL = " CREATE TABLE " + PersistenceContract.LocationEntry.TABLE_NAME + " ( " +
-            PersistenceContract.LocationEntry.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + PersistenceContract.LocationEntry.ORDER + " INTEGER, " +
+            PersistenceContract.LocationEntry.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + PersistenceContract.LocationEntry.POSITION + " INTEGER, " +
             PersistenceContract.LocationEntry.NAME + " TEXT, " + PersistenceContract.LocationEntry.LATITUDE + " REAL, " +
             PersistenceContract.LocationEntry.LONGITUDE + " REAL, " + PersistenceContract.LocationEntry.BG_COLOR + " VARCHAR, " +
             PersistenceContract.LocationEntry.TEXT_COLOR + " VARCHAR, " + PersistenceContract.LocationEntry.UNIT + " INTEGER)";

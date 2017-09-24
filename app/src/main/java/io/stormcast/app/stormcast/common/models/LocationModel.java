@@ -14,24 +14,13 @@ public class LocationModel implements Parcelable {
     public static final int UNIT_AUTO = 2;
     public static final String DEFAULT_BACKGROUND_COLOR = "#019c70";
     public static final String DEFAULT_TEXT_COLOR = "#FFFFFF";
-    public static final Parcelable.Creator CREATOR = new Creator() {
-        @Override
-        public Object createFromParcel(Parcel parcel) {
-            return new LocationModel(parcel);
-        }
-
-        @Override
-        public Object[] newArray(int size) {
-            return new LocationModel[size];
-        }
-    };
     protected final static int MINUS_ONE = -1;
     private static final double DEFAULT_LATITUDE = 0;
     private static final double DEFAULT_LONGITUDE = 0;
 
     private String name, backgroundColor = DEFAULT_BACKGROUND_COLOR, textColor = DEFAULT_TEXT_COLOR;
     private double latitude = DEFAULT_LATITUDE, longitude = DEFAULT_LONGITUDE;
-    private int unit = UNIT_AUTO;
+    private int unit = UNIT_AUTO, position = 0;
 
     private ForecastModel forecastModel;
 
@@ -45,7 +34,7 @@ public class LocationModel implements Parcelable {
         setBackgroundColor(locationModelBuilder.backgroundColor);
         setTextColor(locationModelBuilder.textColor);
         setUnit(locationModelBuilder.unit);
-        setForecastModel(locationModelBuilder.forecastModel);
+        setPosition(locationModelBuilder.position);
     }
 
     private LocationModel(Parcel parcel) {
@@ -55,7 +44,7 @@ public class LocationModel implements Parcelable {
         setBackgroundColor(parcel.readString());
         setTextColor(parcel.readString());
         setUnit(parcel.readInt());
-        setForecastModel((ForecastModel) parcel.readParcelable(ForecastModel.class.getClassLoader()));
+        setPosition(parcel.readInt());
     }
 
     public String getName() {
@@ -71,7 +60,9 @@ public class LocationModel implements Parcelable {
     }
 
     public void setLatitude(double latitude) {
-        if (longitude != MINUS_ONE) this.latitude = latitude;
+        if (longitude != MINUS_ONE) {
+            this.latitude = latitude;
+        }
     }
 
     public double getLongitude() {
@@ -79,7 +70,9 @@ public class LocationModel implements Parcelable {
     }
 
     public void setLongitude(double longitude) {
-        if (longitude != MINUS_ONE) this.longitude = longitude;
+        if (longitude != MINUS_ONE) {
+            this.longitude = longitude;
+        }
     }
 
     public String getBackgroundColor() {
@@ -87,9 +80,7 @@ public class LocationModel implements Parcelable {
     }
 
     public void setBackgroundColor(String backgroundColor) {
-        if (backgroundColor != null && !backgroundColor.trim().isEmpty()) {
-            this.backgroundColor = backgroundColor;
-        }
+        this.backgroundColor = backgroundColor;
     }
 
     public String getTextColor() {
@@ -97,9 +88,7 @@ public class LocationModel implements Parcelable {
     }
 
     public void setTextColor(String textColor) {
-        if (textColor != null && !textColor.trim().isEmpty()) {
-            this.textColor = textColor;
-        }
+        this.textColor = textColor;
     }
 
     public int getUnit() {
@@ -110,12 +99,12 @@ public class LocationModel implements Parcelable {
         if (unit != MINUS_ONE) this.unit = unit;
     }
 
-    public ForecastModel getForecastModel() {
-        return forecastModel;
+    public int getPosition() {
+        return position;
     }
 
-    public void setForecastModel(ForecastModel forecastModel) {
-        this.forecastModel = forecastModel;
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     @Override
@@ -131,6 +120,18 @@ public class LocationModel implements Parcelable {
         parcel.writeString(this.backgroundColor);
         parcel.writeString(this.textColor);
         parcel.writeInt(this.unit);
-        parcel.writeParcelable(this.forecastModel, flags);
+        parcel.writeInt(this.position);
     }
+
+    public static final Parcelable.Creator CREATOR = new Creator() {
+        @Override
+        public Object createFromParcel(Parcel parcel) {
+            return new LocationModel(parcel);
+        }
+
+        @Override
+        public Object[] newArray(int size) {
+            return new LocationModel[size];
+        }
+    };
 }

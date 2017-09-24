@@ -9,8 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
     <ProgressBar
         android:id="@+id/locations_list_progress_bar"
@@ -24,8 +24,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:text="@string/no_locations_found"
         android:textColor="@android:color/white"
         android:textSize="@dimen/font_size_subheading"
-        android:text="@string/no_locations_found"
         android:visibility="invisible" />
 </FrameLayout>

@@ -6,8 +6,6 @@ import java.util.List;
 
 import io.stormcast.app.stormcast.common.models.ForecastModel;
 import io.stormcast.app.stormcast.common.models.ForecastModelBuilder;
-import io.stormcast.app.stormcast.common.models.HourlyModel;
-import io.stormcast.app.stormcast.common.models.HourlyModelBuilder;
 import io.stormcast.app.stormcast.common.network.Currently;
 import io.stormcast.app.stormcast.common.network.Datum_;
 import io.stormcast.app.stormcast.common.network.Forecast;
@@ -44,25 +42,5 @@ public final class ForecastMapper {
             model = builder.build();
         }
         return model;
-    }
-
-    public static List<HourlyModel> mapHourlyData(Forecast forecast) {
-        List<HourlyModel> models = new ArrayList<>();
-        if (forecast != null) {
-            Hourly hourly = forecast.getHourly();
-            if (hourly != null) {
-                List<Datum_> data = hourly.getData();
-                for (int i = 0; i < data.size(); i++) {
-                    Datum_ datum_ = data.get(i);
-                    HourlyModel model = new HourlyModelBuilder()
-                            .setTime(datum_.getTime())
-                            .setIcon(datum_.getIcon())
-                            .setTemperature(datum_.getTemperature())
-                            .build();
-                    models.add(model);
-                }
-            }
-        }
-        return models;
     }
 }

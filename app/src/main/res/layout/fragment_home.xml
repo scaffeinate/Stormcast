@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:visibility="gone"
-        custom:weatherIconResource="@string/wi_night_alt_lightning"
         custom:weatherIconColor="@color/textColorLight"
+        custom:weatherIconResource="@string/wi_night_alt_lightning"
         custom:weatherIconSize="165" />
 </FrameLayout>

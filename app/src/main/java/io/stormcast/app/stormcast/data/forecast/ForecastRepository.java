@@ -31,17 +31,7 @@ public class ForecastRepository implements ForecastDataSource {
 
     @Override
     public void loadForecast(final LocationModel locationModel, final boolean forceRefresh, final LoadForecastCallback loadForecastCallback) {
-        ForecastModel forecastModel = locationModel.getForecastModel();
-        long diffInMinutes = Long.MAX_VALUE;
-        if (forecastModel != null && forecastModel.getUpdatedAt() != null) {
-            diffInMinutes = (new Date().getTime() - forecastModel.getUpdatedAt().getTime()) / 60000;
-        }
 
-        if (forecastModel == null || diffInMinutes > 15 || forceRefresh) {
-            getUpdateFromRemoteDataSource(locationModel, forceRefresh, loadForecastCallback);
-        } else {
-            loadForecastCallback.onForecastLoaded(forecastModel);
-        }
     }
 
     @Override

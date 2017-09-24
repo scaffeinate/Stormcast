@@ -164,8 +164,8 @@
                         android:layout_height="wrap_content"
                         android:checked="true"
                         android:text="@string/imperial"
-                        android:textSize="@dimen/font_size_body"
-                        android:textColor="@color/textColorDark" />
+                        android:textColor="@color/textColorDark"
+                        android:textSize="@dimen/font_size_body" />
 
                     <io.stormcast.app.stormcast.views.styled.StyledRadioButton
                         android:id="@+id/metric_radio_button"
@@ -173,8 +173,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:text="@string/metric"
-                        android:textSize="@dimen/font_size_body"
-                        android:textColor="@color/textColorDark" />
+                        android:textColor="@color/textColorDark"
+                        android:textSize="@dimen/font_size_body" />
                 </RadioGroup>
             </RelativeLayout>
         </RelativeLayout>

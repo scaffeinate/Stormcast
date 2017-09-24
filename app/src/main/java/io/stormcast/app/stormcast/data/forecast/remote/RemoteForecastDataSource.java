@@ -33,7 +33,6 @@ public class RemoteForecastDataSource implements ForecastDataSource {
             @Override
             public void onLoadForecast(Forecast forecast) {
                 ForecastModel forecastModel = ForecastMapper.map(forecast);
-                forecastModel.setHourlyModels(ForecastMapper.mapHourlyData(forecast));
                 loadForecastCallback.onForecastLoaded(forecastModel);
             }
 

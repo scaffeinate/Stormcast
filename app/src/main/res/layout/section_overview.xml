@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:typeface="http://schemas.android.com/apk/res-auto"
-    android:layout_marginTop="25dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginTop="25dp">
 
     <io.stormcast.app.stormcast.views.styled.StyledTextView
         android:id="@+id/location_name_text_view"
@@ -41,8 +41,8 @@
             android:id="@+id/temperature_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_gravity="center_vertical|right"
+            android:layout_weight="1"
             android:gravity="right"
             android:textAllCaps="true"
             android:textSize="55sp"
@@ -51,9 +51,9 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_gravity="center_vertical|left"
             android:layout_marginLeft="25dp"
+            android:layout_weight="1"
             android:gravity="left"
             android:orientation="vertical">
 

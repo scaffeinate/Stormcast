@@ -38,8 +38,6 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private LocationModel mLocationModel;
 
-    private HourlyForecastAdapter mHourlyAdapter;
-
     private RelativeLayout mOverviewLayout;
 
     private WeatherIconView mWeatherIconView;
@@ -120,7 +118,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         String units = forecastModel.getUnits();
         String speedUnit = "kph";
         String temperatureUnit = "C";
-        int temperature = forecastModel.getTemperature().intValue();
+        int temperature = (int) forecastModel.getTemperature();
         int windSpeed = (int) (forecastModel.getWindSpeed() * 3.6);
         int humidity = (int) (forecastModel.getHumidity() * 100);
 

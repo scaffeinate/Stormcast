@@ -11,8 +11,7 @@ public class LocationModelBuilder {
     protected double latitude = LocationModel.MINUS_ONE;
     protected double longitude = LocationModel.MINUS_ONE;
     protected String backgroundColor = null, textColor = null;
-    protected int unit = LocationModel.MINUS_ONE;
-    protected ForecastModel forecastModel;
+    protected int unit = LocationModel.MINUS_ONE, position = 0;
 
     public void setId(int id) {
         this.id = id;
@@ -54,8 +53,8 @@ public class LocationModelBuilder {
         return this;
     }
 
-    public LocationModelBuilder setForecastModel(ForecastModel forecastModel) {
-        this.forecastModel = forecastModel;
+    public LocationModelBuilder setPosition(int position) {
+        this.position = position;
         return this;
     }
 
