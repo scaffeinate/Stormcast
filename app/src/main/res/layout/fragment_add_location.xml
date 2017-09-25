@@ -48,57 +48,45 @@
             android:textSize="@dimen/font_size_subheading"
             custom:weight="bolder" />
 
-        <RelativeLayout
-            android:id="@+id/background_color_layout"
+        <io.stormcast.app.stormcast.views.styled.StyledButton
+            android:id="@+id/background_color_btn"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/customize_text_view"
             android:layout_marginTop="15dp"
             android:background="@drawable/shape_rounded_corners"
-            android:padding="22dp">
+            android:padding="22dp"
+            android:text="@string/background_color"
+            android:textColor="@color/textColorLight" />
 
-            <io.stormcast.app.stormcast.views.styled.StyledTextView
-                android:id="@+id/background_color_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="@string/background_color"
-                android:textColor="@color/textColorLight"
-                android:textSize="@dimen/font_size_body" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/text_color_layout"
+        <io.stormcast.app.stormcast.views.styled.StyledButton
+            android:id="@+id/text_color_btn"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/background_color_layout"
+            android:layout_below="@+id/background_color_btn"
             android:layout_marginTop="@dimen/fragment_add_location_margin_top"
             android:background="@drawable/shape_rounded_corners"
-            android:padding="22dp">
-
-            <io.stormcast.app.stormcast.views.styled.StyledTextView
-                android:id="@+id/text_color_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="@string/text_color"
-                android:textColor="@color/textColorDark"
-                android:textSize="@dimen/font_size_body" />
-        </RelativeLayout>
+            android:elevation="0dp"
+            android:padding="22dp"
+            android:text="@string/text_color"
+            android:textColor="@color/textColorDark" />
 
         <io.stormcast.app.stormcast.views.styled.StyledTextView
             android:id="@+id/units_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/text_color_layout"
+            android:layout_below="@+id/text_color_btn"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
             android:text="@string/units"
             android:textColor="@color/textColorDark"
             android:textSize="@dimen/font_size_subheading"
-            android:layout_marginTop="20dp"
             custom:weight="bolder" />
 
-        <io.stormcast.app.stormcast.views.toggle.ToggleSwitch
+        <io.stormcast.app.stormcast.views.tabswitches.SwitchTabSelector
+            android:id="@+id/units_switch_tab_selector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/units_text_view"

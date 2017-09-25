@@ -9,9 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
+import io.stormcast.app.stormcast.views.colorpick.MaterialColorPickDialog.ColorItem;
 
 import java.util.List;
 
@@ -24,7 +23,7 @@ import io.stormcast.app.stormcast.R;
 public class MaterialColorGridAdapter extends ArrayAdapter<ColorItem> {
 
     private Context mContext;
-    private List<ColorItem> colorItems;
+    private List<MaterialColorPickDialog.ColorItem> colorItems;
 
     public MaterialColorGridAdapter(@NonNull Context context, List<ColorItem> colorItems) {
         super(context, 0, colorItems);

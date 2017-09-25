@@ -132,7 +132,7 @@ public class MaterialColorPickDialog {
 
         private View getView() {
             LayoutInflater inflater = LayoutInflater.from(this.mContext);
-            View view = inflater.inflate(R.layout.view_color_picker_dialog, null);
+            View view = inflater.inflate(R.layout.dialog_color_picker, null);
             return view;
         }
 
@@ -199,5 +199,27 @@ public class MaterialColorPickDialog {
 
     public interface OnColorPickedListener {
         void onClick(String colorHex);
+    }
+
+    protected static class ColorItem {
+        private String color;
+        private boolean isSelected;
+
+        public ColorItem(String color, boolean isSelected) {
+            this.color = color;
+            this.isSelected = isSelected;
+        }
+
+        public String getColor() {
+            return color;
+        }
+
+        public boolean isSelected() {
+            return isSelected;
+        }
+
+        public void setSelected(boolean selected) {
+            isSelected = selected;
+        }
     }
 }
