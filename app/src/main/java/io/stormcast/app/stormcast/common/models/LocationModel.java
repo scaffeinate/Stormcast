@@ -9,9 +9,9 @@ import android.os.Parcelable;
 
 public class LocationModel implements Parcelable {
 
-    public static final int UNIT_IMPERIAL = 0;
-    public static final int UNIT_METRIC = 1;
-    public static final int UNIT_AUTO = 2;
+    public static final int UNIT_AUTO = 0;
+    public static final int UNIT_IMPERIAL = 1;
+    public static final int UNIT_METRIC = 2;
     public static final String DEFAULT_BACKGROUND_COLOR = "#651FFF";
     public static final String DEFAULT_TEXT_COLOR = "#FFFFFF";
     protected final static int MINUS_ONE = -1;

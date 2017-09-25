@@ -21,6 +21,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:backgroundTint="@color/colorAccent"
-        android:background="@drawable/ic_reorder_horizontal_black_24dp" />
+        android:background="@drawable/ic_reorder_horizontal_black_24dp"
+        android:backgroundTint="@color/colorAccent" />
 </RelativeLayout>
