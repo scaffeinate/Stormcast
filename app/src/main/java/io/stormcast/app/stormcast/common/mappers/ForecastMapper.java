@@ -1,15 +1,11 @@
 package io.stormcast.app.stormcast.common.mappers;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import io.stormcast.app.stormcast.common.models.ForecastModel;
 import io.stormcast.app.stormcast.common.models.ForecastModelBuilder;
 import io.stormcast.app.stormcast.common.network.Currently;
-import io.stormcast.app.stormcast.common.network.Datum_;
 import io.stormcast.app.stormcast.common.network.Forecast;
-import io.stormcast.app.stormcast.common.network.Hourly;
 
 /**
  * Created by sudharti on 8/25/17.

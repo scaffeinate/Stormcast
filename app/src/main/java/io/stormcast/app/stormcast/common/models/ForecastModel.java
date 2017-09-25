@@ -11,16 +11,25 @@ import java.util.Date;
 
 public class ForecastModel implements Parcelable {
 
+    public static final Creator<ForecastModel> CREATOR = new Creator<ForecastModel>() {
+        @Override
+        public ForecastModel createFromParcel(Parcel in) {
+            return new ForecastModel(in);
+        }
+
+        @Override
+        public ForecastModel[] newArray(int size) {
+            return new ForecastModel[size];
+        }
+    };
     private String timezone, summary, icon, units;
     private int currentTime;
     private double temperature, apparentTemperature;
     private Date updatedAt;
-
     private double humidity;
     private double windSpeed;
     private double pressure;
     private double visibility;
-
 
     protected ForecastModel(Parcel in) {
         setTimezone(in.readString());
@@ -147,18 +156,6 @@ public class ForecastModel implements Parcelable {
     public void setUnits(String units) {
         this.units = units;
     }
-
-    public static final Creator<ForecastModel> CREATOR = new Creator<ForecastModel>() {
-        @Override
-        public ForecastModel createFromParcel(Parcel in) {
-            return new ForecastModel(in);
-        }
-
-        @Override
-        public ForecastModel[] newArray(int size) {
-            return new ForecastModel[size];
-        }
-    };
 
     @Override
     public int describeContents() {

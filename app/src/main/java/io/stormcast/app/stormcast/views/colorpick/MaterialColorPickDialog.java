@@ -34,14 +34,6 @@ public class MaterialColorPickDialog {
     private static final String THEME_DARK_BG = "#404040";
     private static final String THEME_LIGHT_TEXT_COLOR = "#000000";
     private static final String THEME_DARK_TEXT_COLOR = "#F7F7F7";
-
-    @Retention(SOURCE)
-    @IntDef({ColorPickTheme.THEME_LIGHT, ColorPickTheme.THEME_DARK})
-    public @interface ColorPickTheme {
-        int THEME_LIGHT = 0;
-        int THEME_DARK = 1;
-    }
-
     private static final List<ColorItem> sColorItems = new ArrayList<>();
 
     public static Builder with(Context context) {
@@ -57,6 +49,17 @@ public class MaterialColorPickDialog {
         for (String color : colors) {
             sColorItems.add(new ColorItem(color, false));
         }
+    }
+
+    @Retention(SOURCE)
+    @IntDef({ColorPickTheme.THEME_LIGHT, ColorPickTheme.THEME_DARK})
+    public @interface ColorPickTheme {
+        int THEME_LIGHT = 0;
+        int THEME_DARK = 1;
+    }
+
+    public interface OnColorPickedListener {
+        void onClick(String colorHex);
     }
 
     public static class Builder implements AdapterView.OnItemClickListener {
@@ -195,10 +198,6 @@ public class MaterialColorPickDialog {
                 }
             }
         }
-    }
-
-    public interface OnColorPickedListener {
-        void onClick(String colorHex);
     }
 
     protected static class ColorItem {

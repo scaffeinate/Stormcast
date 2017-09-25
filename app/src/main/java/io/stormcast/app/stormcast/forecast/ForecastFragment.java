@@ -93,7 +93,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         view.setBackgroundColor(backgroundColor);
         setColors(mOverviewLayout);
 
-        mSwipeRefreshLayout.setOnRefreshListener(this);
+        //mSwipeRefreshLayout.setOnRefreshListener(this);
 
         return view;
     }
@@ -104,7 +104,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mSwipeRefreshLayout.setRefreshing(true);
+                //mSwipeRefreshLayout.setRefreshing(true);
                 mPresenter.loadForecast(mLocationModel, false);
             }
         }, 250);
@@ -132,13 +132,13 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         mWindTextView.setText(new StringBuilder().append(windSpeed).append(speedUnit).toString());
         mHumidityTextView.setText(new StringBuilder().append(humidity).append("%").toString());
 
-        mSwipeRefreshLayout.setRefreshing(false);
+        //mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void onDataNotAvailable(String errorMessage) {
         Toast.makeText(mContext, errorMessage, Toast.LENGTH_SHORT).show();
-        mSwipeRefreshLayout.setRefreshing(false);
+        //mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override

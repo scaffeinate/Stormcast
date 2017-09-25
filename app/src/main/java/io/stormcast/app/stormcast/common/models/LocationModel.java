@@ -14,10 +14,20 @@ public class LocationModel implements Parcelable {
     public static final int UNIT_METRIC = 2;
     public static final String DEFAULT_BACKGROUND_COLOR = "#651FFF";
     public static final String DEFAULT_TEXT_COLOR = "#FFFFFF";
+    public static final Parcelable.Creator CREATOR = new Creator() {
+        @Override
+        public Object createFromParcel(Parcel parcel) {
+            return new LocationModel(parcel);
+        }
+
+        @Override
+        public Object[] newArray(int size) {
+            return new LocationModel[size];
+        }
+    };
     protected final static int MINUS_ONE = -1;
     private static final double DEFAULT_LATITUDE = 0;
     private static final double DEFAULT_LONGITUDE = 0;
-
     private String name, backgroundColor = DEFAULT_BACKGROUND_COLOR, textColor = DEFAULT_TEXT_COLOR;
     private double latitude = DEFAULT_LATITUDE, longitude = DEFAULT_LONGITUDE;
     private int unit = UNIT_AUTO, position = 0;
@@ -124,16 +134,4 @@ public class LocationModel implements Parcelable {
         parcel.writeInt(this.unit);
         parcel.writeInt(this.position);
     }
-
-    public static final Parcelable.Creator CREATOR = new Creator() {
-        @Override
-        public Object createFromParcel(Parcel parcel) {
-            return new LocationModel(parcel);
-        }
-
-        @Override
-        public Object[] newArray(int size) {
-            return new LocationModel[size];
-        }
-    };
 }

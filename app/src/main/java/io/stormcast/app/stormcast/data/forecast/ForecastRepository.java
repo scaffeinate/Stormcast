@@ -1,7 +1,5 @@
 package io.stormcast.app.stormcast.data.forecast;
 
-import java.util.Date;
-
 import io.stormcast.app.stormcast.common.models.ForecastModel;
 import io.stormcast.app.stormcast.common.models.LocationModel;
 

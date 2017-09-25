@@ -10,11 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import io.stormcast.app.stormcast.views.colorpick.MaterialColorPickDialog.ColorItem;
 
 import java.util.List;
 
 import io.stormcast.app.stormcast.R;
+import io.stormcast.app.stormcast.views.colorpick.MaterialColorPickDialog.ColorItem;
 
 /**
  * Created by sudharti on 8/22/17.

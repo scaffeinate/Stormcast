@@ -11,6 +11,7 @@ import io.stormcast.app.stormcast.common.models.LocationModel;
 public interface HomeContract {
     interface View {
         void onLocationsLoaded(List<LocationModel> locationModels);
+
         void onDataNotAvailable();
     }
 

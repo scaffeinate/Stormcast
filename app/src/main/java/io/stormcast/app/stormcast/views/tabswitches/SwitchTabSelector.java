@@ -24,12 +24,12 @@ import io.stormcast.app.stormcast.views.styled.StyledTextView;
 
 public class SwitchTabSelector extends LinearLayout implements View.OnTouchListener {
 
+    private final LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(0, 120);
     private Context mContext;
     private LayoutInflater inflater;
     private SwitchTab[] switchTabs;
     private Map<Integer, View> viewsMap = null;
     private Map<Integer, StyledTextView> textViewsMap = null;
-    private final LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(0, 120);
     private int mSelectedIndex = 0;
     private int mColorAccent = 0;
 
@@ -65,7 +65,7 @@ public class SwitchTabSelector extends LinearLayout implements View.OnTouchListe
             switchTab.setOnTouchListener(this);
         }
 
-        setState(0, true);
+        setState(mSelectedIndex, true);
     }
 
     public int getSelectedIndex() {
@@ -82,16 +82,6 @@ public class SwitchTabSelector extends LinearLayout implements View.OnTouchListe
         mSelectedIndex = view.getId();
         setState(mSelectedIndex, true);
         return true;
-    }
-
-    public static class SwitchTab<K, V> {
-        private K entry;
-        private V value;
-
-        public SwitchTab(K entry, V value) {
-            this.entry = entry;
-            this.value = value;
-        }
     }
 
     private RelativeLayout inflateView(int index, String entryText) {
@@ -123,6 +113,16 @@ public class SwitchTabSelector extends LinearLayout implements View.OnTouchListe
         } else {
             drawable.setColor(Color.TRANSPARENT);
             textView.setTextColor(mColorAccent);
+        }
+    }
+
+    public static class SwitchTab<K, V> {
+        private K entry;
+        private V value;
+
+        public SwitchTab(K entry, V value) {
+            this.entry = entry;
+            this.value = value;
         }
     }
 }

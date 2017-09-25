@@ -15,16 +15,16 @@ public class RemoteForecastDataSource implements ForecastDataSource {
     private static RemoteForecastDataSource mRemoteForecastDataSource;
     private DarkSkyApiClient mApiClient;
 
+    private RemoteForecastDataSource() {
+        mApiClient = DarkSkyApiClient.getInstance();
+    }
+
     public static RemoteForecastDataSource getInstance() {
         if (mRemoteForecastDataSource == null) {
             mRemoteForecastDataSource = new RemoteForecastDataSource();
         }
 
         return mRemoteForecastDataSource;
-    }
-
-    private RemoteForecastDataSource() {
-        mApiClient = DarkSkyApiClient.getInstance();
     }
 
     @Override
