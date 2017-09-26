@@ -10,18 +10,14 @@ public class LocationsRepository implements LocationsDataSource {
 
     private static LocationsRepository sLocationsRepository;
     private LocationsDataSource mLocalDataSource;
-    private LocationsDataSource mRemoteDataSource;
 
-    private LocationsRepository(LocationsDataSource locationsDataSource,
-                                LocationsDataSource mRemoteDataSource) {
+    private LocationsRepository(LocationsDataSource locationsDataSource) {
         this.mLocalDataSource = locationsDataSource;
-        this.mRemoteDataSource = mRemoteDataSource;
     }
 
-    public static LocationsRepository getInstance(LocationsDataSource mLocalDataSource,
-                                                  LocationsDataSource mRemoteDataSource) {
+    public static LocationsRepository getInstance(LocationsDataSource mLocalDataSource) {
         if (sLocationsRepository == null) {
-            sLocationsRepository = new LocationsRepository(mLocalDataSource, mRemoteDataSource);
+            sLocationsRepository = new LocationsRepository(mLocalDataSource);
         }
         return sLocationsRepository;
     }
@@ -34,5 +30,10 @@ public class LocationsRepository implements LocationsDataSource {
     @Override
     public void getLocations(GetLocationsCallback getLocationsCallback) {
         mLocalDataSource.getLocations(getLocationsCallback);
+    }
+
+    @Override
+    public void deleteLocation(LocationModel locationModel, DeleteLocationCallback deleteLocationCallback) {
+        mLocalDataSource.deleteLocation(locationModel, deleteLocationCallback);
     }
 }

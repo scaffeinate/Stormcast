@@ -37,8 +37,8 @@ public class LocalLocationsDataSource implements LocationsDataSource {
 
     @Override
     public void saveLocation(final LocationModel locationModel, final SaveLocationCallback saveLocationCallback) {
+        SQLiteDatabase database = mLocationsDbHelper.getWritableDatabase();
         try {
-            SQLiteDatabase database = mLocationsDbHelper.getWritableDatabase();
             ContentValues cv = new ContentValues();
             cv.put(PersistenceContract.LocationEntry.NAME, locationModel.getName());
             cv.put(PersistenceContract.LocationEntry.LATITUDE, locationModel.getLatitude());
@@ -49,10 +49,11 @@ public class LocalLocationsDataSource implements LocationsDataSource {
             cv.put(PersistenceContract.LocationEntry.POSITION, locationModel.getPosition());
 
             database.insertOrThrow(PersistenceContract.LocationEntry.TABLE_NAME, null, cv);
-            database.close();
             saveLocationCallback.onLocationSaved();
         } catch (SQLiteConstraintException e) {
             saveLocationCallback.onLocationSaveFailed(e.getMessage());
+        } finally {
+            database.close();
         }
     }
 
@@ -98,6 +99,19 @@ public class LocalLocationsDataSource implements LocationsDataSource {
             getLocationsCallback.onDataNotAvailable();
         } else {
             getLocationsCallback.onLocationsLoaded(locationList);
+        }
+    }
+
+    @Override
+    public void deleteLocation(LocationModel locationModel, DeleteLocationCallback deleteLocationCallback) {
+        SQLiteDatabase database = mLocationsDbHelper.getWritableDatabase();
+        int numRows = database.delete(PersistenceContract.LocationEntry.TABLE_NAME, PersistenceContract.LocationEntry.ID + " = ? ",
+                new String[]{String.valueOf(locationModel.getId())});
+        database.close();
+        if (numRows == 0) {
+            deleteLocationCallback.onLocationDeleteFailed("Failed to delete location.");
+        } else {
+            deleteLocationCallback.onLocationDeleted();
         }
     }
 }

@@ -14,6 +14,8 @@ public interface LocationsDataSource {
 
     void getLocations(GetLocationsCallback getLocationsCallback);
 
+    void deleteLocation(LocationModel locationModel, DeleteLocationCallback deleteLocationCallback);
+
     interface SaveLocationCallback {
         void onLocationSaved();
 
@@ -24,5 +26,11 @@ public interface LocationsDataSource {
         void onLocationsLoaded(List<LocationModel> locationModelList);
 
         void onDataNotAvailable();
+    }
+
+    interface DeleteLocationCallback {
+        void onLocationDeleted();
+
+        void onLocationDeleteFailed(String errorMessage);
     }
 }
