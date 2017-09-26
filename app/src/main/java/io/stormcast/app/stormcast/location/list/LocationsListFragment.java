@@ -24,7 +24,6 @@ import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 import io.stormcast.app.stormcast.data.locations.local.LocalLocationsDataSource;
-import io.stormcast.app.stormcast.data.locations.remote.RemoteLocationsDataSource;
 import io.stormcast.app.stormcast.location.add.AddLocationFragment;
 import io.stormcast.app.stormcast.views.styled.StyledTextView;
 
@@ -58,8 +57,7 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getContext();
-        mLocationsRepository = LocationsRepository.getInstance(LocalLocationsDataSource.getInstance(mContext),
-                RemoteLocationsDataSource.getInstance());
+        mLocationsRepository = LocationsRepository.getInstance(LocalLocationsDataSource.getInstance(mContext));
         mPresenter = new LocationsListPresenter(this, mLocationsRepository);
         setHasOptionsMenu(true);
     }

@@ -19,7 +19,6 @@ import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 import io.stormcast.app.stormcast.data.locations.local.LocalLocationsDataSource;
-import io.stormcast.app.stormcast.data.locations.remote.RemoteLocationsDataSource;
 import io.stormcast.app.stormcast.location.LocationsActivity;
 
 /**
@@ -46,9 +45,8 @@ public class HomeFragment extends Fragment implements HomeContract.View, View.On
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mContext = getContext();
-        mLocationsRepository = LocationsRepository.getInstance(LocalLocationsDataSource.getInstance(mContext),
-                RemoteLocationsDataSource.getInstance());
+        mContext = getActivity().getApplicationContext();
+        mLocationsRepository = LocationsRepository.getInstance(LocalLocationsDataSource.getInstance(mContext));
         mHomePresenter = new HomePresenter(this, mLocationsRepository);
     }
 

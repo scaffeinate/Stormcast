@@ -36,7 +36,6 @@ import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.common.models.LocationModelBuilder;
 import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 import io.stormcast.app.stormcast.data.locations.local.LocalLocationsDataSource;
-import io.stormcast.app.stormcast.data.locations.remote.RemoteLocationsDataSource;
 import io.stormcast.app.stormcast.views.colorpick.MaterialColorPickDialog;
 import io.stormcast.app.stormcast.views.styled.StyledButton;
 import io.stormcast.app.stormcast.views.styled.StyledEditText;
@@ -82,9 +81,8 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mContext = getContext();
-        mLocationsRepository = LocationsRepository.getInstance(LocalLocationsDataSource.getInstance(mContext),
-                RemoteLocationsDataSource.getInstance());
+        mContext = getActivity().getApplicationContext();
+        mLocationsRepository = LocationsRepository.getInstance(LocalLocationsDataSource.getInstance(mContext));
         mPresenter = new AddLocationPresenter(this, mLocationsRepository);
         mLocationModelBuilder = new LocationModelBuilder();
         mBgColorDialogBuilder = MaterialColorPickDialog.with(mContext);
