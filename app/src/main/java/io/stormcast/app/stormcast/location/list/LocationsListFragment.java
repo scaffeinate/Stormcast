@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Collections;
 import java.util.List;
 
 import io.stormcast.app.stormcast.R;
@@ -26,13 +27,17 @@ import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 import io.stormcast.app.stormcast.data.locations.local.LocalLocationsDataSource;
 import io.stormcast.app.stormcast.location.add.AddLocationFragment;
+import io.stormcast.app.stormcast.location.list.helpers.ItemTouchHelperAdapter;
+import io.stormcast.app.stormcast.location.list.helpers.ItemTouchHelperCallback;
+import io.stormcast.app.stormcast.location.list.helpers.OnStartDragListener;
 import io.stormcast.app.stormcast.views.styled.StyledTextView;
 
 /**
  * Created by sudhar on 8/15/17.
  */
 
-public class LocationsListFragment extends Fragment implements LocationsListContract.View, ItemTouchHelperAdapter {
+public class LocationsListFragment extends Fragment implements LocationsListContract.View,
+        ItemTouchHelperAdapter, OnStartDragListener {
 
     private Context mContext;
 
@@ -117,7 +122,7 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
     public void onLocationsLoaded(List<LocationModel> locationModelList) {
         mProgressBar.setVisibility(View.GONE);
         this.mLocationModelList = locationModelList;
-        mAdapter = new LocationsListAdapter(mLocationModelList);
+        mAdapter = new LocationsListAdapter(mLocationModelList, this);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setVisibility(View.VISIBLE);
 
@@ -148,7 +153,8 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
-
+        Collections.swap(mLocationModelList, fromPosition, toPosition);
+        mAdapter.notifyItemMoved(fromPosition, toPosition);
     }
 
     @Override
@@ -156,5 +162,10 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
         LocationModel locationModel = mLocationModelList.get(position);
         this.mPosition = position;
         mPresenter.deleteLocation(locationModel);
+    }
+
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+        mItemTouchHelper.startDrag(viewHolder);
     }
 }

@@ -1,4 +1,4 @@
-package io.stormcast.app.stormcast.location.list;
+package io.stormcast.app.stormcast.location.list.helpers;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -13,6 +13,16 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     public ItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
         this.mAdapter = adapter;
+    }
+
+    @Override
+    public boolean isLongPressDragEnabled() {
+        return true;
+    }
+
+    @Override
+    public boolean isItemViewSwipeEnabled() {
+        return true;
     }
 
     @Override

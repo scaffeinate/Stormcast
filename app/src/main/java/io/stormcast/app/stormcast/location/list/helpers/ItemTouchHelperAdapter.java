@@ -1,4 +1,4 @@
-package io.stormcast.app.stormcast.location.list;
+package io.stormcast.app.stormcast.location.list.helpers;
 
 /**
  * Created by sudharti on 9/24/17.
