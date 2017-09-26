@@ -30,12 +30,13 @@ public class LocationModel implements Parcelable {
     private static final double DEFAULT_LONGITUDE = 0;
     private String name, backgroundColor = DEFAULT_BACKGROUND_COLOR, textColor = DEFAULT_TEXT_COLOR;
     private double latitude = DEFAULT_LATITUDE, longitude = DEFAULT_LONGITUDE;
-    private int unit = UNIT_AUTO, position = 0;
+    private int id = 0, unit = UNIT_AUTO, position = 0;
 
     public LocationModel() {
     }
 
     protected LocationModel(LocationModelBuilder locationModelBuilder) {
+        setId(locationModelBuilder.id);
         setName(locationModelBuilder.name);
         setLatitude(locationModelBuilder.latitude);
         setLongitude(locationModelBuilder.longitude);
@@ -46,6 +47,7 @@ public class LocationModel implements Parcelable {
     }
 
     private LocationModel(Parcel parcel) {
+        setId(parcel.readInt());
         setName(parcel.readString());
         setLatitude(parcel.readDouble());
         setLongitude(parcel.readDouble());
@@ -53,6 +55,14 @@ public class LocationModel implements Parcelable {
         setTextColor(parcel.readString());
         setUnit(parcel.readInt());
         setPosition(parcel.readInt());
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -126,6 +136,7 @@ public class LocationModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeInt(this.id);
         parcel.writeString(this.name);
         parcel.writeDouble(this.latitude);
         parcel.writeDouble(this.longitude);
