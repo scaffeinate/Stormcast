@@ -9,9 +9,9 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 
 public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
-    private LocationsListAdapter mAdapter;
+    private ItemTouchHelperAdapter mAdapter;
 
-    public ItemTouchHelperCallback(LocationsListAdapter adapter) {
+    public ItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
         this.mAdapter = adapter;
     }
 

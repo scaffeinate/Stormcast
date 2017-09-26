@@ -34,4 +34,19 @@ public class LocationsListPresenter implements LocationsListContract.Presenter {
             }
         });
     }
+
+    @Override
+    public void deleteLocation(LocationModel locationModel) {
+        mLocationsRepository.deleteLocation(locationModel, new LocationsDataSource.DeleteLocationCallback() {
+            @Override
+            public void onLocationDeleted() {
+                mView.onLocationDeleted();
+            }
+
+            @Override
+            public void onLocationDeleteFailed(String errorMessage) {
+                mView.onLocationDeleteFailed(errorMessage);
+            }
+        });
+    }
 }

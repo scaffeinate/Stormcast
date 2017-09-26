@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ import io.stormcast.app.stormcast.views.styled.StyledTextView;
  * Created by sudhar on 8/15/17.
  */
 
-public class LocationsListFragment extends Fragment implements LocationsListContract.View {
+public class LocationsListFragment extends Fragment implements LocationsListContract.View, ItemTouchHelperAdapter {
 
     private Context mContext;
 
@@ -44,9 +45,12 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
 
     private LocationsRepository mLocationsRepository;
     private LocationsListPresenter mPresenter;
+    private List<LocationModel> mLocationModelList;
 
     private ItemTouchHelper mItemTouchHelper;
     private ItemTouchHelper.Callback mCallback;
+
+    private int mPosition = 0;
 
     public static LocationsListFragment newInstance() {
         LocationsListFragment locationsListFragment = new LocationsListFragment();
@@ -112,11 +116,12 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
     @Override
     public void onLocationsLoaded(List<LocationModel> locationModelList) {
         mProgressBar.setVisibility(View.GONE);
-        mAdapter = new LocationsListAdapter(locationModelList);
+        this.mLocationModelList = locationModelList;
+        mAdapter = new LocationsListAdapter(mLocationModelList);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setVisibility(View.VISIBLE);
 
-        mCallback = new ItemTouchHelperCallback(mAdapter);
+        mCallback = new ItemTouchHelperCallback(this);
         mItemTouchHelper = new ItemTouchHelper(mCallback);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
@@ -125,5 +130,31 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
     public void onDataNotAvailable() {
         mProgressBar.setVisibility(View.GONE);
         mNoDataTextView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onLocationDeleted() {
+        Toast.makeText(mContext, "Location deleted successfully", Toast.LENGTH_SHORT).show();
+        mLocationModelList.remove(this.mPosition);
+        mAdapter.notifyItemRemoved(this.mPosition);
+        this.mPosition = 0;
+    }
+
+    @Override
+    public void onLocationDeleteFailed(String errorMessage) {
+        Toast.makeText(mContext, errorMessage, Toast.LENGTH_SHORT).show();
+        this.mPosition = 0;
+    }
+
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        LocationModel locationModel = mLocationModelList.get(position);
+        this.mPosition = position;
+        mPresenter.deleteLocation(locationModel);
     }
 }

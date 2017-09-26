@@ -14,7 +14,7 @@ import io.stormcast.app.stormcast.views.styled.StyledTextView;
 /**
  * Created by sudhar on 8/15/17.
  */
-public class LocationsListAdapter extends RecyclerView.Adapter<LocationsListAdapter.ViewHolder> implements ItemTouchHelperAdapter {
+public class LocationsListAdapter extends RecyclerView.Adapter<LocationsListAdapter.ViewHolder> {
 
     private List<LocationModel> mLocationModelList;
 
@@ -39,17 +39,6 @@ public class LocationsListAdapter extends RecyclerView.Adapter<LocationsListAdap
     @Override
     public int getItemCount() {
         return mLocationModelList.size();
-    }
-
-    @Override
-    public void onItemMove(int fromPosition, int toPosition) {
-
-    }
-
-    @Override
-    public void onItemDismiss(int position) {
-        mLocationModelList.remove(position);
-        notifyItemRemoved(position);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

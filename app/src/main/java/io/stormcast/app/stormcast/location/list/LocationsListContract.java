@@ -11,11 +11,17 @@ import io.stormcast.app.stormcast.common.models.LocationModel;
 public interface LocationsListContract {
     interface Presenter {
         void getLocations();
+
+        void deleteLocation(LocationModel locationModel);
     }
 
     interface View {
         void onLocationsLoaded(List<LocationModel> locationModelList);
 
         void onDataNotAvailable();
+
+        void onLocationDeleted();
+
+        void onLocationDeleteFailed(String errorMessage);
     }
 }
