@@ -63,6 +63,7 @@ public class SwitchTabSelector extends LinearLayout implements View.OnTouchListe
             RelativeLayout switchTab = inflateView(i, switchTabs[i].entry.toString());
             this.addView(switchTab);
             switchTab.setOnTouchListener(this);
+            setState(i, false);
         }
 
         setState(mSelectedIndex, true);
