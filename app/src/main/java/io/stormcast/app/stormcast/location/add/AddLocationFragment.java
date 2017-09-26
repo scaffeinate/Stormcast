@@ -81,7 +81,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mContext = getActivity().getApplicationContext();
+        mContext = getContext();
         mLocationsRepository = LocationsRepository.getInstance(LocalLocationsDataSource.getInstance(mContext));
         mPresenter = new AddLocationPresenter(this, mLocationsRepository);
         mLocationModelBuilder = new LocationModelBuilder();

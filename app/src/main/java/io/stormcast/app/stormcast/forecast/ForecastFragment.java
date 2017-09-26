@@ -64,7 +64,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mLocationModel = getArguments().getParcelable(LOCATION);
-        mContext = getActivity().getApplicationContext();
+        mContext = getContext();
         mPresenter = new ForecastPresenter(this, ForecastRepository.getInstance(
                 LocalForecastDataSource.getInstance(mContext),
                 RemoteForecastDataSource.getInstance()));

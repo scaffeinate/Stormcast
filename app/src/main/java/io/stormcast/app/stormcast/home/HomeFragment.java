@@ -45,7 +45,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, View.On
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mContext = getActivity().getApplicationContext();
+        mContext = getContext();
         mLocationsRepository = LocationsRepository.getInstance(LocalLocationsDataSource.getInstance(mContext));
         mHomePresenter = new HomePresenter(this, mLocationsRepository);
     }
