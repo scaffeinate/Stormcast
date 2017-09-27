@@ -34,7 +34,7 @@ public class LocationsActivity extends AppCompatActivity {
             mLocationsListFragment = LocationsListFragment.newInstance();
             mFragmentManager
                     .beginTransaction()
-                    .replace(R.id.locations_content, mLocationsListFragment)
+                    .add(R.id.locations_content, mLocationsListFragment)
                     .commit();
         }
     }

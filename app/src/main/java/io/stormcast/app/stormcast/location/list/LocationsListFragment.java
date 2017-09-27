@@ -107,8 +107,9 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add_location_menu_item:
-                getFragmentManager()
+                getActivity().getSupportFragmentManager()
                         .beginTransaction()
+                        .setCustomAnimations(R.anim.slide_left_enter, R.anim.slide_left_exit, R.anim.slide_right_enter, R.anim.slide_right_exit)
                         .replace(R.id.locations_content, AddLocationFragment.newInstance())
                         .addToBackStack(null)
                         .commit();

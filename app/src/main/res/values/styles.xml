@@ -16,4 +16,9 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowTranslucentStatus">true</item>
     </style>
+
+    <style name="ColorPickerAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_top_enter</item>
+        <item name="android:windowExitAnimation">@anim/slide_top_exit</item>
+    </style>
 </resources>

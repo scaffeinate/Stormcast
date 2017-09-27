@@ -120,6 +120,7 @@ public class MaterialColorPickDialog {
             this.fillGrid();
 
             this.mAlertDialog = this.mDialogBuilder.create();
+            this.mAlertDialog.getWindow().getAttributes().windowAnimations = R.style.ColorPickerAnimation;
             return this;
         }
 

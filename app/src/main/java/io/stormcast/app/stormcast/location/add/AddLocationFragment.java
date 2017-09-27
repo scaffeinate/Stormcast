@@ -160,7 +160,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
                 MapsInitializer.initialize(getActivity().getApplicationContext());
                 mMapView.onResume();
             }
-        }, 300);
+        }, 700);
     }
 
     @Override
