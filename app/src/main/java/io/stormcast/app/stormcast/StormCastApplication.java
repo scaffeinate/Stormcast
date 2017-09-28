@@ -2,6 +2,7 @@ package io.stormcast.app.stormcast;
 
 import android.app.Application;
 
+import com.facebook.stetho.Stetho;
 import com.squareup.leakcanary.LeakCanary;
 
 /**
@@ -14,5 +15,6 @@ public class StormCastApplication extends Application {
         super.onCreate();
         if (LeakCanary.isInAnalyzerProcess(this)) return;
         LeakCanary.install(this);
+        Stetho.initializeWithDefaults(this);
     }
 }
