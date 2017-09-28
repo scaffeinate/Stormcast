@@ -13,6 +13,19 @@ public class LocationModelBuilder {
     protected String backgroundColor = null, textColor = null;
     protected int unit = LocationModel.MINUS_ONE, position = 0;
 
+    public LocationModelBuilder() {}
+
+    public LocationModelBuilder(LocationModel locationModel) {
+        setId(locationModel.getId())
+                .setName(locationModel.getName())
+                .setLatitude(locationModel.getLatitude())
+                .setLongitude(locationModel.getLongitude())
+                .setBackgroundColor(locationModel.getBackgroundColor())
+                .setTextColor(locationModel.getTextColor())
+                .setUnit(locationModel.getPosition())
+                .setPosition(locationModel.getPosition());
+    }
+
     public LocationModelBuilder setId(int id) {
         this.id = id;
         return this;

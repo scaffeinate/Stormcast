@@ -52,6 +52,8 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     private static final String TAG = AddLocationFragment.class.toString();
 
     private static final String LOCATION = "location";
+    private static final String POSITION = "position";
+    private static final String LOCATION_MODEL = "location_model";
     private static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 100;
     private static final float TILT = 10f;
     private static final float ZOOM = 12f;
@@ -73,8 +75,18 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     private MaterialColorPickDialog.Builder mTextColorDialogBuilder;
     private SwitchTabSelector mSwitchTabSelector;
 
-    public static AddLocationFragment newInstance() {
+    public static AddLocationFragment newInstance(int position) {
+        return newInstance(position, new LocationModel());
+    }
+
+    public static AddLocationFragment newInstance(int position, LocationModel locationModel) {
         AddLocationFragment addLocationFragment = new AddLocationFragment();
+
+        Bundle args = new Bundle();
+        args.putInt(POSITION, position);
+        args.putParcelable(LOCATION_MODEL, locationModel);
+        addLocationFragment.setArguments(args);
+
         return addLocationFragment;
     }
 
@@ -86,7 +98,10 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
         mLocationsRepository = LocationsRepository.getInstance(LocalLocationsDataSource
                 .getInstance(getActivity().getApplicationContext()));
         mPresenter = new AddLocationPresenter(this, mLocationsRepository);
-        mLocationModelBuilder = new LocationModelBuilder();
+
+        mLocationModelBuilder = new LocationModelBuilder((LocationModel) getArguments().getParcelable(LOCATION_MODEL));
+        mLocationModelBuilder.setPosition(getArguments().getInt(POSITION));
+
         mBgColorDialogBuilder = MaterialColorPickDialog.with(mContext);
         mTextColorDialogBuilder = MaterialColorPickDialog.with(mContext);
         setHasOptionsMenu(true);
