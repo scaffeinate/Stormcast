@@ -67,4 +67,11 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         }
     }
+
+    @Override
+    public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+        super.clearView(recyclerView, viewHolder);
+        LocationsListAdapter.ViewHolder holder = ((LocationsListAdapter.ViewHolder) viewHolder);
+        holder.listItemLayout.setX(0);
+    }
 }
