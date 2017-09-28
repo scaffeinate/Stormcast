@@ -11,13 +11,12 @@
         android:paddingRight="@dimen/item_location_bg_text_padding"
         android:visibility="gone">
 
-        <io.stormcast.app.stormcast.views.styled.StyledTextView
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="@string/edit"
-            android:textColor="@color/textColorLight" />
+            android:src="@drawable/ic_pencil_white_24dp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -28,13 +27,12 @@
         android:paddingLeft="@dimen/item_location_bg_text_padding"
         android:visibility="gone">
 
-        <io.stormcast.app.stormcast.views.styled.StyledTextView
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:text="@string/delete"
-            android:textColor="@color/textColorLight" />
+            android:src="@drawable/ic_delete_white_24dp" />
     </RelativeLayout>
 
     <RelativeLayout

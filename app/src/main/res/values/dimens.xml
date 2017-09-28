@@ -13,5 +13,5 @@
     <dimen name="item_color_selected_padding">10dp</dimen>
     <dimen name="fragment_forecast_padding">30dp</dimen>
     <dimen name="item_overview_weather_icon_margin_top">25dp</dimen>
-    <dimen name="item_location_bg_text_padding">45dp</dimen>
+    <dimen name="item_location_bg_text_padding">30dp</dimen>
 </resources>
