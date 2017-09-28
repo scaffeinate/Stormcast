@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
@@ -41,6 +42,8 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
 
     private Context mContext;
 
+    private FragmentManager mFragmentManager;
+
     private Toolbar mToolbar;
     private StyledTextView mToolbarTitle;
     private RecyclerView mRecyclerView;
@@ -55,7 +58,8 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
     private ItemTouchHelper mItemTouchHelper;
     private ItemTouchHelper.Callback mCallback;
 
-    private int mPosition = 0;
+    private int mInsertPosition = 0;
+    private int mDeletedPosition = 0;
 
     public static LocationsListFragment newInstance() {
         LocationsListFragment locationsListFragment = new LocationsListFragment();
@@ -85,6 +89,7 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
         mRecyclerView.setHasFixedSize(true);
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        mFragmentManager = getActivity().getSupportFragmentManager();
 
         return view;
     }
@@ -108,10 +113,9 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add_location_menu_item:
-                getActivity().getSupportFragmentManager()
-                        .beginTransaction()
+                mFragmentManager.beginTransaction()
                         .setCustomAnimations(R.anim.slide_left_enter, R.anim.slide_left_exit, R.anim.slide_right_enter, R.anim.slide_right_exit)
-                        .replace(R.id.locations_content, AddLocationFragment.newInstance())
+                        .replace(R.id.locations_content, AddLocationFragment.newInstance(mInsertPosition))
                         .addToBackStack(null)
                         .commit();
                 return true;
@@ -128,6 +132,8 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setVisibility(View.VISIBLE);
 
+        this.mInsertPosition = (locationModelList.isEmpty()) ? 1 : (locationModelList.get(locationModelList.size() - 1).getPosition() + 1);
+
         mCallback = new ItemTouchHelperCallback(this);
         mItemTouchHelper = new ItemTouchHelper(mCallback);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
@@ -142,28 +148,39 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
     @Override
     public void onLocationDeleted() {
         Toast.makeText(mContext, "Location deleted successfully", Toast.LENGTH_SHORT).show();
-        mLocationModelList.remove(this.mPosition);
-        mAdapter.notifyItemRemoved(this.mPosition);
-        this.mPosition = 0;
+        mLocationModelList.remove(this.mDeletedPosition);
+        mAdapter.notifyItemRemoved(this.mDeletedPosition);
+        this.mDeletedPosition = 0;
     }
 
     @Override
     public void onLocationDeleteFailed(String errorMessage) {
         Toast.makeText(mContext, errorMessage, Toast.LENGTH_SHORT).show();
-        this.mPosition = 0;
+        this.mDeletedPosition = 0;
     }
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
         Collections.swap(mLocationModelList, fromPosition, toPosition);
+        new ReorderLocationsTask(mPresenter, mLocationModelList, fromPosition, toPosition).execute();
         mAdapter.notifyItemMoved(fromPosition, toPosition);
     }
 
     @Override
-    public void onItemDismiss(int position) {
+    public void onItemSwipeRight(int position) {
         LocationModel locationModel = mLocationModelList.get(position);
-        this.mPosition = position;
+        this.mDeletedPosition = position;
         mPresenter.deleteLocation(locationModel);
+    }
+
+    @Override
+    public void onItemSwipeLeft(int position) {
+        LocationModel locationModel = mLocationModelList.get(position);
+        mFragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.slide_left_enter, R.anim.slide_left_exit, R.anim.slide_right_enter, R.anim.slide_right_exit)
+                .replace(R.id.locations_content, AddLocationFragment.newInstance(locationModel.getPosition(), locationModel))
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override

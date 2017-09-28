@@ -7,5 +7,7 @@ package io.stormcast.app.stormcast.location.list.helpers;
 public interface ItemTouchHelperAdapter {
     void onItemMove(int fromPosition, int toPosition);
 
-    void onItemDismiss(int position);
+    void onItemSwipeRight(int position);
+
+    void onItemSwipeLeft(int position);
 }
