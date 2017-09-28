@@ -38,6 +38,14 @@ public class DarkSkyApiClient {
         darkSkyApi = mRetrofit.create(DarkSkyAPI.class);
     }
 
+    public static DarkSkyApiClient getInstance() {
+        if (mDarkSkyApiClient == null) {
+            mDarkSkyApiClient = new DarkSkyApiClient();
+        }
+
+        return mDarkSkyApiClient;
+    }
+
     public void loadForecast(LocationModel locationModel, final ApiCallback apiCallback) {
         String latLng = new StringBuilder()
                 .append(locationModel.getLatitude())
@@ -61,6 +69,7 @@ public class DarkSkyApiClient {
 
     interface ApiCallback {
         void onLoadForecast(Forecast forecast);
+
         void onFailure(String errorMessage);
     }
 }
