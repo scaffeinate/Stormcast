@@ -3,4 +3,4 @@
 
 :zap: Stormcast - Weather Android application based on DarkSky API
 
-### [LICENSE](https://github.com/scaffeinate/Stormcast/blob/master/LICENSE)
+### [Licensed under GNU GPL 3.0](https://github.com/scaffeinate/Stormcast/blob/master/LICENSE)
