@@ -86,9 +86,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         mHumidityTextView = (StyledTextView) view.findViewById(R.id.humidity_text_view);
 
         mWeatherIconView = (WeatherIconView) view.findViewById(R.id.weather_icon_view);
-
-        LinearLayoutManager layoutManager
-                = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+        mLocationName.setText(mLocationModel.getName());
 
         view.setBackgroundColor(backgroundColor);
         setColors(mOverviewLayout);
