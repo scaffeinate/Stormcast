@@ -12,4 +12,6 @@
     <string name="imperial">Imperial</string>
     <string name="metric">Metric</string>
     <string name="pick_a_color">Pick a color</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
 </resources>

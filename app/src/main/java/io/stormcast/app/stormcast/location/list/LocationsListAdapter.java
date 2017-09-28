@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import java.util.List;
 
@@ -57,12 +58,18 @@ public class LocationsListAdapter extends RecyclerView.Adapter<LocationsListAdap
         return mLocationModelList.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        public final RelativeLayout listItemLayout;
+        public final RelativeLayout deleteLocationLayout;
+        public final RelativeLayout editLocationLayout;
         private final StyledTextView nameTextView;
         private final ImageView reorderIcon;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            listItemLayout = (RelativeLayout) itemView.findViewById(R.id.list_item_layout);
+            deleteLocationLayout = (RelativeLayout) itemView.findViewById(R.id.delete_location_layout);
+            editLocationLayout = (RelativeLayout) itemView.findViewById(R.id.edit_location_layout);
             nameTextView = (StyledTextView) itemView.findViewById(R.id.location_name_text_view);
             reorderIcon = (ImageView) itemView.findViewById(R.id.reorder_icon);
         }

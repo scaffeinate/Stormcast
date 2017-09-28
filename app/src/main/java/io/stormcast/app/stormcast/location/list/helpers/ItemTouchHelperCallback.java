@@ -1,7 +1,11 @@
 package io.stormcast.app.stormcast.location.list.helpers;
 
+import android.graphics.Canvas;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.View;
+
+import io.stormcast.app.stormcast.location.list.LocationsListAdapter;
 
 /**
  * Created by sudharti on 9/24/17.
@@ -28,7 +32,7 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
     @Override
     public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
         int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
-        int swipeFlags = ItemTouchHelper.END;
+        int swipeFlags = ItemTouchHelper.END | ItemTouchHelper.START;
         return makeMovementFlags(dragFlags, swipeFlags);
     }
 
@@ -40,6 +44,27 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-        this.mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
+        if (direction == ItemTouchHelper.END) {
+            this.mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
+        } else if (direction == ItemTouchHelper.START) {
+
+        }
+    }
+
+    @Override
+    public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+        if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+            LocationsListAdapter.ViewHolder holder = ((LocationsListAdapter.ViewHolder) viewHolder);
+            if (dX > 0) {
+                holder.deleteLocationLayout.setVisibility(View.VISIBLE);
+                holder.editLocationLayout.setVisibility(View.GONE);
+            } else {
+                holder.deleteLocationLayout.setVisibility(View.GONE);
+                holder.editLocationLayout.setVisibility(View.VISIBLE);
+            }
+            holder.listItemLayout.setTranslationX(dX);
+        } else {
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+        }
     }
 }

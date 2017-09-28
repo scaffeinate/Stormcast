@@ -1,26 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/selector_list_item"
-    android:clickable="true"
-    android:padding="@dimen/item_location_padding">
+    android:layout_height="wrap_content">
 
-    <io.stormcast.app.stormcast.views.styled.StyledTextView
-        android:id="@+id/location_name_text_view"
+    <RelativeLayout
+        android:id="@+id/edit_location_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:textColor="@drawable/selector_list_item_text"
-        android:textSize="@dimen/font_size_body" />
+        android:layout_height="match_parent"
+        android:background="@color/listItemEditColor"
+        android:paddingRight="@dimen/item_location_bg_text_padding"
+        android:visibility="gone">
 
-    <ImageView
-        android:id="@+id/reorder_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:background="@drawable/ic_reorder_horizontal_black_24dp"
-        android:backgroundTint="@color/colorAccent" />
-</RelativeLayout>
+        <io.stormcast.app.stormcast.views.styled.StyledTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="@string/edit"
+            android:textColor="@color/textColorLight" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/delete_location_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/listItemDeleteColor"
+        android:paddingLeft="@dimen/item_location_bg_text_padding"
+        android:visibility="gone">
+
+        <io.stormcast.app.stormcast.views.styled.StyledTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="@string/delete"
+            android:textColor="@color/textColorLight" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/list_item_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:clickable="true"
+        android:foreground="?selectableItemBackground"
+        android:padding="@dimen/item_location_padding">
+
+        <io.stormcast.app.stormcast.views.styled.StyledTextView
+            android:id="@+id/location_name_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/font_size_body" />
+
+        <ImageView
+            android:id="@+id/reorder_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_reorder_horizontal_black_24dp"
+            android:backgroundTint="@color/colorAccent" />
+    </RelativeLayout>
+</FrameLayout>
