@@ -49,4 +49,9 @@ public class LocationsListPresenter implements LocationsListContract.Presenter {
             }
         });
     }
+
+    @Override
+    public void reorder(List<LocationModel> locationModels) {
+        mLocationsRepository.reorder(locationModels);
+    }
 }

@@ -16,6 +16,8 @@ public interface LocationsDataSource {
 
     void deleteLocation(LocationModel locationModel, DeleteLocationCallback deleteLocationCallback);
 
+    void reorder(List<LocationModel> locationModels);
+
     interface SaveLocationCallback {
         void onLocationSaved();
 

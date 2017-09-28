@@ -13,6 +13,8 @@ public interface LocationsListContract {
         void getLocations();
 
         void deleteLocation(LocationModel locationModel);
+
+        void reorder(List<LocationModel> locationModels);
     }
 
     interface View {

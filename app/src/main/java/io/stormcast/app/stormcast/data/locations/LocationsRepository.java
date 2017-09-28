@@ -1,5 +1,7 @@
 package io.stormcast.app.stormcast.data.locations;
 
+import java.util.List;
+
 import io.stormcast.app.stormcast.common.models.LocationModel;
 
 /**
@@ -35,5 +37,10 @@ public class LocationsRepository implements LocationsDataSource {
     @Override
     public void deleteLocation(LocationModel locationModel, DeleteLocationCallback deleteLocationCallback) {
         mLocalDataSource.deleteLocation(locationModel, deleteLocationCallback);
+    }
+
+    @Override
+    public void reorder(List<LocationModel> locationModels) {
+        mLocalDataSource.reorder(locationModels);
     }
 }

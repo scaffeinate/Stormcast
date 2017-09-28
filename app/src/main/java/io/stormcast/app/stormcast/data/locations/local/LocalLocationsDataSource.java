@@ -40,13 +40,7 @@ public class LocalLocationsDataSource implements LocationsDataSource {
         SQLiteDatabase database = mLocationsDbHelper.getWritableDatabase();
         try {
             ContentValues cv = new ContentValues();
-            cv.put(PersistenceContract.LocationEntry.NAME, locationModel.getName());
-            cv.put(PersistenceContract.LocationEntry.LATITUDE, locationModel.getLatitude());
-            cv.put(PersistenceContract.LocationEntry.LONGITUDE, locationModel.getLongitude());
-            cv.put(PersistenceContract.LocationEntry.BG_COLOR, locationModel.getBackgroundColor());
-            cv.put(PersistenceContract.LocationEntry.TEXT_COLOR, locationModel.getTextColor());
-            cv.put(PersistenceContract.LocationEntry.UNIT, locationModel.getUnit());
-            cv.put(PersistenceContract.LocationEntry.POSITION, locationModel.getPosition());
+            populateContentValues(cv, locationModel);
 
             database.insertOrThrow(PersistenceContract.LocationEntry.TABLE_NAME, null, cv);
             saveLocationCallback.onLocationSaved();
@@ -113,5 +107,26 @@ public class LocalLocationsDataSource implements LocationsDataSource {
         } else {
             deleteLocationCallback.onLocationDeleted();
         }
+    }
+
+    @Override
+    public void reorder(List<LocationModel> locationModels) {
+        SQLiteDatabase database = mLocationsDbHelper.getWritableDatabase();
+        for (LocationModel locationModel : locationModels) {
+            ContentValues cv = new ContentValues();
+            populateContentValues(cv, locationModel);
+            database.update(PersistenceContract.LocationEntry.TABLE_NAME, cv, PersistenceContract.LocationEntry.ID + " = ? ",
+                    new String[]{String.valueOf(locationModel.getId())});
+        }
+    }
+
+    private void populateContentValues(ContentValues cv, LocationModel locationModel) {
+        cv.put(PersistenceContract.LocationEntry.NAME, locationModel.getName());
+        cv.put(PersistenceContract.LocationEntry.LATITUDE, locationModel.getLatitude());
+        cv.put(PersistenceContract.LocationEntry.LONGITUDE, locationModel.getLongitude());
+        cv.put(PersistenceContract.LocationEntry.BG_COLOR, locationModel.getBackgroundColor());
+        cv.put(PersistenceContract.LocationEntry.TEXT_COLOR, locationModel.getTextColor());
+        cv.put(PersistenceContract.LocationEntry.UNIT, locationModel.getUnit());
+        cv.put(PersistenceContract.LocationEntry.POSITION, locationModel.getPosition());
     }
 }
