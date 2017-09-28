@@ -66,7 +66,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         mLocationModel = getArguments().getParcelable(LOCATION);
         mContext = getContext();
         mPresenter = new ForecastPresenter(this, ForecastRepository.getInstance(
-                LocalForecastDataSource.getInstance(mContext),
+                LocalForecastDataSource.getInstance(getActivity().getApplicationContext()),
                 RemoteForecastDataSource.getInstance()));
         backgroundColor = Color.parseColor(mLocationModel.getBackgroundColor());
         textColor = Color.parseColor(mLocationModel.getTextColor());

@@ -82,7 +82,9 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getContext();
-        mLocationsRepository = LocationsRepository.getInstance(LocalLocationsDataSource.getInstance(mContext));
+
+        mLocationsRepository = LocationsRepository.getInstance(LocalLocationsDataSource
+                .getInstance(getActivity().getApplicationContext()));
         mPresenter = new AddLocationPresenter(this, mLocationsRepository);
         mLocationModelBuilder = new LocationModelBuilder();
         mBgColorDialogBuilder = MaterialColorPickDialog.with(mContext);
