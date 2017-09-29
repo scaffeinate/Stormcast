@@ -20,7 +20,7 @@ public class ForecastDbHelper extends SQLiteOpenHelper {
             PersistenceContract.ForecastEntry.TEMPERATURE + " REAL, " + PersistenceContract.ForecastEntry.APPARENT_TEMPERATURE + " REAL, " +
             PersistenceContract.ForecastEntry.HUMIDITY + " REAL, " + PersistenceContract.ForecastEntry.WIND_SPEED + " REAL, " +
             PersistenceContract.ForecastEntry.PRESSURE + " REAL, " + PersistenceContract.ForecastEntry.VISIBILITY + " REAL, " +
-            PersistenceContract.ForecastEntry.UPDATED_AT + " DATETIME, " + PersistenceContract.ForecastEntry.LOCATION_ID +
+            PersistenceContract.ForecastEntry.UPDATED_AT + " DATETIME DEFAULT CURRENT_TIMESTAMP, " + PersistenceContract.ForecastEntry.LOCATION_ID +
             " INTEGER NOT NULL FOREIGN KEY ( " + PersistenceContract.ForecastEntry.LOCATION_ID + " ) " +
             " REFERENCES " + PersistenceContract.LocationEntry.TABLE_NAME + "(" + PersistenceContract.LocationEntry.ID + ")" +
             " ) ";
