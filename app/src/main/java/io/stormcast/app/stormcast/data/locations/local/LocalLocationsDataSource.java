@@ -20,7 +20,7 @@ import io.stormcast.app.stormcast.data.locations.LocationsDataSource;
 
 public class LocalLocationsDataSource implements LocationsDataSource {
 
-    private static LocalLocationsDataSource mLocalLocationsDataSource;
+    private static LocalLocationsDataSource sLocalLocationsDataSource;
     private LocationsDbHelper mLocationsDbHelper;
 
     private LocalLocationsDataSource(Context context) {
@@ -28,11 +28,11 @@ public class LocalLocationsDataSource implements LocationsDataSource {
     }
 
     public static LocalLocationsDataSource getInstance(Context context) {
-        if (mLocalLocationsDataSource == null) {
-            mLocalLocationsDataSource = new LocalLocationsDataSource(context);
+        if (sLocalLocationsDataSource == null) {
+            sLocalLocationsDataSource = new LocalLocationsDataSource(context);
         }
 
-        return mLocalLocationsDataSource;
+        return sLocalLocationsDataSource;
     }
 
     @Override
