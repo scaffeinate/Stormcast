@@ -27,7 +27,8 @@ public final class ForecastMapper {
                         .setHumidity(currently.getHumidity())
                         .setPressure(currently.getPressure())
                         .setVisibility(currently.getVisibility())
-                        .setWindSpeed(currently.getWindSpeed());
+                        .setWindSpeed(currently.getWindSpeed())
+                        .setUpdatedAt(new Date().getTime());
             }
 
             if (forecast.getFlags() != null) {

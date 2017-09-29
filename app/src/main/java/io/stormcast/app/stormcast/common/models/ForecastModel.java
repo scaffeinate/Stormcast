@@ -3,8 +3,6 @@ package io.stormcast.app.stormcast.common.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Date;
-
 /**
  * Created by sudharti on 8/24/17.
  */
@@ -22,13 +20,14 @@ public class ForecastModel implements Parcelable {
             return new ForecastModel[size];
         }
     };
-    private String timezone, summary, icon, units, updatedAt;
+    private String timezone, summary, icon, units;
     private int currentTime, locationId;
     private double temperature, apparentTemperature;
     private double humidity;
     private double windSpeed;
     private double pressure;
     private double visibility;
+    private long updatedAt;
 
     protected ForecastModel(Parcel in) {
         setTimezone(in.readString());
@@ -41,7 +40,7 @@ public class ForecastModel implements Parcelable {
         setWindSpeed(in.readDouble());
         setPressure(in.readDouble());
         setVisibility(in.readDouble());
-        setUpdatedAt(in.readString());
+        setUpdatedAt(in.readLong());
         setUnits(in.readString());
         setLocationId(in.readInt());
 
@@ -143,11 +142,11 @@ public class ForecastModel implements Parcelable {
         this.visibility = visibility;
     }
 
-    public String getUpdatedAt() {
+    public long getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(String updatedAt) {
+    public void setUpdatedAt(long updatedAt) {
         this.updatedAt = updatedAt;
     }
 
@@ -185,7 +184,7 @@ public class ForecastModel implements Parcelable {
         parcel.writeDouble(this.windSpeed);
         parcel.writeDouble(this.pressure);
         parcel.writeDouble(this.visibility);
-        parcel.writeString(this.updatedAt);
+        parcel.writeLong(this.updatedAt);
         parcel.writeString(this.units);
         parcel.writeInt(this.locationId);
     }

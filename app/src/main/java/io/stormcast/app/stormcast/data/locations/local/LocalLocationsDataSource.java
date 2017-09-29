@@ -57,7 +57,7 @@ public class LocalLocationsDataSource implements LocationsDataSource {
         List<LocationModel> locationList = new ArrayList<>();
         SQLiteDatabase database = mDbHelper.getReadableDatabase();
         String[] projection = new String[]{
-                PersistenceContract.LocationEntry.ID,
+                PersistenceContract.LocationEntry._ID,
                 PersistenceContract.LocationEntry.NAME,
                 PersistenceContract.LocationEntry.LATITUDE,
                 PersistenceContract.LocationEntry.LONGITUDE,
@@ -72,7 +72,7 @@ public class LocalLocationsDataSource implements LocationsDataSource {
             c.moveToFirst();
             while (!c.isAfterLast()) {
                 LocationModel locationModel = new LocationModelBuilder()
-                        .setId(c.getInt(c.getColumnIndex(PersistenceContract.LocationEntry.ID)))
+                        .setId(c.getInt(c.getColumnIndex(PersistenceContract.LocationEntry._ID)))
                         .setName(c.getString(c.getColumnIndex(PersistenceContract.LocationEntry.NAME)))
                         .setBackgroundColor(c.getString(c.getColumnIndex(PersistenceContract.LocationEntry.BG_COLOR)))
                         .setTextColor(c.getString(c.getColumnIndex(PersistenceContract.LocationEntry.TEXT_COLOR)))
@@ -100,7 +100,7 @@ public class LocalLocationsDataSource implements LocationsDataSource {
     @Override
     public void deleteLocation(LocationModel locationModel, DeleteLocationCallback deleteLocationCallback) {
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
-        int numRows = database.delete(PersistenceContract.LocationEntry.TABLE_NAME, PersistenceContract.LocationEntry.ID + " = ? ",
+        int numRows = database.delete(PersistenceContract.LocationEntry.TABLE_NAME, PersistenceContract.LocationEntry._ID + " = ? ",
                 new String[]{String.valueOf(locationModel.getId())});
         database.close();
         if (numRows == 0) {
@@ -116,7 +116,7 @@ public class LocalLocationsDataSource implements LocationsDataSource {
         for (LocationModel locationModel : locationModels) {
             ContentValues cv = new ContentValues();
             populateContentValues(cv, locationModel);
-            database.update(PersistenceContract.LocationEntry.TABLE_NAME, cv, PersistenceContract.LocationEntry.ID + " = ? ",
+            database.update(PersistenceContract.LocationEntry.TABLE_NAME, cv, PersistenceContract.LocationEntry._ID + " = ? ",
                     new String[]{String.valueOf(locationModel.getId())});
         }
     }

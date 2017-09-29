@@ -13,22 +13,22 @@ public class DbHelper extends SQLiteOpenHelper {
     private static DbHelper sDbHelper;
 
     private final static String CREATE_LOCATIONS_TABLE_SQL = " CREATE TABLE " + PersistenceContract.LocationEntry.TABLE_NAME + " ( " +
-            PersistenceContract.LocationEntry.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + PersistenceContract.LocationEntry.POSITION + " INTEGER, " +
+            PersistenceContract.LocationEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + PersistenceContract.LocationEntry.POSITION + " INTEGER, " +
             PersistenceContract.LocationEntry.NAME + " TEXT, " + PersistenceContract.LocationEntry.LATITUDE + " REAL, " +
             PersistenceContract.LocationEntry.LONGITUDE + " REAL, " + PersistenceContract.LocationEntry.BG_COLOR + " VARCHAR, " +
             PersistenceContract.LocationEntry.TEXT_COLOR + " VARCHAR, " + PersistenceContract.LocationEntry.UNIT + " INTEGER)";
 
     private final static String CREATE_FORECAST_TABLE_SQL = " CREATE TABLE " + PersistenceContract.ForecastEntry.TABLE_NAME +
             " ( " +
-            PersistenceContract.ForecastEntry.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            PersistenceContract.ForecastEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             PersistenceContract.ForecastEntry.SUMMARY + " TEXT, " + PersistenceContract.ForecastEntry.ICON + " VARCHAR, " +
             PersistenceContract.ForecastEntry.TIMEZONE + " VARCHAR, " + PersistenceContract.ForecastEntry.UNITS + " VARCHAR, " +
             PersistenceContract.ForecastEntry.TEMPERATURE + " REAL, " + PersistenceContract.ForecastEntry.APPARENT_TEMPERATURE + " REAL, " +
             PersistenceContract.ForecastEntry.HUMIDITY + " REAL, " + PersistenceContract.ForecastEntry.WIND_SPEED + " REAL, " +
             PersistenceContract.ForecastEntry.PRESSURE + " REAL, " + PersistenceContract.ForecastEntry.VISIBILITY + " REAL, " +
-            PersistenceContract.ForecastEntry.UPDATED_AT + " DATETIME DEFAULT CURRENT_TIMESTAMP, " + PersistenceContract.ForecastEntry.LOCATION_ID +
+            PersistenceContract.ForecastEntry.UPDATED_AT + " INTEGER, " + PersistenceContract.ForecastEntry.LOCATION_ID +
             " INTEGER NOT NULL, FOREIGN KEY ( " + PersistenceContract.ForecastEntry.LOCATION_ID + " ) " +
-            " REFERENCES " + PersistenceContract.LocationEntry.TABLE_NAME + "(" + PersistenceContract.LocationEntry.ID + ")" +
+            " REFERENCES " + PersistenceContract.LocationEntry.TABLE_NAME + "(" + PersistenceContract.LocationEntry._ID + ")" +
             " ) ";
 
 

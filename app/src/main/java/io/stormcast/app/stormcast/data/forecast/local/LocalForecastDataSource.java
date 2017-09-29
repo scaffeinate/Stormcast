@@ -37,8 +37,7 @@ public class LocalForecastDataSource implements ForecastDataSource {
     public void loadForecast(final LocationModel locationModel, boolean isManualRefresh, LoadForecastCallback loadForecastCallback) {
         ForecastModel forecastModel = null;
         SQLiteDatabase database = mDbHelper.getReadableDatabase();
-        String[] projection = new String[]{
-                PersistenceContract.ForecastEntry.ID,
+        String[] projection = new String[] {
                 PersistenceContract.ForecastEntry.TEMPERATURE,
                 PersistenceContract.ForecastEntry.APPARENT_TEMPERATURE,
                 PersistenceContract.ForecastEntry.HUMIDITY,
@@ -66,7 +65,7 @@ public class LocalForecastDataSource implements ForecastDataSource {
                         .setWindSpeed(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.WIND_SPEED)))
                         .setVisibility(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.VISIBILITY)))
                         .setUnits(c.getString(c.getColumnIndex(PersistenceContract.ForecastEntry.UNITS)))
-                        .setUpdatedAt(c.getString(c.getColumnIndex(PersistenceContract.ForecastEntry.UPDATED_AT)))
+                        .setUpdatedAt(c.getLong(c.getColumnIndex(PersistenceContract.ForecastEntry.UPDATED_AT)))
                         .setTimezone(c.getString(c.getColumnIndex(PersistenceContract.ForecastEntry.TIMEZONE)))
                         .build();
             }
@@ -85,10 +84,16 @@ public class LocalForecastDataSource implements ForecastDataSource {
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
         ContentValues cv = new ContentValues();
         populate(cv, forecastModel);
+        String where = PersistenceContract.ForecastEntry.LOCATION_ID + " = ? ";
+        String[] whereArgs = new String[]{String.valueOf(forecastModel.getLocationId())};
         try {
-            //Insert or Update here
+            int numRowsAffected = database.update(PersistenceContract.ForecastEntry.TABLE_NAME, cv, where, whereArgs);
+
+            if (numRowsAffected == 0) {
+                database.insert(PersistenceContract.ForecastEntry.TABLE_NAME, null, cv);
+            }
         } catch (SQLiteException e) {
-            //Log e.getMessage();
+
         } finally {
             database.close();
         }
@@ -106,5 +111,6 @@ public class LocalForecastDataSource implements ForecastDataSource {
         cv.put(PersistenceContract.ForecastEntry.UNITS, forecastModel.getUnits());
         cv.put(PersistenceContract.ForecastEntry.UPDATED_AT, forecastModel.getUpdatedAt());
         cv.put(PersistenceContract.ForecastEntry.TIMEZONE, forecastModel.getTimezone());
+        cv.put(PersistenceContract.ForecastEntry.LOCATION_ID, forecastModel.getLocationId());
     }
 }
