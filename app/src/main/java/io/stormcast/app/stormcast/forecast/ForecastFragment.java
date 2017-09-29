@@ -10,6 +10,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -155,6 +156,8 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
                 ((WeatherIconView) view).setIconColor(textColor);
             } else if (view instanceof RelativeLayout || view instanceof LinearLayout) {
                 setColors((ViewGroup) view);
+            } else if (view instanceof ImageView) {
+                ((ImageView) view).setColorFilter(textColor);
             }
         }
     }
