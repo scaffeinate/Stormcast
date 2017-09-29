@@ -7,10 +7,9 @@ import java.util.Date;
  */
 
 public class ForecastModelBuilder {
-    protected String timezone, summary, icon, units;
-    protected int currentTime;
+    protected String timezone, summary, icon, units, updatedAt;
+    protected int currentTime, locationId;
     protected double temperature, apparentTemperature, humidity, windSpeed, pressure, visibility;
-    protected Date updatedAt;
 
     public ForecastModelBuilder setTimezone(String timezone) {
         this.timezone = timezone;
@@ -62,13 +61,18 @@ public class ForecastModelBuilder {
         return this;
     }
 
-    public ForecastModelBuilder setUpdatedAt(Date updatedAt) {
+    public ForecastModelBuilder setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
         return this;
     }
 
     public ForecastModelBuilder setUnits(String units) {
         this.units = units;
+        return this;
+    }
+
+    public ForecastModelBuilder setLocationId(int locationId) {
+        this.locationId = locationId;
         return this;
     }
 

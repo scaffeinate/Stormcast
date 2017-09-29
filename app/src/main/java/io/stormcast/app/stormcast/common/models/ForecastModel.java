@@ -22,10 +22,9 @@ public class ForecastModel implements Parcelable {
             return new ForecastModel[size];
         }
     };
-    private String timezone, summary, icon, units;
-    private int currentTime;
+    private String timezone, summary, icon, units, updatedAt;
+    private int currentTime, locationId;
     private double temperature, apparentTemperature;
-    private Date updatedAt;
     private double humidity;
     private double windSpeed;
     private double pressure;
@@ -42,8 +41,10 @@ public class ForecastModel implements Parcelable {
         setWindSpeed(in.readDouble());
         setPressure(in.readDouble());
         setVisibility(in.readDouble());
-        setUpdatedAt((Date) in.readValue(Date.class.getClassLoader()));
+        setUpdatedAt(in.readString());
         setUnits(in.readString());
+        setLocationId(in.readInt());
+
     }
 
     protected ForecastModel(ForecastModelBuilder builder) {
@@ -59,6 +60,7 @@ public class ForecastModel implements Parcelable {
         setVisibility(builder.visibility);
         setUpdatedAt(builder.updatedAt);
         setUnits(builder.units);
+        setLocationId(builder.locationId);
     }
 
     public String getTimezone() {
@@ -141,11 +143,11 @@ public class ForecastModel implements Parcelable {
         this.visibility = visibility;
     }
 
-    public Date getUpdatedAt() {
+    public String getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
     }
 
@@ -155,6 +157,15 @@ public class ForecastModel implements Parcelable {
 
     public void setUnits(String units) {
         this.units = units;
+    }
+
+
+    public int getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(int locationId) {
+        this.locationId = locationId;
     }
 
     @Override
@@ -174,7 +185,8 @@ public class ForecastModel implements Parcelable {
         parcel.writeDouble(this.windSpeed);
         parcel.writeDouble(this.pressure);
         parcel.writeDouble(this.visibility);
-        parcel.writeValue(this.updatedAt);
+        parcel.writeString(this.updatedAt);
         parcel.writeString(this.units);
+        parcel.writeInt(this.locationId);
     }
 }
