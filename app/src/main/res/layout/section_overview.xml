@@ -55,18 +55,47 @@
             android:gravity="left"
             android:orientation="vertical">
 
-            <io.stormcast.app.stormcast.views.styled.StyledTextView
-                android:id="@+id/min_temperature_text_view"
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/font_size_subheading" />
+                android:layout_height="wrap_content">
 
-            <io.stormcast.app.stormcast.views.styled.StyledTextView
-                android:id="@+id/max_temperature_text_view"
+                <ImageView
+                    android:id="@+id/icon_min_temperature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:src="@drawable/ic_arrow_down_white_24dp" />
+
+                <io.stormcast.app.stormcast.views.styled.StyledTextView
+                    android:id="@+id/min_temperature_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/icon_min_temperature"
+                    android:textSize="@dimen/font_size_subheading" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="@dimen/font_size_subheading" />
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:id="@+id/icon_max_temperature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:src="@drawable/ic_arrow_up_white_24dp" />
+
+                <io.stormcast.app.stormcast.views.styled.StyledTextView
+                    android:id="@+id/max_temperature_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/icon_max_temperature"
+                    android:textSize="@dimen/font_size_subheading" />
+            </RelativeLayout>
+
+
         </LinearLayout>
 
     </LinearLayout>
@@ -75,8 +104,8 @@
         android:id="@+id/summary_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_below="@+id/temperature_layout"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="35dp"
         android:gravity="center"
         android:textAllCaps="true"
