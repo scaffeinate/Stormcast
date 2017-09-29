@@ -3,13 +3,13 @@ package io.stormcast.app.stormcast.data.forecast.local;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 
 import io.stormcast.app.stormcast.common.models.ForecastModel;
 import io.stormcast.app.stormcast.common.models.ForecastModelBuilder;
 import io.stormcast.app.stormcast.common.models.LocationModel;
+import io.stormcast.app.stormcast.data.DbHelper;
 import io.stormcast.app.stormcast.data.PersistenceContract;
 import io.stormcast.app.stormcast.data.forecast.ForecastDataSource;
 
@@ -20,10 +20,10 @@ import io.stormcast.app.stormcast.data.forecast.ForecastDataSource;
 public class LocalForecastDataSource implements ForecastDataSource {
 
     private static LocalForecastDataSource mLocalForecastDataSource;
-    private ForecastDbHelper mForecastDbHelper;
+    private DbHelper mDbHelper;
 
     private LocalForecastDataSource(Context context) {
-        mForecastDbHelper = new ForecastDbHelper(context);
+        mDbHelper = DbHelper.getInstance(context);
     }
 
     public static LocalForecastDataSource getInstance(Context context) {
@@ -36,7 +36,7 @@ public class LocalForecastDataSource implements ForecastDataSource {
     @Override
     public void loadForecast(final LocationModel locationModel, boolean isManualRefresh, LoadForecastCallback loadForecastCallback) {
         ForecastModel forecastModel = null;
-        SQLiteDatabase database = mForecastDbHelper.getReadableDatabase();
+        SQLiteDatabase database = mDbHelper.getReadableDatabase();
         String[] projection = new String[]{
                 PersistenceContract.ForecastEntry.ID,
                 PersistenceContract.ForecastEntry.TEMPERATURE,
@@ -55,19 +55,21 @@ public class LocalForecastDataSource implements ForecastDataSource {
         Cursor c = database.query(PersistenceContract.ForecastEntry.TABLE_NAME, projection, PersistenceContract.ForecastEntry.LOCATION_ID + " = ?", new String[]{String.valueOf(locationModel.getId())}, null, null, null);
         if (c != null) {
             c.moveToFirst();
-            forecastModel = new ForecastModelBuilder()
-                    .setTemperature(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.TEMPERATURE)))
-                    .setApparentTemperature(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.APPARENT_TEMPERATURE)))
-                    .setHumidity(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.HUMIDITY)))
-                    .setIcon(c.getString(c.getColumnIndex(PersistenceContract.ForecastEntry.ICON)))
-                    .setPressure(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.PRESSURE)))
-                    .setSummary(c.getString(c.getColumnIndex(PersistenceContract.ForecastEntry.SUMMARY)))
-                    .setWindSpeed(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.WIND_SPEED)))
-                    .setVisibility(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.VISIBILITY)))
-                    .setUnits(c.getString(c.getColumnIndex(PersistenceContract.ForecastEntry.UNITS)))
-                    .setUpdatedAt(c.getString(c.getColumnIndex(PersistenceContract.ForecastEntry.UPDATED_AT)))
-                    .setTimezone(c.getString(c.getColumnIndex(PersistenceContract.ForecastEntry.TIMEZONE)))
-                    .build();
+            if (!c.isAfterLast()) {
+                forecastModel = new ForecastModelBuilder()
+                        .setTemperature(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.TEMPERATURE)))
+                        .setApparentTemperature(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.APPARENT_TEMPERATURE)))
+                        .setHumidity(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.HUMIDITY)))
+                        .setIcon(c.getString(c.getColumnIndex(PersistenceContract.ForecastEntry.ICON)))
+                        .setPressure(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.PRESSURE)))
+                        .setSummary(c.getString(c.getColumnIndex(PersistenceContract.ForecastEntry.SUMMARY)))
+                        .setWindSpeed(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.WIND_SPEED)))
+                        .setVisibility(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.VISIBILITY)))
+                        .setUnits(c.getString(c.getColumnIndex(PersistenceContract.ForecastEntry.UNITS)))
+                        .setUpdatedAt(c.getString(c.getColumnIndex(PersistenceContract.ForecastEntry.UPDATED_AT)))
+                        .setTimezone(c.getString(c.getColumnIndex(PersistenceContract.ForecastEntry.TIMEZONE)))
+                        .build();
+            }
             c.close();
         }
         database.close();
@@ -80,7 +82,7 @@ public class LocalForecastDataSource implements ForecastDataSource {
     }
 
     public void saveForecast(final ForecastModel forecastModel) {
-        SQLiteDatabase database = mForecastDbHelper.getWritableDatabase();
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
         ContentValues cv = new ContentValues();
         populate(cv, forecastModel);
         try {

@@ -11,6 +11,7 @@ import java.util.List;
 
 import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.common.models.LocationModelBuilder;
+import io.stormcast.app.stormcast.data.DbHelper;
 import io.stormcast.app.stormcast.data.PersistenceContract;
 import io.stormcast.app.stormcast.data.locations.LocationsDataSource;
 
@@ -21,10 +22,10 @@ import io.stormcast.app.stormcast.data.locations.LocationsDataSource;
 public class LocalLocationsDataSource implements LocationsDataSource {
 
     private static LocalLocationsDataSource sLocalLocationsDataSource;
-    private LocationsDbHelper mLocationsDbHelper;
+    private DbHelper mDbHelper;
 
     private LocalLocationsDataSource(Context context) {
-        mLocationsDbHelper = new LocationsDbHelper(context);
+        mDbHelper = DbHelper.getInstance(context);
     }
 
     public static LocalLocationsDataSource getInstance(Context context) {
@@ -37,7 +38,7 @@ public class LocalLocationsDataSource implements LocationsDataSource {
 
     @Override
     public void saveLocation(final LocationModel locationModel, final SaveLocationCallback saveLocationCallback) {
-        SQLiteDatabase database = mLocationsDbHelper.getWritableDatabase();
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
         try {
             ContentValues cv = new ContentValues();
             populateContentValues(cv, locationModel);
@@ -54,7 +55,7 @@ public class LocalLocationsDataSource implements LocationsDataSource {
     @Override
     public void getLocations(GetLocationsCallback getLocationsCallback) {
         List<LocationModel> locationList = new ArrayList<>();
-        SQLiteDatabase database = mLocationsDbHelper.getReadableDatabase();
+        SQLiteDatabase database = mDbHelper.getReadableDatabase();
         String[] projection = new String[]{
                 PersistenceContract.LocationEntry.ID,
                 PersistenceContract.LocationEntry.NAME,
@@ -98,7 +99,7 @@ public class LocalLocationsDataSource implements LocationsDataSource {
 
     @Override
     public void deleteLocation(LocationModel locationModel, DeleteLocationCallback deleteLocationCallback) {
-        SQLiteDatabase database = mLocationsDbHelper.getWritableDatabase();
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
         int numRows = database.delete(PersistenceContract.LocationEntry.TABLE_NAME, PersistenceContract.LocationEntry.ID + " = ? ",
                 new String[]{String.valueOf(locationModel.getId())});
         database.close();
@@ -111,7 +112,7 @@ public class LocalLocationsDataSource implements LocationsDataSource {
 
     @Override
     public void reorder(List<LocationModel> locationModels) {
-        SQLiteDatabase database = mLocationsDbHelper.getWritableDatabase();
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
         for (LocationModel locationModel : locationModels) {
             ContentValues cv = new ContentValues();
             populateContentValues(cv, locationModel);
