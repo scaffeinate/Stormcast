@@ -40,21 +40,7 @@ public class ForecastRepository implements ForecastDataSource {
             mLocalDataSource.loadForecast(locationModel, isManualRefresh, new LoadForecastCallback() {
                 @Override
                 public void onForecastLoaded(ForecastModel forecastModel) {
-                    String updatedAt = forecastModel.getUpdatedAt();
-                    SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    try {
-                        Date date = iso8601Format.parse(updatedAt);
-                        Date now = new Date();
-                        long sinceLastUpdate = (now.getTime() - date.getTime()) / 60000;
-                        if (sinceLastUpdate <= 15) {
-                            mLocalDataSource.loadForecast(locationModel, isManualRefresh, loadForecastCallback);
-                            return;
-                        }
-                    } catch (ParseException e) {
-
-                    }
-
-                    getUpdateFromRemoteDataSource(locationModel, isManualRefresh, loadForecastCallback);
+                    loadForecastCallback.onForecastLoaded(forecastModel);
                 }
 
                 @Override
