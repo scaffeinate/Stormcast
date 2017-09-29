@@ -1,7 +1,5 @@
 package io.stormcast.app.stormcast.data.forecast;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import io.stormcast.app.stormcast.common.models.ForecastModel;
@@ -13,6 +11,8 @@ import io.stormcast.app.stormcast.data.forecast.local.LocalForecastDataSource;
  */
 
 public class ForecastRepository implements ForecastDataSource {
+
+    private static final int UPDATE_THRESHOLD = 30;
 
     private static ForecastRepository sForecastRepository;
     private ForecastDataSource mLocalDataSource;
@@ -40,7 +40,14 @@ public class ForecastRepository implements ForecastDataSource {
             mLocalDataSource.loadForecast(locationModel, isManualRefresh, new LoadForecastCallback() {
                 @Override
                 public void onForecastLoaded(ForecastModel forecastModel) {
-                    loadForecastCallback.onForecastLoaded(forecastModel);
+                    long lastUpdatedAt = forecastModel.getUpdatedAt();
+                    long now = new Date().getTime();
+                    int diffInMinutes = (int) (now - lastUpdatedAt) / 60000;
+                    if (diffInMinutes <= UPDATE_THRESHOLD) {
+                        loadForecastCallback.onForecastLoaded(forecastModel);
+                    } else {
+                        getUpdateFromRemoteDataSource(locationModel, isManualRefresh, loadForecastCallback);
+                    }
                 }
 
                 @Override
