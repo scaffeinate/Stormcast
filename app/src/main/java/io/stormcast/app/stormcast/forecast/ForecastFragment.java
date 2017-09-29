@@ -43,8 +43,8 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     private StyledTextView mLocationName;
     private StyledTextView mSummaryTextView;
     private StyledTextView mTemperatureTextView;
-    private StyledTextView mWindTextView;
-    private StyledTextView mHumidityTextView;
+    private StyledTextView mMinTemperatureTextView;
+    private StyledTextView mMaxTemperatureTextView;
 
     private int backgroundColor;
     private int textColor;
@@ -81,8 +81,8 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         mLocationName = (StyledTextView) view.findViewById(R.id.location_name_text_view);
         mSummaryTextView = (StyledTextView) view.findViewById(R.id.summary_text_view);
         mTemperatureTextView = (StyledTextView) view.findViewById(R.id.temperature_text_view);
-        mWindTextView = (StyledTextView) view.findViewById(R.id.wind_text_view);
-        mHumidityTextView = (StyledTextView) view.findViewById(R.id.humidity_text_view);
+        mMinTemperatureTextView = (StyledTextView) view.findViewById(R.id.min_temperature_text_view);
+        mMaxTemperatureTextView = (StyledTextView) view.findViewById(R.id.max_temperature_text_view);
 
         mWeatherIconView = (WeatherIconView) view.findViewById(R.id.weather_icon_view);
         mLocationName.setText(mLocationModel.getName());
@@ -116,6 +116,8 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         String speedUnit = "kph";
         String temperatureUnit = "C";
         int temperature = (int) forecastModel.getTemperature();
+        int minTemperature = (int) forecastModel.getMinTemperature();
+        int maxTemperature = (int) forecastModel.getMaxTemperature();
         int windSpeed = (int) (forecastModel.getWindSpeed() * 3.6);
         int humidity = (int) (forecastModel.getHumidity() * 100);
 
@@ -125,9 +127,9 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
             windSpeed *= 0.62;
         }
 
-        mTemperatureTextView.setText(new StringBuilder().append(temperature).append("\u00b0").append(temperatureUnit).toString());
-        mWindTextView.setText(new StringBuilder().append(windSpeed).append(speedUnit).toString());
-        mHumidityTextView.setText(new StringBuilder().append(humidity).append("%").toString());
+        mTemperatureTextView.setText(formatTemperature(temperature, temperatureUnit));
+        mMinTemperatureTextView.setText(formatTemperature(minTemperature, temperatureUnit));
+        mMaxTemperatureTextView.setText(formatTemperature(maxTemperature, temperatureUnit));
 
         mSwipeRefreshLayout.setRefreshing(false);
     }
@@ -155,5 +157,9 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
                 setColors((ViewGroup) view);
             }
         }
+    }
+
+    private String formatTemperature(int val, String unit) {
+        return new StringBuilder().append(val).append("\u00b0").append(unit).toString();
     }
 }

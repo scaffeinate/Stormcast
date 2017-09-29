@@ -28,6 +28,8 @@ public final class PersistenceContract {
         public final static String UNITS = "units";
         public final static String TEMPERATURE = "temperature";
         public final static String APPARENT_TEMPERATURE = "apparent_temperature";
+        public final static String MIN_TEMPERATURE = "min_temperature";
+        public final static String MAX_TEMPERATURE = "max_temperature";
         public final static String UPDATED_AT = "updated_at";
         public final static String HUMIDITY = "humidity";
         public final static String WIND_SPEED = "wind_speed";

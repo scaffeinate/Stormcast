@@ -24,6 +24,7 @@ public class DbHelper extends SQLiteOpenHelper {
             PersistenceContract.ForecastEntry.SUMMARY + " TEXT, " + PersistenceContract.ForecastEntry.ICON + " VARCHAR, " +
             PersistenceContract.ForecastEntry.TIMEZONE + " VARCHAR, " + PersistenceContract.ForecastEntry.UNITS + " VARCHAR, " +
             PersistenceContract.ForecastEntry.TEMPERATURE + " REAL, " + PersistenceContract.ForecastEntry.APPARENT_TEMPERATURE + " REAL, " +
+            PersistenceContract.ForecastEntry.MIN_TEMPERATURE + " REAL, " + PersistenceContract.ForecastEntry.MAX_TEMPERATURE + " REAL, " +
             PersistenceContract.ForecastEntry.HUMIDITY + " REAL, " + PersistenceContract.ForecastEntry.WIND_SPEED + " REAL, " +
             PersistenceContract.ForecastEntry.PRESSURE + " REAL, " + PersistenceContract.ForecastEntry.VISIBILITY + " REAL, " +
             PersistenceContract.ForecastEntry.UPDATED_AT + " INTEGER, " + PersistenceContract.ForecastEntry.LOCATION_ID +
@@ -51,7 +52,7 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
 
     }
 }

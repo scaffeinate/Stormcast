@@ -9,9 +9,8 @@
         android:id="@+id/location_name_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/weather_icon_view"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/weather_icon_view"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:gravity="center"
         android:textAllCaps="true"
@@ -27,7 +26,7 @@
         android:layout_margin="0dp"
         android:padding="0dp"
         custom:weatherIconResource="@string/wi_forecast_io_rain"
-        custom:weatherIconSize="165" />
+        custom:weatherIconSize="145" />
 
     <LinearLayout
         android:id="@+id/temperature_layout"
@@ -57,13 +56,13 @@
             android:orientation="vertical">
 
             <io.stormcast.app.stormcast.views.styled.StyledTextView
-                android:id="@+id/wind_text_view"
+                android:id="@+id/min_temperature_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/font_size_subheading" />
 
             <io.stormcast.app.stormcast.views.styled.StyledTextView
-                android:id="@+id/humidity_text_view"
+                android:id="@+id/max_temperature_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -76,12 +75,11 @@
         android:id="@+id/summary_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/weather_icon_view"
-        android:layout_alignRight="@+id/weather_icon_view"
+        android:layout_centerHorizontal="true"
         android:layout_below="@+id/temperature_layout"
         android:layout_marginTop="35dp"
         android:gravity="center"
         android:textAllCaps="true"
-        android:textSize="@dimen/font_size_title"
+        android:textSize="@dimen/font_size_subheading"
         custom:weight="bold" />
 </RelativeLayout>

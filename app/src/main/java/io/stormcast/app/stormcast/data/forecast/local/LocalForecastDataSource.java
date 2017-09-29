@@ -40,6 +40,8 @@ public class LocalForecastDataSource implements ForecastDataSource {
         String[] projection = new String[] {
                 PersistenceContract.ForecastEntry.TEMPERATURE,
                 PersistenceContract.ForecastEntry.APPARENT_TEMPERATURE,
+                PersistenceContract.ForecastEntry.MIN_TEMPERATURE,
+                PersistenceContract.ForecastEntry.MAX_TEMPERATURE,
                 PersistenceContract.ForecastEntry.HUMIDITY,
                 PersistenceContract.ForecastEntry.ICON,
                 PersistenceContract.ForecastEntry.PRESSURE,
@@ -58,6 +60,8 @@ public class LocalForecastDataSource implements ForecastDataSource {
                 forecastModel = new ForecastModelBuilder()
                         .setTemperature(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.TEMPERATURE)))
                         .setApparentTemperature(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.APPARENT_TEMPERATURE)))
+                        .setMinTemperature(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.MIN_TEMPERATURE)))
+                        .setMaxTemperature(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.MAX_TEMPERATURE)))
                         .setHumidity(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.HUMIDITY)))
                         .setIcon(c.getString(c.getColumnIndex(PersistenceContract.ForecastEntry.ICON)))
                         .setPressure(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.PRESSURE)))
@@ -102,6 +106,8 @@ public class LocalForecastDataSource implements ForecastDataSource {
     private void populate(ContentValues cv, ForecastModel forecastModel) {
         cv.put(PersistenceContract.ForecastEntry.TEMPERATURE, forecastModel.getTemperature());
         cv.put(PersistenceContract.ForecastEntry.APPARENT_TEMPERATURE, forecastModel.getApparentTemperature());
+        cv.put(PersistenceContract.ForecastEntry.MIN_TEMPERATURE, forecastModel.getMinTemperature());
+        cv.put(PersistenceContract.ForecastEntry.MAX_TEMPERATURE, forecastModel.getMaxTemperature());
         cv.put(PersistenceContract.ForecastEntry.HUMIDITY, forecastModel.getHumidity());
         cv.put(PersistenceContract.ForecastEntry.ICON, forecastModel.getIcon());
         cv.put(PersistenceContract.ForecastEntry.PRESSURE, forecastModel.getPressure());

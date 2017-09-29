@@ -22,7 +22,7 @@ public class ForecastModel implements Parcelable {
     };
     private String timezone, summary, icon, units;
     private int currentTime, locationId;
-    private double temperature, apparentTemperature;
+    private double temperature, apparentTemperature, minTemperature, maxTemperature;
     private double humidity;
     private double windSpeed;
     private double pressure;
@@ -36,6 +36,8 @@ public class ForecastModel implements Parcelable {
         setIcon(in.readString());
         setTemperature(in.readDouble());
         setApparentTemperature(in.readDouble());
+        setMinTemperature(in.readDouble());
+        setMaxTemperature(in.readDouble());
         setHumidity(in.readDouble());
         setWindSpeed(in.readDouble());
         setPressure(in.readDouble());
@@ -53,6 +55,8 @@ public class ForecastModel implements Parcelable {
         setIcon(builder.icon);
         setTemperature(builder.temperature);
         setApparentTemperature(builder.apparentTemperature);
+        setMinTemperature(builder.minTemperature);
+        setMaxTemperature(builder.maxTemperature);
         setHumidity(builder.humidity);
         setWindSpeed(builder.windSpeed);
         setPressure(builder.pressure);
@@ -167,6 +171,24 @@ public class ForecastModel implements Parcelable {
         this.locationId = locationId;
     }
 
+
+    public double getMinTemperature() {
+        return minTemperature;
+    }
+
+    public void setMinTemperature(double minTemperature) {
+        this.minTemperature = minTemperature;
+    }
+
+    public double getMaxTemperature() {
+        return maxTemperature;
+    }
+
+    public void setMaxTemperature(double maxTemperature) {
+        this.maxTemperature = maxTemperature;
+    }
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -180,6 +202,8 @@ public class ForecastModel implements Parcelable {
         parcel.writeString(this.icon);
         parcel.writeDouble(this.temperature);
         parcel.writeDouble(this.apparentTemperature);
+        parcel.writeDouble(this.minTemperature);
+        parcel.writeDouble(this.maxTemperature);
         parcel.writeDouble(this.humidity);
         parcel.writeDouble(this.windSpeed);
         parcel.writeDouble(this.pressure);

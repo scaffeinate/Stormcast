@@ -1,10 +1,13 @@
 package io.stormcast.app.stormcast.common.mappers;
 
 import java.util.Date;
+import java.util.List;
 
 import io.stormcast.app.stormcast.common.models.ForecastModel;
 import io.stormcast.app.stormcast.common.models.ForecastModelBuilder;
 import io.stormcast.app.stormcast.common.network.Currently;
+import io.stormcast.app.stormcast.common.network.Daily;
+import io.stormcast.app.stormcast.common.network.Datum__;
 import io.stormcast.app.stormcast.common.network.Forecast;
 
 /**
@@ -16,6 +19,8 @@ public final class ForecastMapper {
         ForecastModel model = null;
         if (forecast != null) {
             Currently currently = forecast.getCurrently();
+            Daily daily = forecast.getDaily();
+            List<Datum__> dailyData = daily.getData();
             ForecastModelBuilder builder = new ForecastModelBuilder();
             if (currently != null) {
                 builder.setTimezone(forecast.getTimezone())
@@ -29,6 +34,14 @@ public final class ForecastMapper {
                         .setVisibility(currently.getVisibility())
                         .setWindSpeed(currently.getWindSpeed())
                         .setUpdatedAt(new Date().getTime());
+
+                if (!dailyData.isEmpty()) {
+                    builder.setMinTemperature(dailyData.get(0).getTemperatureMin())
+                            .setMaxTemperature(dailyData.get(0).getTemperatureMax());
+                } else {
+                    builder.setMinTemperature(currently.getTemperature())
+                            .setMaxTemperature(currently.getTemperature());
+                }
             }
 
             if (forecast.getFlags() != null) {

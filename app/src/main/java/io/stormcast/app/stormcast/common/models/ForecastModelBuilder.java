@@ -1,7 +1,5 @@
 package io.stormcast.app.stormcast.common.models;
 
-import java.util.Date;
-
 /**
  * Created by sudharti on 8/25/17.
  */
@@ -9,7 +7,8 @@ import java.util.Date;
 public class ForecastModelBuilder {
     protected String timezone, summary, icon, units;
     protected int currentTime, locationId;
-    protected double temperature, apparentTemperature, humidity, windSpeed, pressure, visibility;
+    protected double temperature, apparentTemperature,
+            humidity, windSpeed, pressure, visibility, minTemperature, maxTemperature;
     protected long updatedAt;
 
     public ForecastModelBuilder setTimezone(String timezone) {
@@ -32,13 +31,23 @@ public class ForecastModelBuilder {
         return this;
     }
 
-    public ForecastModelBuilder setTemperature(Double temperature) {
+    public ForecastModelBuilder setTemperature(double temperature) {
         this.temperature = temperature;
         return this;
     }
 
-    public ForecastModelBuilder setApparentTemperature(Double apparentTemperature) {
+    public ForecastModelBuilder setApparentTemperature(double apparentTemperature) {
         this.apparentTemperature = apparentTemperature;
+        return this;
+    }
+
+    public ForecastModelBuilder setMinTemperature(double minTemperature) {
+        this.minTemperature = minTemperature;
+        return this;
+    }
+
+    public ForecastModelBuilder setMaxTemperature(double maxTemperature) {
+        this.maxTemperature = maxTemperature;
         return this;
     }
 
