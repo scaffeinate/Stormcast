@@ -1,6 +1,5 @@
 package io.stormcast.app.stormcast.home;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +7,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -17,6 +19,7 @@ import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 import io.stormcast.app.stormcast.data.locations.local.LocalLocationsDataSource;
+import io.stormcast.app.stormcast.location.add.AddLocationFragment;
 import io.stormcast.app.stormcast.views.styled.StyledTextView;
 
 /**
@@ -24,8 +27,6 @@ import io.stormcast.app.stormcast.views.styled.StyledTextView;
  */
 
 public class HomeFragment extends Fragment implements HomeContract.View, ViewPager.OnPageChangeListener {
-
-    private Context mContext;
 
     private ViewPager mViewPager;
 
@@ -45,10 +46,10 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mContext = getContext();
         mLocationsRepository = LocationsRepository.getInstance(LocalLocationsDataSource
                 .getInstance(getActivity().getApplicationContext()));
         mHomePresenter = new HomePresenter(this, mLocationsRepository);
+        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -69,18 +70,20 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
     @Override
     public void onResume() {
         super.onResume();
+        mToolbar.setBackgroundColor(Color.TRANSPARENT);
         mHomePresenter.loadLocations();
     }
 
     @Override
     public void onLocationsLoaded(List<LocationModel> locationModels) {
         if (mViewPagerAdapter == null) {
-            mViewPagerAdapter = new HomeViewPagerAdapter(getFragmentManager(), locationModels);
+            mViewPagerAdapter = new HomeViewPagerAdapter(getChildFragmentManager(), locationModels);
             mViewPager.setAdapter(mViewPagerAdapter);
         } else {
             mViewPagerAdapter.setLocations(locationModels);
-            mViewPagerAdapter.notifyDataSetChanged();
+            mViewPager.setAdapter(mViewPagerAdapter);
         }
+
         this.mLocationModels = locationModels;
         setTitle(locationModels.get(mViewPager.getCurrentItem()));
         mViewPager.addOnPageChangeListener(this);
@@ -104,6 +107,26 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.home_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.add_location_menu_item:
+                getFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.slide_left_enter, R.anim.slide_left_exit, R.anim.slide_right_enter, R.anim.slide_right_exit)
+                        .replace(R.id.main_content, AddLocationFragment.newInstance())
+                        .addToBackStack(null)
+                        .commit();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void setTitle(LocationModel locationModel) {

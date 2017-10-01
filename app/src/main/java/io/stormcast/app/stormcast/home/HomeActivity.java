@@ -1,20 +1,15 @@
 package io.stormcast.app.stormcast.home;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 
 import io.stormcast.app.stormcast.R;
-import io.stormcast.app.stormcast.location.LocationsActivity;
 
-public class HomeActivity extends AppCompatActivity implements NavDrawerFragment.NavDrawerCallbacks {
+public class HomeActivity extends AppCompatActivity implements NavDrawerFragment.NavDrawerCallbacks, FragmentManager.OnBackStackChangedListener {
 
     private FragmentManager mFragmentManager;
     private HomeFragment mHomeFragment;
@@ -52,6 +47,7 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerFragment
                     .replace(R.id.main_content, mHomeFragment)
                     .commit();
         }
+        mFragmentManager.addOnBackStackChangedListener(this);
     }
 
     @Override
@@ -60,20 +56,7 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerFragment
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.home_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.add_location_menu_item:
-                Intent addLocIntent = new Intent(this, LocationsActivity.class);
-                startActivity(addLocIntent);
-                break;
-        }
-        return super.onOptionsItemSelected(item);
+    public void onBackStackChanged() {
+        mNavDrawerFragment.toggleMenu((mFragmentManager.getBackStackEntryCount() == 0));
     }
 }

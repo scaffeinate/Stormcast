@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -52,7 +53,6 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     private static final String TAG = AddLocationFragment.class.toString();
 
     private static final String LOCATION = "location";
-    private static final String POSITION = "position";
     private static final String LOCATION_MODEL = "location_model";
     private static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 100;
     private static final float TILT = 10f;
@@ -60,6 +60,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
 
     private Context mContext;
 
+    private ActionBar mActionBar;
     private Toolbar mToolbar;
     private StyledTextView mToolbarTitle;
     private StyledEditText mEditText;
@@ -75,15 +76,16 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     private MaterialColorPickDialog.Builder mTextColorDialogBuilder;
     private SwitchTabSelector mSwitchTabSelector;
 
-    public static AddLocationFragment newInstance(int position) {
-        return newInstance(position, new LocationModel());
+    private int backgroundColor, textColor;
+
+    public static AddLocationFragment newInstance() {
+        return newInstance(new LocationModel());
     }
 
-    public static AddLocationFragment newInstance(int position, LocationModel locationModel) {
+    public static AddLocationFragment newInstance(LocationModel locationModel) {
         AddLocationFragment addLocationFragment = new AddLocationFragment();
 
         Bundle args = new Bundle();
-        args.putInt(POSITION, position);
         args.putParcelable(LOCATION_MODEL, locationModel);
         addLocationFragment.setArguments(args);
 
@@ -100,7 +102,6 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
         mPresenter = new AddLocationPresenter(this, mLocationsRepository);
 
         mLocationModelBuilder = new LocationModelBuilder((LocationModel) getArguments().getParcelable(LOCATION_MODEL));
-        mLocationModelBuilder.setPosition(getArguments().getInt(POSITION));
 
         mBgColorDialogBuilder = MaterialColorPickDialog.with(mContext);
         mTextColorDialogBuilder = MaterialColorPickDialog.with(mContext);
@@ -137,17 +138,18 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
         mToolbarTitle = (StyledTextView) mToolbar.findViewById(R.id.toolbar_title);
         mToolbarTitle.setText("Add Location");
 
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+        mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        mActionBar.setDisplayHomeAsUpEnabled(true);
+        //mActionBar.setDisplayShowHomeEnabled(true);
 
-        String backgroundColor = LocationModel.DEFAULT_BACKGROUND_COLOR;
-        String textColor = LocationModel.DEFAULT_TEXT_COLOR;
+        String bgColorStr = LocationModel.DEFAULT_BACKGROUND_COLOR;
+        String textColorStr = LocationModel.DEFAULT_TEXT_COLOR;
 
         if (savedInstanceState != null) {
             final LocationModel restored = savedInstanceState.getParcelable(LOCATION);
 
-            backgroundColor = restored.getBackgroundColor();
-            textColor = restored.getTextColor();
+            bgColorStr = restored.getBackgroundColor();
+            textColorStr = restored.getTextColor();
 
             mLocationModelBuilder.setName(restored.getName())
                     .setLatitude(restored.getLatitude())
@@ -164,11 +166,15 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
             }, 250);
         }
 
+        backgroundColor = Color.parseColor(bgColorStr);
+        textColor = Color.parseColor(textColorStr);
+
         GradientDrawable drawable = (GradientDrawable) mBackgroundColorBtn.getBackground();
-        drawable.setColor(Color.parseColor(backgroundColor));
+        drawable.setColor(backgroundColor);
 
         drawable = (GradientDrawable) mTextColorBtn.getBackground();
-        drawable.setColor(Color.parseColor(textColor));
+        drawable.setColor(textColor);
+        mToolbar.setBackgroundColor(backgroundColor);
 
         mMapView.postDelayed(new Runnable() {
             @Override
