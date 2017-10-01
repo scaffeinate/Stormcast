@@ -1,4 +1,4 @@
-package io.stormcast.app.stormcast.home;
+package io.stormcast.app.stormcast.navdrawer;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,8 +12,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.views.actionbar.toggle.AnimatedActionBarDrawerToggle;
@@ -25,13 +27,13 @@ import io.stormcast.app.stormcast.views.actionbar.toggle.AnimatedActionBarDrawer
 public class NavDrawerFragment extends Fragment {
     private View mDrawerFragment;
     private View mNavHeaderView;
-    private ListView mNavDrawerListView;
+    private ListView mListView;
     private DrawerLayout mDrawerLayout;
 
     private AnimatedActionBarDrawerToggle mActionBarToggle;
 
-    private String[] mNavDrawerArray;
-    private ArrayAdapter<String> mNavDrawerAdapter;
+    private List<NavDrawerItem> mNavDrawerList;
+    private NavDrawerAdapter mNavDrawerAdapter;
     private NavDrawerCallbacks mNavDrawerCallbacks;
 
     @Override
@@ -43,8 +45,18 @@ public class NavDrawerFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mNavDrawerArray = new String[]{};
-        mNavDrawerAdapter = new ArrayAdapter<>(getContext(), R.layout.item_nav_drawer_list, mNavDrawerArray);
+        mNavDrawerList = new ArrayList<>();
+        mNavDrawerList.add(new NavDrawerItem(R.drawable.ic_weather_lightning_white_24dp, "Forecast"));
+        mNavDrawerList.add(new NavDrawerItem(R.drawable.ic_map_marker_plus_white_18dp, "Edit Locations"));
+        mNavDrawerList.add(new NavDrawerItem(R.drawable.ic_settings_white_18dp, "Settings"));
+
+        mNavDrawerList.add(new NavDrawerItem());
+
+        mNavDrawerList.add(new NavDrawerItem(R.drawable.ic_share_variant_white_18dp, "Share"));
+        mNavDrawerList.add(new NavDrawerItem(R.drawable.ic_star_white_18dp, "Rate us"));
+        mNavDrawerList.add(new NavDrawerItem(R.drawable.ic_comment_white_18dp, "Send Feedback"));
+        mNavDrawerList.add(new NavDrawerItem(R.drawable.ic_information_white_18dp, "v.1.0.0"));
+        mNavDrawerAdapter = new NavDrawerAdapter(getContext(), mNavDrawerList);
     }
 
     @Nullable
@@ -52,9 +64,10 @@ public class NavDrawerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_nav_drawer, container, false);
         mNavHeaderView = view.findViewById(R.id.nav_header_view);
-        mNavDrawerListView = (ListView) view.findViewById(R.id.list_view_nav_drawer);
-        mNavDrawerListView.setAdapter(mNavDrawerAdapter);
-        mNavDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListView = (ListView) view.findViewById(R.id.nav_drawer_list_view);
+        mListView.setAdapter(mNavDrawerAdapter);
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 selectItem(i);
@@ -124,7 +137,8 @@ public class NavDrawerFragment extends Fragment {
                     mNavDrawerCallbacks.onNavDrawerListItemClicked(position);
                 }
             }, 200);
-            mNavDrawerListView.setItemChecked(position, true);
+
+            mListView.setItemChecked(position, true);
         }
     }
 

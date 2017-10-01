@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import io.stormcast.app.stormcast.R;
+import io.stormcast.app.stormcast.navdrawer.NavDrawerFragment;
 import io.stormcast.app.stormcast.views.styled.StyledTextView;
 
 public class HomeActivity extends AppCompatActivity implements NavDrawerFragment.NavDrawerCallbacks,
