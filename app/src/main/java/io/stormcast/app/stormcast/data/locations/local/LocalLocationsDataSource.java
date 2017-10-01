@@ -41,6 +41,8 @@ public class LocalLocationsDataSource implements LocationsDataSource {
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
         try {
             ContentValues cv = new ContentValues();
+            int insertPosition = getInsertPosition(database);
+            locationModel.setPosition(insertPosition);
             populateContentValues(cv, locationModel);
 
             database.insertOrThrow(PersistenceContract.LocationEntry.TABLE_NAME, null, cv);
@@ -129,5 +131,19 @@ public class LocalLocationsDataSource implements LocationsDataSource {
         cv.put(PersistenceContract.LocationEntry.TEXT_COLOR, locationModel.getTextColor());
         cv.put(PersistenceContract.LocationEntry.UNIT, locationModel.getUnit());
         cv.put(PersistenceContract.LocationEntry.POSITION, locationModel.getPosition());
+    }
+
+    private int getInsertPosition(SQLiteDatabase database) {
+        String query = "SELECT MAX ( " + PersistenceContract.LocationEntry.POSITION + ") FROM "
+                + PersistenceContract.LocationEntry.TABLE_NAME;
+        Cursor c = database.rawQuery(query, new String[]{});
+        int position = 1;
+        if (c != null) {
+            if (c.moveToFirst()) {
+                position = c.getInt(0);
+            }
+            c.close();
+        }
+        return position;
     }
 }
