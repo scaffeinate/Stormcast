@@ -11,4 +11,6 @@
     <color name="listItemColorSelected">#F7F7F7</color>
     <color name="listItemDeleteColor">#D32F2F</color>
     <color name="listItemEditColor">#0277BD</color>
+    <color name="navDrawerListItemSelected">#EEEEEE</color>
+    <color name="dividerBackground">#CCCCCC</color>
 </resources>

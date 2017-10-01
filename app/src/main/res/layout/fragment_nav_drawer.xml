@@ -7,10 +7,10 @@
     <View
         android:id="@+id/nav_header_view"
         android:layout_width="match_parent"
-        android:layout_height="100dp" />
+        android:layout_height="125dp" />
 
     <ListView
-        android:id="@+id/list_view_nav_drawer"
+        android:id="@+id/nav_drawer_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
