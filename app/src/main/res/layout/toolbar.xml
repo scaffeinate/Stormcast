@@ -4,7 +4,8 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimary">
+    android:paddingTop="25dp"
+    android:background="@android:color/transparent">
 
     <io.stormcast.app.stormcast.views.styled.StyledTextView
         android:id="@+id/toolbar_title"
