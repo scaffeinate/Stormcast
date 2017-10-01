@@ -3,6 +3,7 @@ package io.stormcast.app.stormcast.location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -25,6 +26,8 @@ public class LocationsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_locations);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
+
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 

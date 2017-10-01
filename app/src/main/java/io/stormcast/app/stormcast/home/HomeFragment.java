@@ -82,7 +82,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
             mViewPagerAdapter.notifyDataSetChanged();
         }
         this.mLocationModels = locationModels;
-        setTitle(locationModels.get(0));
+        setTitle(locationModels.get(mViewPager.getCurrentItem()));
         mViewPager.addOnPageChangeListener(this);
     }
 
