@@ -17,7 +17,7 @@ import android.view.View;
 import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.location.list.LocationsListFragment;
 import io.stormcast.app.stormcast.navdrawer.NavDrawerFragment;
-import io.stormcast.app.stormcast.navdrawer.NavDrawerItem;
+import io.stormcast.app.stormcast.settings.SettingsFragment;
 import io.stormcast.app.stormcast.views.styled.StyledTextView;
 
 public class HomeActivity extends AppCompatActivity implements NavDrawerFragment.NavDrawerCallbacks,
@@ -71,6 +71,7 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerFragment
                 fragment = LocationsListFragment.newInstance();
                 break;
             case NavDrawerFragment.POSITION_SETTINGS:
+                fragment = SettingsFragment.newInstance();
                 break;
             case NavDrawerFragment.POSITION_SHARE:
                 break;
