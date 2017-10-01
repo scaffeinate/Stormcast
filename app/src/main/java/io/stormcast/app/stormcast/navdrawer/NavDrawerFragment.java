@@ -36,6 +36,16 @@ public class NavDrawerFragment extends Fragment {
     private NavDrawerAdapter mNavDrawerAdapter;
     private NavDrawerCallbacks mNavDrawerCallbacks;
 
+    private int mCurrentSelectedPosition = -1;
+
+    public static final int POSITION_FORECAST = 0;
+    public static final int POSITION_EDIT_LOCATIONS = 1;
+    public static final int POSITION_SETTINGS = 2;
+    public static final int POSITION_SHARE = 4;
+    public static final int POSITION_RATE_US = 5;
+    public static final int POSITION_SEND_FEEDBACK = 6;
+    public static final int POSITION_VERSION = 7;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -117,7 +127,7 @@ public class NavDrawerFragment extends Fragment {
         mActionBarToggle.syncState();
         mDrawerLayout.addDrawerListener(mActionBarToggle);
 
-        selectItem(0);
+        selectItem(POSITION_FORECAST);
     }
 
     public ActionBarDrawerToggle getActionBarDrawerToggle() {
@@ -131,15 +141,22 @@ public class NavDrawerFragment extends Fragment {
     private void selectItem(final int position) {
         if (mNavDrawerCallbacks != null) {
             if (isDrawerOpen()) closeDrawer();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mNavDrawerCallbacks.onNavDrawerListItemClicked(position);
-                }
-            }, 200);
-
+            if (mCurrentSelectedPosition != position) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mNavDrawerCallbacks.onNavDrawerListItemClicked(position);
+                    }
+                }, 200);
+                mCurrentSelectedPosition = position;
+            }
             mListView.setItemChecked(position, true);
         }
+    }
+
+    public void setSelected(int position) {
+        this.mCurrentSelectedPosition = position;
+        selectItem(position);
     }
 
     private boolean isDrawerOpen() {

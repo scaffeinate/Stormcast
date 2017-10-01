@@ -19,6 +19,7 @@ import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 import io.stormcast.app.stormcast.data.locations.local.LocalLocationsDataSource;
 import io.stormcast.app.stormcast.location.add.AddLocationFragment;
+import io.stormcast.app.stormcast.navdrawer.NavDrawerFragment;
 
 /**
  * Created by sudhar on 8/8/17.
@@ -66,6 +67,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
     public void onResume() {
         super.onResume();
         mCustomizeCallbacks.setToolbarBackgroundColor(Color.TRANSPARENT);
+        mCustomizeCallbacks.setNavDrawerSelected(NavDrawerFragment.POSITION_FORECAST);
         mHomePresenter.loadLocations();
     }
 

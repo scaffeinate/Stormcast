@@ -13,4 +13,6 @@ public interface CustomizeCallbacks {
     void setToolbarBackgroundColor(int color);
 
     void setNavDrawerHeaderBackgroundColor(int color);
+
+    void setNavDrawerSelected(int position);
 }
