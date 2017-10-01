@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,10 +24,11 @@ import io.stormcast.app.stormcast.views.actionbar.toggle.AnimatedActionBarDrawer
 
 public class NavDrawerFragment extends Fragment {
     private View mDrawerFragment;
+    private View mNavHeaderView;
     private ListView mNavDrawerListView;
     private DrawerLayout mDrawerLayout;
 
-    public static AnimatedActionBarDrawerToggle mActionBarToggle;
+    private AnimatedActionBarDrawerToggle mActionBarToggle;
 
     private String[] mNavDrawerArray;
     private ArrayAdapter<String> mNavDrawerAdapter;
@@ -49,6 +51,7 @@ public class NavDrawerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_nav_drawer, container, false);
+        mNavHeaderView = view.findViewById(R.id.nav_header_view);
         mNavDrawerListView = (ListView) view.findViewById(R.id.list_view_nav_drawer);
         mNavDrawerListView.setAdapter(mNavDrawerAdapter);
         mNavDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -104,6 +107,14 @@ public class NavDrawerFragment extends Fragment {
         selectItem(0);
     }
 
+    public ActionBarDrawerToggle getActionBarDrawerToggle() {
+        return this.mActionBarToggle;
+    }
+
+    public View getNavHeaderView() {
+        return this.mNavHeaderView;
+    }
+
     private void selectItem(final int position) {
         if (mNavDrawerCallbacks != null) {
             if (isDrawerOpen()) closeDrawer();
@@ -136,6 +147,6 @@ public class NavDrawerFragment extends Fragment {
     }
 
     public interface NavDrawerCallbacks {
-        public void onNavDrawerListItemClicked(int position);
+        void onNavDrawerListItemClicked(int position);
     }
 }
