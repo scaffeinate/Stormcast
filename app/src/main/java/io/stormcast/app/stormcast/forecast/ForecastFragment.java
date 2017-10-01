@@ -7,6 +7,8 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,10 +40,8 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private LocationModel mLocationModel;
 
-    private RelativeLayout mOverviewLayout;
+    private LinearLayout mForecastLayout;
 
-    private WeatherIconView mWeatherIconView;
-    private StyledTextView mLocationName;
     private StyledTextView mSummaryTextView;
     private StyledTextView mTemperatureTextView;
     private StyledTextView mMinTemperatureTextView;
@@ -77,19 +77,15 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_forecast, container, false);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
-        mOverviewLayout = (RelativeLayout) view.findViewById(R.id.overview_layout);
+        mForecastLayout = (LinearLayout) view.findViewById(R.id.forecast_layout);
 
-        mLocationName = (StyledTextView) view.findViewById(R.id.location_name_text_view);
         mSummaryTextView = (StyledTextView) view.findViewById(R.id.summary_text_view);
         mTemperatureTextView = (StyledTextView) view.findViewById(R.id.temperature_text_view);
         mMinTemperatureTextView = (StyledTextView) view.findViewById(R.id.min_temperature_text_view);
         mMaxTemperatureTextView = (StyledTextView) view.findViewById(R.id.max_temperature_text_view);
 
-        mWeatherIconView = (WeatherIconView) view.findViewById(R.id.weather_icon_view);
-        mLocationName.setText(mLocationModel.getName());
-
         view.setBackgroundColor(backgroundColor);
-        setColors(mOverviewLayout);
+        setColors(mForecastLayout);
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
@@ -110,7 +106,6 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
 
     @Override
     public void onForecastLoaded(ForecastModel forecastModel) {
-        mLocationName.setText(mLocationModel.getName());
         mSummaryTextView.setText(forecastModel.getSummary());
 
         String units = forecastModel.getUnits();
@@ -131,7 +126,6 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         mTemperatureTextView.setText(formatTemperature(temperature, temperatureUnit));
         mMinTemperatureTextView.setText(formatTemperature(minTemperature, temperatureUnit));
         mMaxTemperatureTextView.setText(formatTemperature(maxTemperature, temperatureUnit));
-
         mSwipeRefreshLayout.setRefreshing(false);
     }
 
