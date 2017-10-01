@@ -2,10 +2,12 @@ package io.stormcast.app.stormcast.home;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 
 import io.stormcast.app.stormcast.R;
 
@@ -58,5 +60,12 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerFragment
     @Override
     public void onBackStackChanged() {
         mNavDrawerFragment.toggleMenu((mFragmentManager.getBackStackEntryCount() == 0));
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        boolean isDrawerOpen = mDrawerLayout.isDrawerOpen(GravityCompat.START);
+        menu.findItem(R.id.add_location_menu_item).setVisible(!isDrawerOpen);
+        return super.onPrepareOptionsMenu(menu);
     }
 }

@@ -48,7 +48,8 @@ public class NavDrawerFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mNavDrawerListView = (ListView) inflater.inflate(R.layout.fragment_nav_drawer, container, false);
+        View view = inflater.inflate(R.layout.fragment_nav_drawer, container, false);
+        mNavDrawerListView = (ListView) view.findViewById(R.id.list_view_nav_drawer);
         mNavDrawerListView.setAdapter(mNavDrawerAdapter);
         mNavDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -56,7 +57,7 @@ public class NavDrawerFragment extends Fragment {
                 selectItem(i);
             }
         });
-        return mNavDrawerListView;
+        return view;
     }
 
     @Override
@@ -85,7 +86,18 @@ public class NavDrawerFragment extends Fragment {
         this.mDrawerFragment = getActivity().findViewById(navDrawerFragmentId);
 
         mActionBarToggle = new AnimatedActionBarDrawerToggle(getActivity(), mDrawerLayout,
-                R.string.nav_drawer_open, R.string.nav_drawer_close);
+                R.string.nav_drawer_open, R.string.nav_drawer_close) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                getActivity().invalidateOptionsMenu();
+            }
+
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                getActivity().invalidateOptionsMenu();
+            }
+        };
         mActionBarToggle.syncState();
         mDrawerLayout.addDrawerListener(mActionBarToggle);
 
