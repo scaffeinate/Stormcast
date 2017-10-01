@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.util.Map;
+
 import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.common.models.ForecastModel;
 import io.stormcast.app.stormcast.common.models.LocationModel;
@@ -100,41 +102,33 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
 
     @Override
     public void onForecastLoaded(ForecastModel forecastModel) {
-        mSummaryTextView.setText(forecastModel.getSummary());
-
-        String units = forecastModel.getUnits();
-        String speedUnit = "kph";
-        String temperatureUnit = "C";
-        int temperature = (int) forecastModel.getTemperature();
-        int minTemperature = (int) forecastModel.getMinTemperature();
-        int maxTemperature = (int) forecastModel.getMaxTemperature();
-        int windSpeed = (int) (forecastModel.getWindSpeed() * 3.6);
-        int humidity = (int) (forecastModel.getHumidity() * 100);
-
-        if (units.equals("us")) {
-            speedUnit = "mph";
-            temperatureUnit = "F";
-            windSpeed *= 0.62;
-        }
-
-        mTemperatureTextView.setText(formatTemperature(temperature, temperatureUnit));
-        mMinTemperatureTextView.setText(formatTemperature(minTemperature, temperatureUnit));
-        mMaxTemperatureTextView.setText(formatTemperature(maxTemperature, temperatureUnit));
         mSwipeRefreshLayout.setRefreshing(false);
+        mPresenter.formatForecast(forecastModel, new ForecastFormatter.ForecastFormatterCallback() {
+            @Override
+            public void onFormatForecast(Map<String, String> formattedMap) {
+                String temperature = formattedMap.get(ForecastPresenter.TEMPERATURE);
+                String windSpeed = formattedMap.get(ForecastPresenter.WIND_SPEED);
+                String minTemperature = formattedMap.get(ForecastPresenter.MIN_TEMPERATURE);
+                String maxTemperature = formattedMap.get(ForecastPresenter.MAX_TEMPERATURE);
+                String summary = formattedMap.get(ForecastPresenter.SUMMARY);
+                String icon = formattedMap.get(ForecastPresenter.ICON);
+
+                mTemperatureTextView.setText(temperature);
+                mMinTemperatureTextView.setText(minTemperature);
+                mMaxTemperatureTextView.setText(maxTemperature);
+                mSummaryTextView.setText(summary);
+            }
+        });
     }
 
     @Override
     public void onDataNotAvailable(String errorMessage) {
-        Toast.makeText(mContext, errorMessage, Toast.LENGTH_SHORT).show();
         mSwipeRefreshLayout.setRefreshing(false);
+        Toast.makeText(mContext, errorMessage, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onRefresh() {
         mPresenter.loadForecast(mLocationModel, true);
-    }
-
-    private String formatTemperature(int val, String unit) {
-        return new StringBuilder().append(val).append("\u00b0").append(unit).toString();
     }
 }
