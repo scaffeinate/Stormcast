@@ -60,7 +60,6 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
 
     private Context mContext;
 
-    private ActionBar mActionBar;
     private StyledEditText mEditText;
     private MapView mMapView;
     private StyledButton mBackgroundColorBtn;
@@ -136,9 +135,6 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
         super.onActivityCreated(savedInstanceState);
 
         mCustomizeCallbacks = (CustomizeCallbacks) getActivity();
-
-        mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        mActionBar.setDisplayHomeAsUpEnabled(true);
 
         backgroundColor = AppConstants.DEFAULT_BACKGROUND_COLOR;
         textColor = AppConstants.DEFAULT_TEXT_COLOR;

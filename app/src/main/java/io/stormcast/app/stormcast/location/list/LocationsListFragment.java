@@ -1,16 +1,14 @@
 package io.stormcast.app.stormcast.location.list;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,15 +23,16 @@ import android.widget.Toast;
 import java.util.Collections;
 import java.util.List;
 
+import io.stormcast.app.stormcast.AppConstants;
 import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 import io.stormcast.app.stormcast.data.locations.local.LocalLocationsDataSource;
+import io.stormcast.app.stormcast.home.CustomizeCallbacks;
 import io.stormcast.app.stormcast.location.add.AddLocationFragment;
 import io.stormcast.app.stormcast.location.list.helpers.ItemTouchHelperAdapter;
 import io.stormcast.app.stormcast.location.list.helpers.ItemTouchHelperCallback;
 import io.stormcast.app.stormcast.location.list.helpers.OnStartDragListener;
-import io.stormcast.app.stormcast.views.styled.StyledTextView;
 
 /**
  * Created by sudhar on 8/15/17.
@@ -45,9 +44,6 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
     private Context mContext;
     private FragmentManager mFragmentManager;
 
-    private ActionBar mActionBar;
-    private Toolbar mToolbar;
-    private StyledTextView mToolbarTitle;
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
     private TextView mNoDataTextView;
@@ -59,6 +55,8 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
 
     private ItemTouchHelper mItemTouchHelper;
     private ItemTouchHelper.Callback mCallback;
+
+    private CustomizeCallbacks mCustomizeCallbacks;
 
     private int mDeletedPosition = 0;
 
@@ -89,8 +87,6 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
         mRecyclerView.addItemDecoration(itemDecoration);
         mRecyclerView.setHasFixedSize(true);
 
-        mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        mActionBar.setDisplayHomeAsUpEnabled(true);
         mFragmentManager = getActivity().getSupportFragmentManager();
 
         return view;
@@ -99,11 +95,17 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mToolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-        mToolbarTitle = (StyledTextView) mToolbar.findViewById(R.id.toolbar_title);
-        mToolbar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
-        mToolbarTitle.setText("Locations");
-        mPresenter.getLocations();
+        mCustomizeCallbacks = (CustomizeCallbacks) getActivity();
+        mCustomizeCallbacks.setToolbarTitle("Locations");
+        mCustomizeCallbacks.setToolbarTextColor(Color.WHITE);
+        mCustomizeCallbacks.setToolbarBackgroundColor(AppConstants.DEFAULT_BACKGROUND_COLOR);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mPresenter.getLocations();
+            }
+        }, 250);
     }
 
     @Override
@@ -118,7 +120,7 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
             case R.id.add_location_menu_item:
                 mFragmentManager.beginTransaction()
                         .setCustomAnimations(R.anim.slide_left_enter, R.anim.slide_left_exit, R.anim.slide_right_enter, R.anim.slide_right_exit)
-                        .replace(R.id.locations_content, AddLocationFragment.newInstance())
+                        .replace(R.id.main_content, AddLocationFragment.newInstance())
                         .addToBackStack(null)
                         .commit();
                 return true;
@@ -179,7 +181,7 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
         LocationModel locationModel = mLocationModelList.get(position);
         mFragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.slide_left_enter, R.anim.slide_left_exit, R.anim.slide_right_enter, R.anim.slide_right_exit)
-                .replace(R.id.locations_content, AddLocationFragment.newInstance(locationModel))
+                .replace(R.id.main_content, AddLocationFragment.newInstance(locationModel))
                 .addToBackStack(null)
                 .commit();
     }
