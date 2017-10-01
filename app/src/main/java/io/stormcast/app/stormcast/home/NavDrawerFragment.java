@@ -26,7 +26,7 @@ public class NavDrawerFragment extends Fragment {
     private ListView mNavDrawerListView;
     private DrawerLayout mDrawerLayout;
 
-    private AnimatedActionBarDrawerToggle mActionBarToggle;
+    public static AnimatedActionBarDrawerToggle mActionBarToggle;
 
     private String[] mNavDrawerArray;
     private ArrayAdapter<String> mNavDrawerAdapter;

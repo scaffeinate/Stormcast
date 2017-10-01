@@ -37,6 +37,7 @@ import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.common.models.LocationModelBuilder;
 import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 import io.stormcast.app.stormcast.data.locations.local.LocalLocationsDataSource;
+import io.stormcast.app.stormcast.home.NavDrawerFragment;
 import io.stormcast.app.stormcast.views.colorpick.MaterialColorPickDialog;
 import io.stormcast.app.stormcast.views.styled.StyledButton;
 import io.stormcast.app.stormcast.views.styled.StyledEditText;
@@ -134,13 +135,8 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     @Override
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mToolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-        mToolbarTitle = (StyledTextView) mToolbar.findViewById(R.id.toolbar_title);
-        mToolbarTitle.setText("Add Location");
-
         mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
-        //mActionBar.setDisplayShowHomeEnabled(true);
 
         String bgColorStr = LocationModel.DEFAULT_BACKGROUND_COLOR;
         String textColorStr = LocationModel.DEFAULT_TEXT_COLOR;
@@ -168,6 +164,12 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
 
         backgroundColor = Color.parseColor(bgColorStr);
         textColor = Color.parseColor(textColorStr);
+
+        mToolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        mToolbarTitle = (StyledTextView) mToolbar.findViewById(R.id.toolbar_title);
+        mToolbarTitle.setText("Add Location");
+        mToolbarTitle.setTextColor(Color.WHITE);
+        NavDrawerFragment.mActionBarToggle.getDrawerArrowDrawable().setColor(Color.WHITE);
 
         GradientDrawable drawable = (GradientDrawable) mBackgroundColorBtn.getBackground();
         drawable.setColor(backgroundColor);

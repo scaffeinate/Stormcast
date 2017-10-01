@@ -131,5 +131,8 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
 
     private void setTitle(LocationModel locationModel) {
         mToolbarTitle.setText(locationModel.getName());
+        int textColor = Color.parseColor(locationModel.getTextColor());
+        mToolbarTitle.setTextColor(textColor);
+        NavDrawerFragment.mActionBarToggle.getDrawerArrowDrawable().setColor(textColor);
     }
 }
