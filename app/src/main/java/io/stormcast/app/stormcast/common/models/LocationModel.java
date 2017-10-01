@@ -3,6 +3,8 @@ package io.stormcast.app.stormcast.common.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import io.stormcast.app.stormcast.AppConstants;
+
 /**
  * Created by sudhar on 8/15/17.
  */
@@ -12,8 +14,6 @@ public class LocationModel implements Parcelable {
     public static final int UNIT_AUTO = 0;
     public static final int UNIT_IMPERIAL = 1;
     public static final int UNIT_METRIC = 2;
-    public static final String DEFAULT_BACKGROUND_COLOR = "#651FFF";
-    public static final String DEFAULT_TEXT_COLOR = "#FFFFFF";
     public static final Parcelable.Creator CREATOR = new Creator() {
         @Override
         public Object createFromParcel(Parcel parcel) {
@@ -28,7 +28,8 @@ public class LocationModel implements Parcelable {
     protected final static int MINUS_ONE = -1;
     private static final double DEFAULT_LATITUDE = 0;
     private static final double DEFAULT_LONGITUDE = 0;
-    private String name, backgroundColor = DEFAULT_BACKGROUND_COLOR, textColor = DEFAULT_TEXT_COLOR;
+    private String name, backgroundColor = AppConstants.DEFAULT_BACKGROUND_COLOR_HEX,
+            textColor = AppConstants.DEFAULT_TEXT_COLOR_HEX;
     private double latitude = DEFAULT_LATITUDE, longitude = DEFAULT_LONGITUDE;
     private int id = 0, unit = UNIT_AUTO, position = 0;
 

@@ -10,7 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,16 +31,16 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 
+import io.stormcast.app.stormcast.AppConstants;
 import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.common.models.LocationModelBuilder;
 import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 import io.stormcast.app.stormcast.data.locations.local.LocalLocationsDataSource;
-import io.stormcast.app.stormcast.home.NavDrawerFragment;
+import io.stormcast.app.stormcast.home.CustomizeCallbacks;
 import io.stormcast.app.stormcast.views.colorpick.MaterialColorPickDialog;
 import io.stormcast.app.stormcast.views.styled.StyledButton;
 import io.stormcast.app.stormcast.views.styled.StyledEditText;
-import io.stormcast.app.stormcast.views.styled.StyledTextView;
 import io.stormcast.app.stormcast.views.tabswitches.SwitchTabSelector;
 
 import static android.app.Activity.RESULT_OK;
@@ -62,8 +61,6 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     private Context mContext;
 
     private ActionBar mActionBar;
-    private Toolbar mToolbar;
-    private StyledTextView mToolbarTitle;
     private StyledEditText mEditText;
     private MapView mMapView;
     private StyledButton mBackgroundColorBtn;
@@ -76,6 +73,8 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     private MaterialColorPickDialog.Builder mBgColorDialogBuilder;
     private MaterialColorPickDialog.Builder mTextColorDialogBuilder;
     private SwitchTabSelector mSwitchTabSelector;
+
+    private CustomizeCallbacks mCustomizeCallbacks;
 
     private int backgroundColor, textColor;
 
@@ -135,17 +134,20 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     @Override
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        mCustomizeCallbacks = (CustomizeCallbacks) getActivity();
+
         mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
 
-        String bgColorStr = LocationModel.DEFAULT_BACKGROUND_COLOR;
-        String textColorStr = LocationModel.DEFAULT_TEXT_COLOR;
+        backgroundColor = AppConstants.DEFAULT_BACKGROUND_COLOR;
+        textColor = AppConstants.DEFAULT_TEXT_COLOR;
 
         if (savedInstanceState != null) {
             final LocationModel restored = savedInstanceState.getParcelable(LOCATION);
 
-            bgColorStr = restored.getBackgroundColor();
-            textColorStr = restored.getTextColor();
+            backgroundColor = Color.parseColor(restored.getBackgroundColor());
+            textColor = Color.parseColor(restored.getTextColor());
 
             mLocationModelBuilder.setName(restored.getName())
                     .setLatitude(restored.getLatitude())
@@ -162,21 +164,15 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
             }, 250);
         }
 
-        backgroundColor = Color.parseColor(bgColorStr);
-        textColor = Color.parseColor(textColorStr);
-
-        mToolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-        mToolbarTitle = (StyledTextView) mToolbar.findViewById(R.id.toolbar_title);
-        mToolbarTitle.setText("Add Location");
-        mToolbarTitle.setTextColor(Color.WHITE);
-        NavDrawerFragment.mActionBarToggle.getDrawerArrowDrawable().setColor(Color.WHITE);
+        mCustomizeCallbacks.setToolbarTitle("Add Location");
+        mCustomizeCallbacks.setToolbarTextColor(Color.WHITE);
+        mCustomizeCallbacks.setToolbarBackgroundColor(AppConstants.DEFAULT_BACKGROUND_COLOR);
 
         GradientDrawable drawable = (GradientDrawable) mBackgroundColorBtn.getBackground();
         drawable.setColor(backgroundColor);
 
         drawable = (GradientDrawable) mTextColorBtn.getBackground();
         drawable.setColor(textColor);
-        mToolbar.setBackgroundColor(backgroundColor);
 
         mMapView.postDelayed(new Runnable() {
             @Override

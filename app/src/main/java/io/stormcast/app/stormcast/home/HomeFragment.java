@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,7 +19,6 @@ import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 import io.stormcast.app.stormcast.data.locations.local.LocalLocationsDataSource;
 import io.stormcast.app.stormcast.location.add.AddLocationFragment;
-import io.stormcast.app.stormcast.views.styled.StyledTextView;
 
 /**
  * Created by sudhar on 8/8/17.
@@ -34,9 +32,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
     private HomePresenter mHomePresenter;
     private LocationsRepository mLocationsRepository;
     private List<LocationModel> mLocationModels;
-
-    private Toolbar mToolbar;
-    private StyledTextView mToolbarTitle;
+    private CustomizeCallbacks mCustomizeCallbacks;
 
     public static HomeFragment newInstance() {
         HomeFragment mFragment = new HomeFragment();
@@ -57,20 +53,19 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View mView = inflater.inflate(R.layout.fragment_home, container, false);
         mViewPager = (ViewPager) mView.findViewById(R.id.view_pager);
-        mToolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-        mToolbarTitle = (StyledTextView) getActivity().findViewById(R.id.toolbar_title);
         return mView;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        this.mCustomizeCallbacks = (CustomizeCallbacks) getActivity();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mToolbar.setBackgroundColor(Color.TRANSPARENT);
+        mCustomizeCallbacks.setToolbarBackgroundColor(Color.TRANSPARENT);
         mHomePresenter.loadLocations();
     }
 
@@ -85,7 +80,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
         }
 
         this.mLocationModels = locationModels;
-        setTitle(locationModels.get(mViewPager.getCurrentItem()));
+        customizeViews(locationModels.get(mViewPager.getCurrentItem()));
         mViewPager.addOnPageChangeListener(this);
     }
 
@@ -101,7 +96,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
 
     @Override
     public void onPageSelected(int position) {
-        setTitle(mLocationModels.get(position));
+        customizeViews(mLocationModels.get(position));
     }
 
     @Override
@@ -129,10 +124,11 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
         return super.onOptionsItemSelected(item);
     }
 
-    private void setTitle(LocationModel locationModel) {
-        mToolbarTitle.setText(locationModel.getName());
+    private void customizeViews(LocationModel locationModel) {
         int textColor = Color.parseColor(locationModel.getTextColor());
-        mToolbarTitle.setTextColor(textColor);
-        NavDrawerFragment.mActionBarToggle.getDrawerArrowDrawable().setColor(textColor);
+        int backgroundColor = Color.parseColor(locationModel.getBackgroundColor());
+        mCustomizeCallbacks.setToolbarTitle(locationModel.getName());
+        mCustomizeCallbacks.setToolbarTextColor(textColor);
+        mCustomizeCallbacks.setNavDrawerHeaderBackgroundColor(backgroundColor);
     }
 }
