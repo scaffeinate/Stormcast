@@ -12,7 +12,7 @@ import android.view.animation.DecelerateInterpolator;
  * Created by sudharti on 10/1/17.
  */
 
-public class ActionDrawerBarToggle extends ActionBarDrawerToggle {
+public class AnimatedActionBarDrawerToggle extends ActionBarDrawerToggle {
     private static final float MENU_POSITION = 0f;
     private static final float ARROW_POSITION = 1.0f;
     private static final int ANIMATION_DURATION = 300;
@@ -25,7 +25,7 @@ public class ActionDrawerBarToggle extends ActionBarDrawerToggle {
     private State mState;
     private ValueAnimator anim;
 
-    public ActionDrawerBarToggle(Activity activity, DrawerLayout mDrawerLayout, int openDrawerContentDescriptionResource, int closeDrawerContentDescriptionResource) {
+    public AnimatedActionBarDrawerToggle(Activity activity, DrawerLayout mDrawerLayout, int openDrawerContentDescriptionResource, int closeDrawerContentDescriptionResource) {
         super(activity, mDrawerLayout, openDrawerContentDescriptionResource, closeDrawerContentDescriptionResource);
         this.mDrawerLayout = mDrawerLayout;
         this.mActivity = activity;
