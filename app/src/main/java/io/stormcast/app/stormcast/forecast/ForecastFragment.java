@@ -10,12 +10,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
-
-import com.github.pwittchen.weathericonview.WeatherIconView;
 
 import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.common.models.ForecastModel;
@@ -83,7 +79,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         mMaxTemperatureTextView = (StyledTextView) view.findViewById(R.id.max_temperature_text_view);
 
         view.setBackgroundColor(backgroundColor);
-        setColors(mForecastLayout);
+        mPresenter.setCustomTextColor(mForecastLayout, textColor);
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
@@ -136,22 +132,6 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     @Override
     public void onRefresh() {
         mPresenter.loadForecast(mLocationModel, true);
-    }
-
-    private void setColors(ViewGroup viewGroup) {
-        int numChildren = viewGroup.getChildCount();
-        for (int i = 0; i < numChildren; i++) {
-            View view = viewGroup.getChildAt(i);
-            if (view instanceof StyledTextView) {
-                ((StyledTextView) view).setTextColor(textColor);
-            } else if (view instanceof WeatherIconView) {
-                ((WeatherIconView) view).setIconColor(textColor);
-            } else if (view instanceof RelativeLayout || view instanceof LinearLayout) {
-                setColors((ViewGroup) view);
-            } else if (view instanceof ImageView) {
-                ((ImageView) view).setColorFilter(textColor);
-            }
-        }
     }
 
     private String formatTemperature(int val, String unit) {
