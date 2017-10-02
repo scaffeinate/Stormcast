@@ -19,14 +19,6 @@ public class DarkSkyApiClient {
     private static Retrofit mRetrofit;
     private static DarkSkyAPI darkSkyApi;
 
-    public static DarkSkyApiClient getInstance() {
-        if (mDarkSkyApiClient == null) {
-            mDarkSkyApiClient = new DarkSkyApiClient();
-        }
-
-        return mDarkSkyApiClient;
-    }
-
     private DarkSkyApiClient() {
         if (mRetrofit == null) {
             mRetrofit = new Retrofit.Builder()
@@ -36,6 +28,14 @@ public class DarkSkyApiClient {
         }
 
         darkSkyApi = mRetrofit.create(DarkSkyAPI.class);
+    }
+
+    public static DarkSkyApiClient getInstance() {
+        if (mDarkSkyApiClient == null) {
+            mDarkSkyApiClient = new DarkSkyApiClient();
+        }
+
+        return mDarkSkyApiClient;
     }
 
     public void loadForecast(LocationModel locationModel, final ApiCallback apiCallback) {

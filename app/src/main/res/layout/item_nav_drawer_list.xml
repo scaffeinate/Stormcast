@@ -17,8 +17,8 @@
         android:id="@+id/title_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
         android:layout_gravity="center_vertical"
+        android:layout_marginLeft="15dp"
         android:textColor="@drawable/selector_nav_drawer_text"
         android:textSize="@dimen/font_size_body"
         custom:weight="bold" />

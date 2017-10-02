@@ -8,8 +8,8 @@
         android:id="@+id/summary_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:textAllCaps="true"
         android:textSize="@dimen/font_size_title"
         custom:weight="bolder" />
@@ -19,8 +19,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/summary_text_view"
-        android:layout_marginTop="15dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
         custom:weatherIconResource="@string/wi_night_fog"
         custom:weatherIconSize="125" />
 

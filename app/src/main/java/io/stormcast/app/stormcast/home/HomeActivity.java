@@ -28,7 +28,6 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerFragment
         CustomizeCallbacks {
 
     private FragmentManager mFragmentManager;
-    private HomeFragment mHomeFragment;
     private DrawerLayout mDrawerLayout;
     private NavDrawerFragment mNavDrawerFragment;
     private ActionBar mActionBar;
@@ -107,7 +106,7 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerFragment
         if (menuItem != null) {
             menuItem.setVisible(!isDrawerOpen);
             mMenuDrawable = menuItem.getIcon();
-            if(mMenuDrawable != null) {
+            if (mMenuDrawable != null) {
                 mMenuDrawable.mutate();
                 setMenuColor(mMenuDrawable, mMenuColor);
             }
@@ -127,7 +126,7 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerFragment
         mToolbarTitle.setTextColor(color);
         ActionBarDrawerToggle drawerToggle = mNavDrawerFragment.getActionBarDrawerToggle();
         drawerToggle.getDrawerArrowDrawable().setColor(color);
-        if(mMenuDrawable != null) {
+        if (mMenuDrawable != null) {
             setMenuColor(mMenuDrawable, color);
         }
     }

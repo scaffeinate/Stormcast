@@ -10,7 +10,8 @@
         <item name="colorControlActivated">@color/colorAccent</item>
         <item name="colorControlHighlight">@color/colorAccent</item>
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:activatedBackgroundIndicator">@drawable/selector_nav_drawer_list_item</item>
+        <item name="android:activatedBackgroundIndicator">@drawable/selector_nav_drawer_list_item
+        </item>
     </style>
 
     <style name="ColorPickerAnimation">

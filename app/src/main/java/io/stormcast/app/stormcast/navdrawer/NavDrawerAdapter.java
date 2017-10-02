@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -22,10 +21,10 @@ import io.stormcast.app.stormcast.views.styled.StyledTextView;
 
 public class NavDrawerAdapter extends ArrayAdapter<NavDrawerItem> {
 
-    private List<NavDrawerItem> mNavDrawerItemList;
-    private LayoutInflater inflater;
     protected final static int VIEW_TYPE_LIST_ITEM = 0;
     protected final static int VIEW_TYPE_DIVIDER = 1;
+    private List<NavDrawerItem> mNavDrawerItemList;
+    private LayoutInflater inflater;
 
     public NavDrawerAdapter(Context context, List<NavDrawerItem> navDrawerItemList) {
         super(context, 0, navDrawerItemList);

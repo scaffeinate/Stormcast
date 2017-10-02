@@ -37,7 +37,7 @@ public class LocalForecastDataSource implements ForecastDataSource {
     public void loadForecast(final LocationModel locationModel, boolean isManualRefresh, LoadForecastCallback loadForecastCallback) {
         ForecastModel forecastModel = null;
         SQLiteDatabase database = mDbHelper.getReadableDatabase();
-        String[] projection = new String[] {
+        String[] projection = new String[]{
                 PersistenceContract.ForecastEntry.TEMPERATURE,
                 PersistenceContract.ForecastEntry.APPARENT_TEMPERATURE,
                 PersistenceContract.ForecastEntry.MIN_TEMPERATURE,

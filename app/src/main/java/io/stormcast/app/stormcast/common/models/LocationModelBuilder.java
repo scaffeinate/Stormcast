@@ -13,7 +13,8 @@ public class LocationModelBuilder {
     protected String backgroundColor = null, textColor = null;
     protected int unit = LocationModel.MINUS_ONE, position = 0;
 
-    public LocationModelBuilder() {}
+    public LocationModelBuilder() {
+    }
 
     public LocationModelBuilder(LocationModel locationModel) {
         setId(locationModel.getId())

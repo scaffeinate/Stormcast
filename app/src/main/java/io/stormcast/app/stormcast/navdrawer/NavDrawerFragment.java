@@ -25,19 +25,6 @@ import io.stormcast.app.stormcast.views.actionbar.toggle.AnimatedActionBarDrawer
  */
 
 public class NavDrawerFragment extends Fragment {
-    private View mDrawerFragment;
-    private View mNavHeaderView;
-    private ListView mListView;
-    private DrawerLayout mDrawerLayout;
-
-    private AnimatedActionBarDrawerToggle mActionBarToggle;
-
-    private List<NavDrawerItem> mNavDrawerList;
-    private NavDrawerAdapter mNavDrawerAdapter;
-    private NavDrawerCallbacks mNavDrawerCallbacks;
-
-    private int mCurrentSelectedPosition = -1;
-
     public static final int POSITION_FORECAST = 0;
     public static final int POSITION_EDIT_LOCATIONS = 1;
     public static final int POSITION_SETTINGS = 2;
@@ -45,6 +32,15 @@ public class NavDrawerFragment extends Fragment {
     public static final int POSITION_RATE_US = 5;
     public static final int POSITION_SEND_FEEDBACK = 6;
     public static final int POSITION_VERSION = 7;
+    private View mDrawerFragment;
+    private View mNavHeaderView;
+    private ListView mListView;
+    private DrawerLayout mDrawerLayout;
+    private AnimatedActionBarDrawerToggle mActionBarToggle;
+    private List<NavDrawerItem> mNavDrawerList;
+    private NavDrawerAdapter mNavDrawerAdapter;
+    private NavDrawerCallbacks mNavDrawerCallbacks;
+    private int mCurrentSelectedPosition = -1;
 
     @Override
     public void onAttach(Context context) {

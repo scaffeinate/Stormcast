@@ -2,8 +2,6 @@ package io.stormcast.app.stormcast.forecast;
 
 import android.view.ViewGroup;
 
-import java.util.Map;
-
 import io.stormcast.app.stormcast.common.models.ForecastModel;
 import io.stormcast.app.stormcast.common.models.LocationModel;
 
