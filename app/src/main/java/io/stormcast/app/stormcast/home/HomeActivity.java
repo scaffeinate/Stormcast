@@ -87,6 +87,8 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerFragment
                 break;
         }
 
+        if (fragment == null) return;
+
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
         if (addToBackStack) {
             transaction.addToBackStack(null);
