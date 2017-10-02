@@ -1,8 +1,11 @@
 package io.stormcast.app.stormcast.common.mappers;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import io.stormcast.app.stormcast.common.models.DailyForecastModel;
+import io.stormcast.app.stormcast.common.models.DailyForecastModelBuilder;
 import io.stormcast.app.stormcast.common.models.ForecastModel;
 import io.stormcast.app.stormcast.common.models.ForecastModelBuilder;
 import io.stormcast.app.stormcast.common.network.Currently;
@@ -21,6 +24,9 @@ public final class ForecastMapper {
             Currently currently = forecast.getCurrently();
             Daily daily = forecast.getDaily();
             List<Datum__> dailyData = daily.getData();
+            List<DailyForecastModel> dailyForecastModelList = new ArrayList<>();
+            String units = "us";
+
             ForecastModelBuilder builder = new ForecastModelBuilder();
             if (currently != null) {
                 builder.setTimezone(forecast.getTimezone())
@@ -45,9 +51,21 @@ public final class ForecastMapper {
             }
 
             if (forecast.getFlags() != null) {
-                builder.setUnits(forecast.getFlags().getUnits());
+                units = forecast.getFlags().getUnits();
             }
 
+            for (int i = 1; i < 5; i++) {
+                Datum__ datum__ = dailyData.get(i);
+                DailyForecastModel dailyForecastModel = new DailyForecastModelBuilder()
+                        .setIcon(datum__.getIcon())
+                        .setTime(datum__.getTime())
+                        .setTemperature((datum__.getTemperatureMin() + datum__.getTemperatureMax()) / 2)
+                        .setUnits(units)
+                        .build();
+                dailyForecastModelList.add(dailyForecastModel);
+            }
+
+            builder.setDailyForecastModels(dailyForecastModelList).setUnits(units);
             model = builder.build();
         }
         return model;

@@ -3,6 +3,8 @@ package io.stormcast.app.stormcast.common.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 /**
  * Created by sudharti on 8/24/17.
  */
@@ -28,6 +30,7 @@ public class ForecastModel implements Parcelable {
     private double pressure;
     private double visibility;
     private long updatedAt;
+    private List<DailyForecastModel> dailyForecastModelList;
 
     protected ForecastModel(Parcel in) {
         setTimezone(in.readString());
@@ -45,7 +48,7 @@ public class ForecastModel implements Parcelable {
         setUpdatedAt(in.readLong());
         setUnits(in.readString());
         setLocationId(in.readInt());
-
+        in.readTypedList(dailyForecastModelList, DailyForecastModel.CREATOR);
     }
 
     protected ForecastModel(ForecastModelBuilder builder) {
@@ -64,6 +67,7 @@ public class ForecastModel implements Parcelable {
         setUpdatedAt(builder.updatedAt);
         setUnits(builder.units);
         setLocationId(builder.locationId);
+        setDailyForecastModelList(builder.dailyForecastModelList);
     }
 
     public String getTimezone() {
@@ -188,6 +192,13 @@ public class ForecastModel implements Parcelable {
         this.maxTemperature = maxTemperature;
     }
 
+    public List<DailyForecastModel> getDailyForecastModelList() {
+        return dailyForecastModelList;
+    }
+
+    public void setDailyForecastModelList(List<DailyForecastModel> dailyForecastModelList) {
+        this.dailyForecastModelList = dailyForecastModelList;
+    }
 
     @Override
     public int describeContents() {
@@ -211,5 +222,6 @@ public class ForecastModel implements Parcelable {
         parcel.writeLong(this.updatedAt);
         parcel.writeString(this.units);
         parcel.writeInt(this.locationId);
+        parcel.writeTypedList(this.dailyForecastModelList);
     }
 }
