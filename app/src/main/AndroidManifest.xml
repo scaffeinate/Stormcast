@@ -12,16 +12,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".home.HomeActivity"
-            android:theme="@style/AppThemeNoActionBarFill">
+        <activity android:name=".home.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".location.LocationsActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
