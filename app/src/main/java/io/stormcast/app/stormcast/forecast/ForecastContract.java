@@ -25,7 +25,7 @@ public interface ForecastContract {
 
         void setCustomTextColor(ViewGroup parentView, int textColor);
 
-        int getIconResource(String icon, Calendar calendar);
+        int getIconResource(String icon, boolean isDay);
 
     }
 }

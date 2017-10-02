@@ -21,7 +21,6 @@
         android:layout_below="@+id/summary_text_view"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
-        custom:weatherIconResource="@string/wi_night_fog"
         custom:weatherIconSize="125" />
 
     <io.stormcast.app.stormcast.views.styled.StyledTextView

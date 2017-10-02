@@ -6,16 +6,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.github.pwittchen.weathericonview.WeatherIconView;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
 import io.stormcast.app.stormcast.R;
+import io.stormcast.app.stormcast.common.models.DailyForecastModel;
 import io.stormcast.app.stormcast.common.models.ForecastModel;
 import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.data.forecast.ForecastDataSource;
@@ -72,9 +71,7 @@ public class ForecastPresenter implements ForecastContract.Presenter, ForecastFo
     }
 
     @Override
-    public int getIconResource(String icon, Calendar calendar) {
-        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
-        boolean isDay = (hourOfDay > 7 && hourOfDay < 20) ? true : false;
+    public int getIconResource(String icon, boolean isDay) {
         switch (icon) {
             case "clear-day":
                 return R.string.wi_day_sunny;
@@ -120,35 +117,38 @@ public class ForecastPresenter implements ForecastContract.Presenter, ForecastFo
     @Override
     public void formatForecast(ForecastModel forecastModel, ForecastFormatterCallback forecastFormatterCallback) {
         Map<String, String> formattedMap = new HashMap<>();
-        String units = forecastModel.getUnits();
-
-        String speedUnit = KPH;
-        String tempUnit = CELCIUS;
+        String unitType = forecastModel.getUnits();
+        Unit unit = new Unit(unitType);
 
         int temp = (int) forecastModel.getTemperature();
         int minTemp = (int) forecastModel.getMinTemperature();
         int maxTemp = (int) forecastModel.getMaxTemperature();
-        int windSpeed = (int) (forecastModel.getWindSpeed() * 3.6);
+        int windSpeed = (int) ((forecastModel.getWindSpeed() * 3.6) * (unitType.equals(IMPERIAL) ? (0.62) : 1));
         int humidity = (int) (forecastModel.getHumidity() * 100);
         int pressure = (int) forecastModel.getPressure();
 
-        if (units.equals(IMPERIAL)) {
-            speedUnit = MPH;
-            tempUnit = FARANHEIT;
-            windSpeed *= 0.62;
-        }
-
-        Calendar currentTime = new GregorianCalendar();
+        Calendar currentTime = Calendar.getInstance();
         currentTime.setTimeInMillis(forecastModel.getCurrentTime());
+        int hourOfDay = currentTime.get(Calendar.HOUR_OF_DAY);
+        boolean isDay = (hourOfDay > 7 && hourOfDay < 20) ? true : false;
 
-        formattedMap.put(TEMPERATURE, formatTemperature(temp, tempUnit));
-        formattedMap.put(MIN_TEMPERATURE, formatTemperature(minTemp, tempUnit));
-        formattedMap.put(MAX_TEMPERATURE, formatTemperature(maxTemp, tempUnit));
-        formattedMap.put(WIND_SPEED, formatUnit(windSpeed, speedUnit));
+        formattedMap.put(TEMPERATURE, formatTemperature(temp, unit.tempUnit));
+        formattedMap.put(MIN_TEMPERATURE, formatTemperature(minTemp, unit.tempUnit));
+        formattedMap.put(MAX_TEMPERATURE, formatTemperature(maxTemp, unit.tempUnit));
+        formattedMap.put(WIND_SPEED, formatUnit(windSpeed, unit.speedUnit));
         formattedMap.put(HUMIDITY, formatUnit(humidity, PERCENT));
         formattedMap.put(PRESSURE, formatUnit(pressure, HECTOPASCALS));
         formattedMap.put(SUMMARY, forecastModel.getSummary());
-        formattedMap.put(ICON, String.valueOf(getIconResource(forecastModel.getIcon(), currentTime)));
+        formattedMap.put(ICON, String.valueOf(getIconResource(forecastModel.getIcon(), isDay)));
+        forecastFormatterCallback.onFormatForecast(formattedMap);
+    }
+
+    @Override
+    public void formatDailyForecast(DailyForecastModel dailyForecastModel, ForecastFormatterCallback forecastFormatterCallback) {
+        Map<String, String> formattedMap = new HashMap<>();
+        Unit unit = new Unit(dailyForecastModel.getUnits());
+        formattedMap.put(TEMPERATURE, formatTemperature((int) dailyForecastModel.getTemperature(), unit.tempUnit));
+        formattedMap.put(ICON, String.valueOf(getIconResource(dailyForecastModel.getIcon(), true)));
         forecastFormatterCallback.onFormatForecast(formattedMap);
     }
 
@@ -158,5 +158,16 @@ public class ForecastPresenter implements ForecastContract.Presenter, ForecastFo
 
     private String formatUnit(int speed, String unit) {
         return new StringBuilder().append(speed).append(unit).toString();
+    }
+
+    static class Unit {
+        String speedUnit = KPH, tempUnit = CELCIUS;
+
+        Unit(String unitType) {
+            if (unitType.equals(IMPERIAL)) {
+                this.speedUnit = MPH;
+                this.tempUnit = FARANHEIT;
+            }
+        }
     }
 }

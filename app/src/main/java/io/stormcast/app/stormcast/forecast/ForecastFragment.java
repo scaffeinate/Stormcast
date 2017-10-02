@@ -7,6 +7,8 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +17,11 @@ import android.widget.Toast;
 
 import com.github.pwittchen.weathericonview.WeatherIconView;
 
+import java.util.List;
 import java.util.Map;
 
 import io.stormcast.app.stormcast.R;
+import io.stormcast.app.stormcast.common.models.DailyForecastModel;
 import io.stormcast.app.stormcast.common.models.ForecastModel;
 import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.data.forecast.ForecastRepository;
@@ -45,6 +49,9 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     private StyledTextView mTemperatureTextView;
     private StyledTextView mMinTemperatureTextView;
     private StyledTextView mMaxTemperatureTextView;
+
+    private RecyclerView mDailyRecyclerView;
+    private DailyForecastAdapter mDailyAdapter;
 
     private int backgroundColor;
     private int textColor;
@@ -84,6 +91,8 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         mMaxTemperatureTextView = (StyledTextView) view.findViewById(R.id.max_temperature_text_view);
         mWeatherIconView = (WeatherIconView) view.findViewById(R.id.weather_icon_view);
 
+        mDailyRecyclerView = (RecyclerView) view.findViewById(R.id.daily_forecast_recycler_view);
+
         view.setBackgroundColor(backgroundColor);
         mPresenter.setCustomTextColor(mForecastLayout, textColor);
 
@@ -99,13 +108,14 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
             @Override
             public void run() {
                 mSwipeRefreshLayout.setRefreshing(true);
-                mPresenter.loadForecast(mLocationModel, false);
+                mPresenter.loadForecast(mLocationModel, true);
             }
         }, 250);
     }
 
     @Override
-    public void onForecastLoaded(ForecastModel forecastModel) {
+    public void onForecastLoaded(final ForecastModel forecastModel) {
+        if (!isAdded()) return;
         mSwipeRefreshLayout.setRefreshing(false);
         mPresenter.formatForecast(forecastModel, new ForecastFormatter.ForecastFormatterCallback() {
             @Override
@@ -124,6 +134,13 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
                 mWeatherIconView.setIconResource(getResources().getString(Integer.parseInt(icon)));
             }
         });
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadDailyForecast(forecastModel.getDailyForecastModelList());
+            }
+        }, 500);
     }
 
     @Override
@@ -135,5 +152,13 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     @Override
     public void onRefresh() {
         mPresenter.loadForecast(mLocationModel, true);
+    }
+
+    private void loadDailyForecast(List<DailyForecastModel> dailyForecastModelList) {
+        mDailyAdapter = new DailyForecastAdapter(mContext, dailyForecastModelList, mPresenter, textColor);
+        mDailyRecyclerView.setAdapter(mDailyAdapter);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+        mDailyRecyclerView.setLayoutManager(layoutManager);
     }
 }

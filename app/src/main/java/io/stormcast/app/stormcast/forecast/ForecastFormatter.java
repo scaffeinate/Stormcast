@@ -2,6 +2,7 @@ package io.stormcast.app.stormcast.forecast;
 
 import java.util.Map;
 
+import io.stormcast.app.stormcast.common.models.DailyForecastModel;
 import io.stormcast.app.stormcast.common.models.ForecastModel;
 
 /**
@@ -31,6 +32,8 @@ public interface ForecastFormatter {
     String IMPERIAL = "us";
 
     void formatForecast(ForecastModel forecastModel, ForecastFormatterCallback forecastFormatterCallback);
+
+    void formatDailyForecast(DailyForecastModel dailyForecastModel, ForecastFormatterCallback forecastFormatterCallback);
 
     interface ForecastFormatterCallback {
         void onFormatForecast(Map<String, String> formattedMap);

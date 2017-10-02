@@ -20,10 +20,16 @@
 
             <include
                 layout="@layout/section_overview"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="90dp" />
+
+            <include
+                android:id="@+id/daily_forecast_recycler_view"
+                layout="@layout/section_daily_forecast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
     </ScrollView>
