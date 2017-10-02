@@ -1,5 +1,7 @@
 package io.stormcast.app.stormcast.home;
 
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import io.stormcast.app.stormcast.AppConstants;
 import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.location.list.LocationsListFragment;
 import io.stormcast.app.stormcast.navdrawer.NavDrawerFragment;
@@ -31,6 +34,8 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerFragment
     private ActionBar mActionBar;
     private Toolbar mToolbar;
     private StyledTextView mToolbarTitle;
+    private Drawable mMenuDrawable;
+    private int mMenuColor = AppConstants.DEFAULT_TEXT_COLOR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +106,11 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerFragment
         MenuItem menuItem = menu.findItem(R.id.add_location_menu_item);
         if (menuItem != null) {
             menuItem.setVisible(!isDrawerOpen);
+            mMenuDrawable = menuItem.getIcon();
+            if(mMenuDrawable != null) {
+                mMenuDrawable.mutate();
+                setMenuColor(mMenuDrawable, mMenuColor);
+            }
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -113,9 +123,13 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerFragment
 
     @Override
     public void setToolbarTextColor(int color) {
+        this.mMenuColor = color;
         mToolbarTitle.setTextColor(color);
         ActionBarDrawerToggle drawerToggle = mNavDrawerFragment.getActionBarDrawerToggle();
         drawerToggle.getDrawerArrowDrawable().setColor(color);
+        if(mMenuDrawable != null) {
+            setMenuColor(mMenuDrawable, color);
+        }
     }
 
     @Override
@@ -132,5 +146,9 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerFragment
     @Override
     public void setNavDrawerSelected(int position) {
         mNavDrawerFragment.setSelected(position);
+    }
+
+    private void setMenuColor(Drawable drawable, int color) {
+        drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
     }
 }
