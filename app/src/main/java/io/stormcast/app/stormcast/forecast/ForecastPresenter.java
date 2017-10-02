@@ -6,12 +6,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.github.pwittchen.weathericonview.WeatherIconView;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.common.models.ForecastModel;
 import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.data.forecast.ForecastDataSource;
@@ -68,6 +72,52 @@ public class ForecastPresenter implements ForecastContract.Presenter, ForecastFo
     }
 
     @Override
+    public int getIconResource(String icon, Calendar calendar) {
+        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+        boolean isDay = (hourOfDay > 7 && hourOfDay < 20) ? true : false;
+        switch (icon) {
+            case "clear-day":
+                return R.string.wi_day_sunny;
+            case "clear-night":
+                return R.string.wi_night_clear;
+            case "rain":
+                return isDay ? R.string.wi_rain : R.string.wi_night_alt_rain;
+            case "snow":
+                return isDay ? R.string.wi_snow : R.string.wi_night_alt_snow;
+            case "sleet":
+                return isDay ? R.string.wi_sleet : R.string.wi_night_sleet;
+            case "wind":
+                return isDay ? R.string.wi_windy : R.string.wi_night_alt_cloudy_windy;
+            case "fog":
+                return isDay ? R.string.wi_fog : R.string.wi_night_fog;
+            case "cloudy":
+                return isDay ? R.string.wi_cloudy : R.string.wi_night_cloudy;
+            case "partly-cloudy-day":
+                return R.string.wi_day_cloudy;
+            case "partly-cloudy-night":
+                return R.string.wi_night_partly_cloudy;
+            case "hail":
+                return isDay ? R.string.wi_hail : R.string.wi_night_alt_hail;
+            case "thunderstorm":
+                return isDay ? R.string.wi_thunderstorm : R.string.wi_night_alt_thunderstorm;
+            case "tornado":
+                return R.string.wi_tornado;
+            case "tsunami":
+                return R.string.wi_tsunami;
+            case "sandstorm":
+                return R.string.wi_sandstorm;
+            case "hurricane":
+                return R.string.wi_hurricane;
+            case "earthquake":
+                return R.string.wi_earthquake;
+            case "flood":
+                return R.string.wi_flood;
+            default:
+                return R.string.wi_cloud;
+        }
+    }
+
+    @Override
     public void formatForecast(ForecastModel forecastModel, ForecastFormatterCallback forecastFormatterCallback) {
         Map<String, String> formattedMap = new HashMap<>();
         String units = forecastModel.getUnits();
@@ -88,6 +138,9 @@ public class ForecastPresenter implements ForecastContract.Presenter, ForecastFo
             windSpeed *= 0.62;
         }
 
+        Calendar currentTime = new GregorianCalendar();
+        currentTime.setTimeInMillis(forecastModel.getCurrentTime());
+
         formattedMap.put(TEMPERATURE, formatTemperature(temp, tempUnit));
         formattedMap.put(MIN_TEMPERATURE, formatTemperature(minTemp, tempUnit));
         formattedMap.put(MAX_TEMPERATURE, formatTemperature(maxTemp, tempUnit));
@@ -95,7 +148,7 @@ public class ForecastPresenter implements ForecastContract.Presenter, ForecastFo
         formattedMap.put(HUMIDITY, formatUnit(humidity, PERCENT));
         formattedMap.put(PRESSURE, formatUnit(pressure, HECTOPASCALS));
         formattedMap.put(SUMMARY, forecastModel.getSummary());
-        formattedMap.put(ICON, forecastModel.getIcon());
+        formattedMap.put(ICON, String.valueOf(getIconResource(forecastModel.getIcon(), currentTime)));
         forecastFormatterCallback.onFormatForecast(formattedMap);
     }
 

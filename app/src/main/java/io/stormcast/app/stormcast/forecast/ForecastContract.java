@@ -2,6 +2,8 @@ package io.stormcast.app.stormcast.forecast;
 
 import android.view.ViewGroup;
 
+import java.util.Calendar;
+
 import io.stormcast.app.stormcast.common.models.ForecastModel;
 import io.stormcast.app.stormcast.common.models.LocationModel;
 
@@ -22,6 +24,8 @@ public interface ForecastContract {
         void loadForecast(LocationModel locationModel, boolean isManualRefresh);
 
         void setCustomTextColor(ViewGroup parentView, int textColor);
+
+        int getIconResource(String icon, Calendar calendar);
 
     }
 }

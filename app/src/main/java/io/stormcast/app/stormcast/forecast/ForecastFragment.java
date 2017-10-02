@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.github.pwittchen.weathericonview.WeatherIconView;
+
 import java.util.Map;
 
 import io.stormcast.app.stormcast.R;
@@ -38,6 +40,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
 
     private LinearLayout mForecastLayout;
 
+    private WeatherIconView mWeatherIconView;
     private StyledTextView mSummaryTextView;
     private StyledTextView mTemperatureTextView;
     private StyledTextView mMinTemperatureTextView;
@@ -79,6 +82,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         mTemperatureTextView = (StyledTextView) view.findViewById(R.id.temperature_text_view);
         mMinTemperatureTextView = (StyledTextView) view.findViewById(R.id.min_temperature_text_view);
         mMaxTemperatureTextView = (StyledTextView) view.findViewById(R.id.max_temperature_text_view);
+        mWeatherIconView = (WeatherIconView) view.findViewById(R.id.weather_icon_view);
 
         view.setBackgroundColor(backgroundColor);
         mPresenter.setCustomTextColor(mForecastLayout, textColor);
@@ -89,8 +93,8 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -117,6 +121,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
                 mMinTemperatureTextView.setText(minTemperature);
                 mMaxTemperatureTextView.setText(maxTemperature);
                 mSummaryTextView.setText(summary);
+                mWeatherIconView.setIconResource(getResources().getString(Integer.parseInt(icon)));
             }
         });
     }

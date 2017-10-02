@@ -19,18 +19,11 @@
             android:padding="10dp">
 
             <include
-                layout="@layout/section_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="65dp" />
-
-            <include
                 layout="@layout/section_overview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="25dp" />
+                android:layout_marginTop="90dp" />
 
         </LinearLayout>
     </ScrollView>
