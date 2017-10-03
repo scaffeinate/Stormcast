@@ -27,6 +27,7 @@ import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.data.forecast.ForecastRepository;
 import io.stormcast.app.stormcast.data.forecast.local.LocalForecastDataSource;
 import io.stormcast.app.stormcast.data.forecast.remote.RemoteForecastDataSource;
+import io.stormcast.app.stormcast.home.HomeFragment;
 import io.stormcast.app.stormcast.views.styled.StyledTextView;
 
 /**
@@ -35,7 +36,7 @@ import io.stormcast.app.stormcast.views.styled.StyledTextView;
 
 public class ForecastFragment extends Fragment implements ForecastContract.View, SwipeRefreshLayout.OnRefreshListener {
 
-    private static final String LOCATION = "LOCATION";
+    private static final String POSITION = "position";
 
     private Context mContext;
     private ForecastPresenter mPresenter;
@@ -50,17 +51,14 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     private StyledTextView mMinTemperatureTextView;
     private StyledTextView mMaxTemperatureTextView;
 
-    private RecyclerView mDailyRecyclerView;
-    private DailyForecastAdapter mDailyAdapter;
-
     private int backgroundColor;
     private int textColor;
 
-    public static ForecastFragment newInstance(LocationModel locationModel) {
+    public static ForecastFragment newInstance(int position) {
         ForecastFragment forecastFragment = new ForecastFragment();
 
         Bundle args = new Bundle();
-        args.putParcelable(LOCATION, locationModel);
+        args.putInt(POSITION, position);
         forecastFragment.setArguments(args);
 
         return forecastFragment;
@@ -69,13 +67,10 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mLocationModel = getArguments().getParcelable(LOCATION);
         mContext = getContext();
         mPresenter = new ForecastPresenter(this, ForecastRepository.getInstance(
                 LocalForecastDataSource.getInstance(getActivity().getApplicationContext()),
                 RemoteForecastDataSource.getInstance()));
-        backgroundColor = Color.parseColor(mLocationModel.getBackgroundColor());
-        textColor = Color.parseColor(mLocationModel.getTextColor());
     }
 
     @Nullable
@@ -91,14 +86,21 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         mMaxTemperatureTextView = (StyledTextView) view.findViewById(R.id.max_temperature_text_view);
         mWeatherIconView = (WeatherIconView) view.findViewById(R.id.weather_icon_view);
 
-        mDailyRecyclerView = (RecyclerView) view.findViewById(R.id.daily_forecast_recycler_view);
-
-        view.setBackgroundColor(backgroundColor);
-        mPresenter.setCustomTextColor(mForecastLayout, textColor);
-
         mSwipeRefreshLayout.setOnRefreshListener(this);
-
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        int position = getArguments().getInt(POSITION);
+        mLocationModel = ((HomeFragment) getParentFragment()).getLocationModel(position);
+
+        backgroundColor = Color.parseColor(mLocationModel.getBackgroundColor());
+        textColor = Color.parseColor(mLocationModel.getTextColor());
+
+        getView().setBackgroundColor(backgroundColor);
+        mPresenter.setCustomTextColor(mForecastLayout, textColor);
     }
 
     @Override
@@ -107,8 +109,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mSwipeRefreshLayout.setRefreshing(true);
-                mPresenter.loadForecast(mLocationModel, true);
+                mPresenter.loadForecast(mLocationModel, false);
             }
         }, 250);
     }
@@ -138,9 +139,9 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                loadDailyForecast(forecastModel.getDailyForecastModelList());
+                //loadDailyForecast(forecastModel.getDailyForecastModelList());
             }
-        }, 500);
+        }, 250);
     }
 
     @Override
@@ -151,14 +152,11 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
 
     @Override
     public void onRefresh() {
+        mSwipeRefreshLayout.setRefreshing(true);
         mPresenter.loadForecast(mLocationModel, true);
     }
 
     private void loadDailyForecast(List<DailyForecastModel> dailyForecastModelList) {
-        mDailyAdapter = new DailyForecastAdapter(mContext, dailyForecastModelList, mPresenter, textColor);
-        mDailyRecyclerView.setAdapter(mDailyAdapter);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
-        mDailyRecyclerView.setLayoutManager(layoutManager);
     }
 }

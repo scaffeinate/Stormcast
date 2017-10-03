@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:focusable="false"
-    android:focusableInTouchMode="false" />
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:layout_width="match_parent"
+			  android:layout_height="wrap_content">
+
+	<include
+		android:id="@+id/today_forecast"
+		layout="@layout/item_daily"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"/>
+
+	<include
+		android:id="@+id/tomo_forecast"
+		layout="@layout/item_daily"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"/>
+
+	<include
+		android:id="@+id/day_after_tomo_forecast"
+		layout="@layout/item_daily"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"/>
+
+	<include
+		android:id="@+id/two_days_from_now_forecast"
+		layout="@layout/item_daily"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"/>
+</LinearLayout>
