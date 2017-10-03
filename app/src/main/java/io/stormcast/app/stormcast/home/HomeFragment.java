@@ -95,6 +95,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
         mViewPager.setVisibility(View.GONE);
         mNoLocationsLayout.setVisibility(View.VISIBLE);
         getView().setBackgroundColor(AppConstants.DEFAULT_BACKGROUND_COLOR);
+        mCustomizeCallbacks.setToolbarTitle(AppConstants.APP_NAME);
     }
 
     @Override

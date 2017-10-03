@@ -7,8 +7,6 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,7 +113,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     }
 
     @Override
-    public void onForecastLoaded(final ForecastModel forecastModel) {
+    public void onForecastLoaded(final ForecastModel forecastModel, final List<DailyForecastModel> dailyForecastModels) {
         if (!isAdded()) return;
         mSwipeRefreshLayout.setRefreshing(false);
         mPresenter.formatForecast(forecastModel, new ForecastFormatter.ForecastFormatterCallback() {
@@ -135,13 +133,6 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
                 mWeatherIconView.setIconResource(getResources().getString(Integer.parseInt(icon)));
             }
         });
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //loadDailyForecast(forecastModel.getDailyForecastModelList());
-            }
-        }, 250);
     }
 
     @Override
@@ -154,9 +145,5 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     public void onRefresh() {
         mSwipeRefreshLayout.setRefreshing(true);
         mPresenter.loadForecast(mLocationModel, true);
-    }
-
-    private void loadDailyForecast(List<DailyForecastModel> dailyForecastModelList) {
-
     }
 }

@@ -11,6 +11,7 @@ import com.github.pwittchen.weathericonview.WeatherIconView;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import io.stormcast.app.stormcast.R;
@@ -42,8 +43,8 @@ public class ForecastPresenter implements ForecastContract.Presenter, ForecastFo
     public void loadForecast(final LocationModel locationModel, boolean isManualRefresh) {
         mRepository.loadForecast(locationModel, isManualRefresh, new ForecastDataSource.LoadForecastCallback() {
             @Override
-            public void onForecastLoaded(ForecastModel forecastModel) {
-                mView.onForecastLoaded(forecastModel);
+            public void onForecastLoaded(ForecastModel forecastModel, List<DailyForecastModel> dailyForecastModels) {
+                mView.onForecastLoaded(forecastModel, dailyForecastModels);
             }
 
             @Override

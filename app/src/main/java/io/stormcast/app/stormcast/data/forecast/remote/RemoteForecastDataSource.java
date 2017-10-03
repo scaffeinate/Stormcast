@@ -1,6 +1,10 @@
 package io.stormcast.app.stormcast.data.forecast.remote;
 
+import java.util.List;
+
+import io.stormcast.app.stormcast.common.mappers.DailyForecastMapper;
 import io.stormcast.app.stormcast.common.mappers.ForecastMapper;
+import io.stormcast.app.stormcast.common.models.DailyForecastModel;
 import io.stormcast.app.stormcast.common.models.ForecastModel;
 import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.common.network.Forecast;
@@ -32,8 +36,9 @@ public class RemoteForecastDataSource implements ForecastDataSource {
         mApiClient.loadForecast(locationModel, new DarkSkyApiClient.ApiCallback() {
             @Override
             public void onLoadForecast(Forecast forecast) {
-                ForecastModel forecastModel = ForecastMapper.map(forecast);
-                loadForecastCallback.onForecastLoaded(forecastModel);
+                ForecastModel forecastModel = ForecastMapper.map(forecast, locationModel.getId());
+                List<DailyForecastModel> dailyForecastModels = DailyForecastMapper.map(forecast, locationModel.getId());
+                loadForecastCallback.onForecastLoaded(forecastModel, dailyForecastModels);
             }
 
             @Override

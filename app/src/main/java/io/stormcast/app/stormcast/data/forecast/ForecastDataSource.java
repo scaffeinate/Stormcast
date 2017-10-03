@@ -1,6 +1,9 @@
 package io.stormcast.app.stormcast.data.forecast;
 
 
+import java.util.List;
+
+import io.stormcast.app.stormcast.common.models.DailyForecastModel;
 import io.stormcast.app.stormcast.common.models.ForecastModel;
 import io.stormcast.app.stormcast.common.models.LocationModel;
 
@@ -13,14 +16,8 @@ public interface ForecastDataSource {
     void loadForecast(LocationModel locationModel, boolean isManualRefresh, LoadForecastCallback loadForecastCallback);
 
     interface LoadForecastCallback {
-        void onForecastLoaded(ForecastModel forecastModel);
+        void onForecastLoaded(ForecastModel forecastModel, List<DailyForecastModel> dailyForecastModels);
 
         void onDataNotAvailable(String errorMessage);
-    }
-
-    interface SaveForecastCallback {
-        void onForecastSaved();
-
-        void onLocationSaveFailed(String errorMessage);
     }
 }

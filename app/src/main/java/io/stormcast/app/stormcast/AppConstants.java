@@ -7,6 +7,7 @@ import android.graphics.Color;
  */
 
 public final class AppConstants {
+    public static final String APP_NAME = "Stormcast";
     public static final String DEFAULT_BACKGROUND_COLOR_HEX = "#651FFF";
     public static final String DEFAULT_TEXT_COLOR_HEX = "#FFFFFF";
     public static final int DEFAULT_BACKGROUND_COLOR = Color.parseColor(DEFAULT_BACKGROUND_COLOR_HEX);
