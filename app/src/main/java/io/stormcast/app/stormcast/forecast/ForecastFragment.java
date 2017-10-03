@@ -11,16 +11,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.github.pwittchen.weathericonview.WeatherIconView;
 
 import java.util.List;
-import java.util.Map;
 
 import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.common.models.DailyForecastModel;
 import io.stormcast.app.stormcast.common.models.ForecastModel;
+import io.stormcast.app.stormcast.common.models.FormattedDailyForecastModel;
+import io.stormcast.app.stormcast.common.models.FormattedForecastModel;
 import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.data.forecast.ForecastRepository;
 import io.stormcast.app.stormcast.data.forecast.local.LocalForecastDataSource;
@@ -42,12 +44,18 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     private LocationModel mLocationModel;
 
     private LinearLayout mForecastLayout;
+    private LinearLayout mDailyForecastLayout;
 
     private WeatherIconView mWeatherIconView;
     private StyledTextView mSummaryTextView;
     private StyledTextView mTemperatureTextView;
     private StyledTextView mMinTemperatureTextView;
     private StyledTextView mMaxTemperatureTextView;
+
+    private RelativeLayout mTodayForecastLayout;
+    private RelativeLayout mTomoForecastLayout;
+    private RelativeLayout mDayAfterForecastLayout;
+    private RelativeLayout mTwoDaysFromNowForecastLayout;
 
     private int backgroundColor;
     private int textColor;
@@ -77,12 +85,19 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         View view = inflater.inflate(R.layout.fragment_forecast, container, false);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         mForecastLayout = (LinearLayout) view.findViewById(R.id.forecast_layout);
+        mDailyForecastLayout = (LinearLayout) view.findViewById(R.id.daily_forecast_layout);
 
         mSummaryTextView = (StyledTextView) view.findViewById(R.id.summary_text_view);
         mTemperatureTextView = (StyledTextView) view.findViewById(R.id.temperature_text_view);
         mMinTemperatureTextView = (StyledTextView) view.findViewById(R.id.min_temperature_text_view);
         mMaxTemperatureTextView = (StyledTextView) view.findViewById(R.id.max_temperature_text_view);
         mWeatherIconView = (WeatherIconView) view.findViewById(R.id.weather_icon_view);
+
+        mTodayForecastLayout = (RelativeLayout) view.findViewById(R.id.today_forecast);
+        mTomoForecastLayout = (RelativeLayout) view.findViewById(R.id.tomo_forecast);
+        mDayAfterForecastLayout = (RelativeLayout) view.findViewById(R.id.day_after_tomo_forecast);
+        mTwoDaysFromNowForecastLayout = (RelativeLayout) view.findViewById(R.id.two_days_from_now_forecast);
+
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
         return view;
@@ -109,30 +124,24 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
             public void run() {
                 mPresenter.loadForecast(mLocationModel, false);
             }
-        }, 250);
+        }, 350);
     }
 
     @Override
     public void onForecastLoaded(final ForecastModel forecastModel, final List<DailyForecastModel> dailyForecastModels) {
         if (!isAdded()) return;
         mSwipeRefreshLayout.setRefreshing(false);
-        mPresenter.formatForecast(forecastModel, new ForecastFormatter.ForecastFormatterCallback() {
-            @Override
-            public void onFormatForecast(Map<String, String> formattedMap) {
-                String temperature = formattedMap.get(ForecastPresenter.TEMPERATURE);
-                String windSpeed = formattedMap.get(ForecastPresenter.WIND_SPEED);
-                String minTemperature = formattedMap.get(ForecastPresenter.MIN_TEMPERATURE);
-                String maxTemperature = formattedMap.get(ForecastPresenter.MAX_TEMPERATURE);
-                String summary = formattedMap.get(ForecastPresenter.SUMMARY);
-                String icon = formattedMap.get(ForecastPresenter.ICON);
+        FormattedForecastModel formattedForecastModel = ForecastFormatter.formatForecast(forecastModel);
+        mTemperatureTextView.setText(formattedForecastModel.getTemperature());
+        mMinTemperatureTextView.setText(formattedForecastModel.getMinTemperature());
+        mMaxTemperatureTextView.setText(formattedForecastModel.getMaxTemperature());
+        mSummaryTextView.setText(formattedForecastModel.getSummary());
+        mWeatherIconView.setIconResource(getResources().getString(Integer.parseInt(formattedForecastModel.getIcon())));
 
-                mTemperatureTextView.setText(temperature);
-                mMinTemperatureTextView.setText(minTemperature);
-                mMaxTemperatureTextView.setText(maxTemperature);
-                mSummaryTextView.setText(summary);
-                mWeatherIconView.setIconResource(getResources().getString(Integer.parseInt(icon)));
-            }
-        });
+        populateDailyForecastView(mTodayForecastLayout, ForecastFormatter.formatDailyForecast(dailyForecastModels.get(0)));
+        populateDailyForecastView(mTomoForecastLayout, ForecastFormatter.formatDailyForecast(dailyForecastModels.get(1)));
+        populateDailyForecastView(mDayAfterForecastLayout, ForecastFormatter.formatDailyForecast(dailyForecastModels.get(2)));
+        populateDailyForecastView(mTwoDaysFromNowForecastLayout, ForecastFormatter.formatDailyForecast(dailyForecastModels.get(3)));
     }
 
     @Override
@@ -145,5 +154,15 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     public void onRefresh() {
         mSwipeRefreshLayout.setRefreshing(true);
         mPresenter.loadForecast(mLocationModel, true);
+    }
+
+    private void populateDailyForecastView(RelativeLayout layout, FormattedDailyForecastModel model) {
+        StyledTextView timeTextView = (StyledTextView) layout.findViewById(R.id.time_text_view);
+        WeatherIconView dailyWeatherIcon = (WeatherIconView) layout.findViewById(R.id.daily_weather_icon_view);
+        StyledTextView temperatureTextView = (StyledTextView) layout.findViewById(R.id.temperature_text_view);
+
+        timeTextView.setText(model.getTime());
+        dailyWeatherIcon.setIconResource(getResources().getString(Integer.parseInt(model.getIcon())));
+        temperatureTextView.setText(model.getTemperature());
     }
 }

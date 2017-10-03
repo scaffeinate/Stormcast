@@ -23,13 +23,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="90dp" />
+                android:layout_marginTop="85dp" />
 
             <include
-                android:id="@+id/daily_forecast_recycler_view"
+                android:id="@+id/daily_forecast_layout"
                 layout="@layout/section_daily_forecast"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp" />
 
         </LinearLayout>
     </ScrollView>

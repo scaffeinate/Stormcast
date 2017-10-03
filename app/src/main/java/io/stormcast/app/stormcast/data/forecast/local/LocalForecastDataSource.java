@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.os.AsyncTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,77 +43,7 @@ public class LocalForecastDataSource implements ForecastDataSource {
     public void loadForecast(final LocationModel locationModel, boolean isManualRefresh, LoadForecastCallback loadForecastCallback) {
         ForecastModel forecastModel = null;
         List<DailyForecastModel> dailyForecastModels = new ArrayList<>();
-        SQLiteDatabase database = mDbHelper.getReadableDatabase();
-        String whereArgs = PersistenceContract.ForecastEntry.LOCATION_ID + " = ? ";
-        String[] whereArgsValues = new String[]{String.valueOf(locationModel.getId())};
-        String[] projection = new String[]{
-                PersistenceContract.ForecastEntry.TEMPERATURE,
-                PersistenceContract.ForecastEntry.APPARENT_TEMPERATURE,
-                PersistenceContract.ForecastEntry.MIN_TEMPERATURE,
-                PersistenceContract.ForecastEntry.MAX_TEMPERATURE,
-                PersistenceContract.ForecastEntry.HUMIDITY,
-                PersistenceContract.ForecastEntry.ICON,
-                PersistenceContract.ForecastEntry.PRESSURE,
-                PersistenceContract.ForecastEntry.SUMMARY,
-                PersistenceContract.ForecastEntry.WIND_SPEED,
-                PersistenceContract.ForecastEntry.VISIBILITY,
-                PersistenceContract.ForecastEntry.UNITS,
-                PersistenceContract.ForecastEntry.UPDATED_AT,
-                PersistenceContract.ForecastEntry.TIMEZONE,
-                PersistenceContract.ForecastEntry.LOCATION_ID,
-                PersistenceContract.ForecastEntry.CURRENT_TIME
-        };
-
-        Cursor c = database.query(PersistenceContract.ForecastEntry.TABLE_NAME, projection, whereArgs, whereArgsValues, null, null, null);
-        if (c != null) {
-            c.moveToFirst();
-            if (!c.isAfterLast()) {
-                forecastModel = new ForecastModelBuilder()
-                        .setTemperature(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.TEMPERATURE)))
-                        .setApparentTemperature(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.APPARENT_TEMPERATURE)))
-                        .setMinTemperature(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.MIN_TEMPERATURE)))
-                        .setMaxTemperature(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.MAX_TEMPERATURE)))
-                        .setHumidity(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.HUMIDITY)))
-                        .setIcon(c.getString(c.getColumnIndex(PersistenceContract.ForecastEntry.ICON)))
-                        .setPressure(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.PRESSURE)))
-                        .setSummary(c.getString(c.getColumnIndex(PersistenceContract.ForecastEntry.SUMMARY)))
-                        .setWindSpeed(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.WIND_SPEED)))
-                        .setVisibility(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.VISIBILITY)))
-                        .setUnits(c.getString(c.getColumnIndex(PersistenceContract.ForecastEntry.UNITS)))
-                        .setUpdatedAt(c.getLong(c.getColumnIndex(PersistenceContract.ForecastEntry.UPDATED_AT)))
-                        .setTimezone(c.getString(c.getColumnIndex(PersistenceContract.ForecastEntry.TIMEZONE)))
-                        .setLocationId(c.getInt(c.getColumnIndex(PersistenceContract.ForecastEntry.LOCATION_ID)))
-                        .setCurrentTime(c.getInt(c.getColumnIndex(PersistenceContract.ForecastEntry.CURRENT_TIME)))
-                        .build();
-            }
-            c.close();
-        }
-
-        projection = new String[]{};
-        c = database.query(PersistenceContract.DailyForecastEntry.TABLE_NAME, projection, whereArgs, whereArgsValues, null, null, null);
-        if (c != null) {
-            c.moveToFirst();
-            while (!c.isAfterLast()) {
-                DailyForecastModel dailyForecastModel = new DailyForecastModelBuilder()
-                        .setIcon(c.getString(c.getColumnIndex(PersistenceContract.DailyForecastEntry.ICON)))
-                        .setTemperature(c.getDouble(c.getColumnIndex(PersistenceContract.DailyForecastEntry.TEMPERATURE)))
-                        .setLocationId(c.getInt(c.getColumnIndex(PersistenceContract.DailyForecastEntry.LOCATION_ID)))
-                        .setTime(c.getInt(c.getColumnIndex(PersistenceContract.DailyForecastEntry.TIME)))
-                        .setUpdatedAt(c.getInt(c.getColumnIndex(PersistenceContract.DailyForecastEntry.UPDATED_AT)))
-                        .setUnits(c.getString(c.getColumnIndex(PersistenceContract.DailyForecastEntry.UNITS)))
-                        .build();
-                dailyForecastModels.add(dailyForecastModel);
-                c.moveToNext();
-            }
-            c.close();
-        }
-
-        if (forecastModel == null) {
-            loadForecastCallback.onDataNotAvailable("Unable to retrieve Forecast");
-        } else {
-            loadForecastCallback.onForecastLoaded(forecastModel, dailyForecastModels);
-        }
-        database.close();
+        new FetchForecastTask(locationModel.getId(), forecastModel, dailyForecastModels, loadForecastCallback).execute();
     }
 
     public void saveForecast(final ForecastModel forecastModel, int locationId) {
@@ -177,5 +108,102 @@ public class LocalForecastDataSource implements ForecastDataSource {
         cv.put(PersistenceContract.DailyForecastEntry.UNITS, dailyForecastModel.getUnits());
         cv.put(PersistenceContract.DailyForecastEntry.UPDATED_AT, dailyForecastModel.getUpdatedAt());
         cv.put(PersistenceContract.DailyForecastEntry.LOCATION_ID, dailyForecastModel.getLocationId());
+    }
+
+    class FetchForecastTask extends AsyncTask<Void, Integer, Void> {
+
+        private int locationId;
+        private ForecastModel forecastModel;
+        private List<DailyForecastModel> dailyForecastModels;
+        private LoadForecastCallback loadForecastCallback;
+
+        FetchForecastTask(int locationId, ForecastModel forecastModel,
+                          List<DailyForecastModel> dailyForecastModels, LoadForecastCallback loadForecastCallback) {
+            this.forecastModel = forecastModel;
+            this.dailyForecastModels = dailyForecastModels;
+            this.locationId = locationId;
+            this.loadForecastCallback = loadForecastCallback;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            SQLiteDatabase database = mDbHelper.getReadableDatabase();
+            String whereArgs = PersistenceContract.ForecastEntry.LOCATION_ID + " = ? ";
+            String[] whereArgsValues = new String[]{String.valueOf(locationId)};
+            String[] projection = new String[]{
+                    PersistenceContract.ForecastEntry.TEMPERATURE,
+                    PersistenceContract.ForecastEntry.APPARENT_TEMPERATURE,
+                    PersistenceContract.ForecastEntry.MIN_TEMPERATURE,
+                    PersistenceContract.ForecastEntry.MAX_TEMPERATURE,
+                    PersistenceContract.ForecastEntry.HUMIDITY,
+                    PersistenceContract.ForecastEntry.ICON,
+                    PersistenceContract.ForecastEntry.PRESSURE,
+                    PersistenceContract.ForecastEntry.SUMMARY,
+                    PersistenceContract.ForecastEntry.WIND_SPEED,
+                    PersistenceContract.ForecastEntry.VISIBILITY,
+                    PersistenceContract.ForecastEntry.UNITS,
+                    PersistenceContract.ForecastEntry.UPDATED_AT,
+                    PersistenceContract.ForecastEntry.TIMEZONE,
+                    PersistenceContract.ForecastEntry.LOCATION_ID,
+                    PersistenceContract.ForecastEntry.CURRENT_TIME
+            };
+
+            Cursor c = database.query(PersistenceContract.ForecastEntry.TABLE_NAME, projection, whereArgs, whereArgsValues, null, null, null);
+            if (c != null) {
+                c.moveToFirst();
+                if (!c.isAfterLast()) {
+                    forecastModel = new ForecastModelBuilder()
+                            .setTemperature(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.TEMPERATURE)))
+                            .setApparentTemperature(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.APPARENT_TEMPERATURE)))
+                            .setMinTemperature(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.MIN_TEMPERATURE)))
+                            .setMaxTemperature(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.MAX_TEMPERATURE)))
+                            .setHumidity(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.HUMIDITY)))
+                            .setIcon(c.getString(c.getColumnIndex(PersistenceContract.ForecastEntry.ICON)))
+                            .setPressure(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.PRESSURE)))
+                            .setSummary(c.getString(c.getColumnIndex(PersistenceContract.ForecastEntry.SUMMARY)))
+                            .setWindSpeed(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.WIND_SPEED)))
+                            .setVisibility(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.VISIBILITY)))
+                            .setUnits(c.getString(c.getColumnIndex(PersistenceContract.ForecastEntry.UNITS)))
+                            .setUpdatedAt(c.getLong(c.getColumnIndex(PersistenceContract.ForecastEntry.UPDATED_AT)))
+                            .setTimezone(c.getString(c.getColumnIndex(PersistenceContract.ForecastEntry.TIMEZONE)))
+                            .setLocationId(c.getInt(c.getColumnIndex(PersistenceContract.ForecastEntry.LOCATION_ID)))
+                            .setCurrentTime(c.getInt(c.getColumnIndex(PersistenceContract.ForecastEntry.CURRENT_TIME)))
+                            .build();
+                }
+                c.close();
+            }
+
+            projection = new String[]{};
+            c = database.query(PersistenceContract.DailyForecastEntry.TABLE_NAME, projection, whereArgs, whereArgsValues, null, null, null);
+            if (c != null) {
+                c.moveToFirst();
+                while (!c.isAfterLast()) {
+                    DailyForecastModel dailyForecastModel = new DailyForecastModelBuilder()
+                            .setIcon(c.getString(c.getColumnIndex(PersistenceContract.DailyForecastEntry.ICON)))
+                            .setTemperature(c.getDouble(c.getColumnIndex(PersistenceContract.DailyForecastEntry.TEMPERATURE)))
+                            .setLocationId(c.getInt(c.getColumnIndex(PersistenceContract.DailyForecastEntry.LOCATION_ID)))
+                            .setTime(c.getInt(c.getColumnIndex(PersistenceContract.DailyForecastEntry.TIME)))
+                            .setUpdatedAt(c.getInt(c.getColumnIndex(PersistenceContract.DailyForecastEntry.UPDATED_AT)))
+                            .setUnits(c.getString(c.getColumnIndex(PersistenceContract.DailyForecastEntry.UNITS)))
+                            .build();
+                    dailyForecastModels.add(dailyForecastModel);
+                    c.moveToNext();
+                }
+                c.close();
+            }
+
+            database.close();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (forecastModel == null) {
+                loadForecastCallback.onDataNotAvailable("Unable to retrieve Forecast");
+            } else {
+                loadForecastCallback.onForecastLoaded(forecastModel, dailyForecastModels);
+            }
+        }
     }
 }

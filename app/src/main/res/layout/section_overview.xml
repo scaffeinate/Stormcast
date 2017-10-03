@@ -20,7 +20,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/summary_text_view"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
         custom:weatherIconSize="125" />
 
     <io.stormcast.app.stormcast.views.styled.StyledTextView
@@ -29,7 +28,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/weather_icon_view"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
         android:textAllCaps="true"
         android:textSize="60sp"
         custom:weight="bolder" />

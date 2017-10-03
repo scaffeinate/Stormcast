@@ -11,7 +11,8 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_centerHorizontal="true"
-		android:textAllCaps="true"/>
+		android:gravity="center"
+		custom:weight="bolder" />
 
 	<com.github.pwittchen.weathericonview.WeatherIconView
 		android:id="@+id/daily_weather_icon_view"
@@ -28,5 +29,6 @@
 		android:layout_height="wrap_content"
 		android:layout_below="@+id/daily_weather_icon_view"
 		android:layout_centerHorizontal="true"
+		custom:weight="bolder"
 		android:layout_marginTop="10dp"/>
 </RelativeLayout>
