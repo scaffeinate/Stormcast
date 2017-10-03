@@ -22,21 +22,25 @@ public class DailyForecastModel implements Parcelable {
     };
 
     private String icon, units;
-    private int time;
+    private int time, updatedAt, locationId;
     private double temperature;
 
     protected DailyForecastModel(Parcel in) {
         setIcon(in.readString());
         setUnits(in.readString());
         setTime(in.readInt());
+        setUpdatedAt(in.readInt());
         setTemperature(in.readDouble());
+        setLocationId(in.readInt());
     }
 
     protected DailyForecastModel(DailyForecastModelBuilder builder) {
         setIcon(builder.icon);
         setUnits(builder.units);
         setTime(builder.time);
+        setUpdatedAt(builder.updatedAt);
         setTemperature(builder.temperature);
+        setLocationId(builder.locationId);
     }
 
     public String getIcon() {
@@ -71,6 +75,22 @@ public class DailyForecastModel implements Parcelable {
         this.temperature = temperature;
     }
 
+    public int getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(int updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public int getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(int locationId) {
+        this.locationId = locationId;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -81,6 +101,8 @@ public class DailyForecastModel implements Parcelable {
         parcel.writeString(this.icon);
         parcel.writeString(this.units);
         parcel.writeInt(this.time);
+        parcel.writeInt(this.updatedAt);
         parcel.writeDouble(this.temperature);
+        parcel.writeInt(this.locationId);
     }
 }

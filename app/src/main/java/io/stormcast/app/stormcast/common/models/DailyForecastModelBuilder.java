@@ -6,7 +6,7 @@ package io.stormcast.app.stormcast.common.models;
 
 public class DailyForecastModelBuilder {
     protected String icon, units;
-    protected int time;
+    protected int time, updatedAt, locationId;
     protected double temperature;
 
     public DailyForecastModelBuilder setIcon(String icon) {
@@ -24,8 +24,18 @@ public class DailyForecastModelBuilder {
         return this;
     }
 
+    public DailyForecastModelBuilder setUpdatedAt(int updatedAt) {
+        this.updatedAt = updatedAt;
+        return this;
+    }
+
     public DailyForecastModelBuilder setTemperature(double temperature) {
         this.temperature = temperature;
+        return this;
+    }
+
+    public DailyForecastModelBuilder setLocationId(int locationId) {
+        this.locationId = locationId;
         return this;
     }
 

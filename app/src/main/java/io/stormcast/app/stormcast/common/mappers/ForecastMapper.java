@@ -1,11 +1,8 @@
 package io.stormcast.app.stormcast.common.mappers;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import io.stormcast.app.stormcast.common.models.DailyForecastModel;
-import io.stormcast.app.stormcast.common.models.DailyForecastModelBuilder;
 import io.stormcast.app.stormcast.common.models.ForecastModel;
 import io.stormcast.app.stormcast.common.models.ForecastModelBuilder;
 import io.stormcast.app.stormcast.common.network.Currently;
@@ -18,14 +15,12 @@ import io.stormcast.app.stormcast.common.network.Forecast;
  */
 
 public final class ForecastMapper {
-    public static ForecastModel map(Forecast forecast) {
+    public static ForecastModel map(final Forecast forecast, final int locationId) {
         ForecastModel model = null;
         if (forecast != null) {
             Currently currently = forecast.getCurrently();
             Daily daily = forecast.getDaily();
             List<Datum__> dailyData = daily.getData();
-            List<DailyForecastModel> dailyForecastModelList = new ArrayList<>();
-            String units = "us";
 
             ForecastModelBuilder builder = new ForecastModelBuilder();
             if (currently != null) {
@@ -39,7 +34,9 @@ public final class ForecastMapper {
                         .setPressure(currently.getPressure())
                         .setVisibility(currently.getVisibility())
                         .setWindSpeed(currently.getWindSpeed())
-                        .setUpdatedAt(new Date().getTime());
+                        .setUpdatedAt(new Date().getTime())
+                        .setUnits(forecast.getFlags().getUnits())
+                        .setLocationId(locationId);
 
                 if (!dailyData.isEmpty()) {
                     builder.setMinTemperature(dailyData.get(0).getTemperatureMin())
@@ -50,22 +47,6 @@ public final class ForecastMapper {
                 }
             }
 
-            if (forecast.getFlags() != null) {
-                units = forecast.getFlags().getUnits();
-            }
-
-            for (int i = 1; i < 5; i++) {
-                Datum__ datum__ = dailyData.get(i);
-                DailyForecastModel dailyForecastModel = new DailyForecastModelBuilder()
-                        .setIcon(datum__.getIcon())
-                        .setTime(datum__.getTime())
-                        .setTemperature((datum__.getTemperatureMin() + datum__.getTemperatureMax()) / 2)
-                        .setUnits(units)
-                        .build();
-                dailyForecastModelList.add(dailyForecastModel);
-            }
-
-            builder.setDailyForecastModels(dailyForecastModelList).setUnits(units);
             model = builder.build();
         }
         return model;
