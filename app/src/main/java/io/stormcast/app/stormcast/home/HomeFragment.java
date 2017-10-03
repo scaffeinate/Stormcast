@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.stormcast.app.stormcast.R;
@@ -46,6 +47,8 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
         mLocationsRepository = LocationsRepository.getInstance(LocalLocationsDataSource
                 .getInstance(getActivity().getApplicationContext()));
         mHomePresenter = new HomePresenter(this, mLocationsRepository);
+        mLocationModels = new ArrayList<>();
+        mViewPagerAdapter = new HomeViewPagerAdapter(getChildFragmentManager(), mLocationModels);
         setHasOptionsMenu(true);
     }
 
@@ -54,6 +57,8 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View mView = inflater.inflate(R.layout.fragment_home, container, false);
         mViewPager = (ViewPager) mView.findViewById(R.id.view_pager);
+        mViewPager.setAdapter(mViewPagerAdapter);
+        mViewPager.addOnPageChangeListener(this);
         return mView;
     }
 
@@ -73,17 +78,10 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
 
     @Override
     public void onLocationsLoaded(List<LocationModel> locationModels) {
-        if (mViewPagerAdapter == null) {
-            mViewPagerAdapter = new HomeViewPagerAdapter(getChildFragmentManager(), locationModels);
-            mViewPager.setAdapter(mViewPagerAdapter);
-        } else {
-            mViewPagerAdapter.setLocations(locationModels);
-            mViewPager.setAdapter(mViewPagerAdapter);
-        }
-
         this.mLocationModels = locationModels;
+        mViewPagerAdapter.setLocations(locationModels);
+        mViewPagerAdapter.notifyDataSetChanged();
         customizeViews(locationModels.get(mViewPager.getCurrentItem()));
-        mViewPager.addOnPageChangeListener(this);
     }
 
     @Override
@@ -124,6 +122,11 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public LocationModel getLocationModel(int position) {
+        LocationModel locationModel = mLocationModels.get(position);
+        return locationModel;
     }
 
     private void customizeViews(LocationModel locationModel) {

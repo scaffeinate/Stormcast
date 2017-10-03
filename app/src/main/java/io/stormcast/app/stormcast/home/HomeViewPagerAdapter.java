@@ -25,8 +25,7 @@ public class HomeViewPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        LocationModel locationModel = mLocationModels.get(position);
-        return ForecastFragment.newInstance(locationModel);
+        return ForecastFragment.newInstance(position);
     }
 
     @Override
@@ -47,10 +46,5 @@ public class HomeViewPagerAdapter extends FragmentStatePagerAdapter {
 
     public void setLocations(List<LocationModel> locationModels) {
         this.mLocationModels = locationModels;
-    }
-
-    @Override
-    public Parcelable saveState() {
-        return null;
     }
 }
