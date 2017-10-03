@@ -11,10 +11,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.stormcast.app.stormcast.AppConstants;
 import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.data.locations.LocationsRepository;
@@ -29,6 +31,7 @@ import io.stormcast.app.stormcast.navdrawer.NavDrawerFragment;
 public class HomeFragment extends Fragment implements HomeContract.View, ViewPager.OnPageChangeListener {
 
     private ViewPager mViewPager;
+    private RelativeLayout mNoLocationsLayout;
 
     private HomeViewPagerAdapter mViewPagerAdapter;
     private HomePresenter mHomePresenter;
@@ -57,6 +60,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View mView = inflater.inflate(R.layout.fragment_home, container, false);
         mViewPager = (ViewPager) mView.findViewById(R.id.view_pager);
+        mNoLocationsLayout = (RelativeLayout) mView.findViewById(R.id.no_locations_layout);
         mViewPager.setAdapter(mViewPagerAdapter);
         mViewPager.addOnPageChangeListener(this);
         return mView;
@@ -79,6 +83,8 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
     @Override
     public void onLocationsLoaded(List<LocationModel> locationModels) {
         this.mLocationModels = locationModels;
+        mViewPager.setVisibility(View.VISIBLE);
+        mNoLocationsLayout.setVisibility(View.GONE);
         mViewPagerAdapter.setLocations(locationModels);
         mViewPagerAdapter.notifyDataSetChanged();
         customizeViews(locationModels.get(mViewPager.getCurrentItem()));
@@ -87,6 +93,8 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
     @Override
     public void onDataNotAvailable() {
         mViewPager.setVisibility(View.GONE);
+        mNoLocationsLayout.setVisibility(View.VISIBLE);
+        getView().setBackgroundColor(AppConstants.DEFAULT_BACKGROUND_COLOR);
     }
 
     @Override
