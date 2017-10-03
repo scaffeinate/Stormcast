@@ -1,41 +1,95 @@
 package io.stormcast.app.stormcast.forecast;
 
-import java.util.Map;
+import java.util.Calendar;
 
 import io.stormcast.app.stormcast.common.models.DailyForecastModel;
 import io.stormcast.app.stormcast.common.models.ForecastModel;
+import io.stormcast.app.stormcast.common.models.FormattedDailyForecastModel;
+import io.stormcast.app.stormcast.common.models.FormattedDailyForecastModelBuilder;
+import io.stormcast.app.stormcast.common.models.FormattedForecastModel;
+import io.stormcast.app.stormcast.common.models.FormattedForecastModelBuilder;
 
 /**
  * Created by sudharti on 10/1/17.
  */
 
-public interface ForecastFormatter {
+public class ForecastFormatter {
 
-    String TEMPERATURE = "temperature";
-    String WIND_SPEED = "wind_speed";
-    String HUMIDITY = "humidity";
-    String PRESSURE = "pressure";
-    String OZONE = "ozone";
-    String MIN_TEMPERATURE = "min_temperature";
-    String MAX_TEMPERATURE = "max_temperature";
-    String SUMMARY = "summary";
-    String ICON = "icon";
+    private final static String KPH = "kph";
+    private final static String MPH = "mph";
+    private final static String CELCIUS = "C";
+    private final static String FARANHEIT = "F";
+    private final static String DEGREE = "\u00b0";
+    private final static String PERCENT = "%";
+    private final static String HECTOPASCALS = "hPa";
 
-    String KPH = "kph";
-    String MPH = "mph";
-    String CELCIUS = "C";
-    String FARANHEIT = "F";
-    String DEGREE = "\u00b0";
-    String PERCENT = "%";
-    String HECTOPASCALS = "hPa";
+    private final static String IMPERIAL = "us";
+    private final static String[] daysOfWeek = new String[]{
+            "SUN", "MON", "TUE", "WED", "THUR", "FRI", "SAT"
+    };
 
-    String IMPERIAL = "us";
+    public static FormattedForecastModel formatForecast(ForecastModel forecastModel) {
+        String unitType = forecastModel.getUnits();
+        Unit unit = new Unit(unitType);
+        FormattedForecastModelBuilder builder = new FormattedForecastModelBuilder();
 
-    void formatForecast(ForecastModel forecastModel, ForecastFormatterCallback forecastFormatterCallback);
+        int temp = (int) forecastModel.getTemperature();
+        int minTemp = (int) forecastModel.getMinTemperature();
+        int maxTemp = (int) forecastModel.getMaxTemperature();
+        int windSpeed = (int) ((forecastModel.getWindSpeed() * 3.6) * (unitType.equals(IMPERIAL) ? (0.62) : 1));
+        int humidity = (int) (forecastModel.getHumidity() * 100);
+        int pressure = (int) forecastModel.getPressure();
 
-    void formatDailyForecast(DailyForecastModel dailyForecastModel, ForecastFormatterCallback forecastFormatterCallback);
+        Calendar currentTime = Calendar.getInstance();
+        currentTime.setTimeInMillis(forecastModel.getCurrentTime());
+        int hourOfDay = currentTime.get(Calendar.HOUR_OF_DAY);
+        boolean isDay = (hourOfDay > 7 && hourOfDay < 20) ? true : false;
+        String icon = forecastModel.getIcon();
 
-    interface ForecastFormatterCallback {
-        void onFormatForecast(Map<String, String> formattedMap);
+        return builder.setTemperature(formatTemperature(temp, unit.tempUnit))
+                .setMinTemperature(formatTemperature(minTemp, unit.tempUnit))
+                .setMaxTemperature(formatTemperature(maxTemp, unit.tempUnit))
+                .setWindSpeed(formatUnit(windSpeed, unit.speedUnit))
+                .setHumidity(formatUnit(humidity, PERCENT))
+                .setPressure(formatUnit(pressure, HECTOPASCALS))
+                .setSummary(forecastModel.getSummary())
+                .setIcon(String.valueOf(IconResource.getIconResource(icon, isDay)))
+                .build();
+    }
+
+    public static FormattedDailyForecastModel formatDailyForecast(DailyForecastModel dailyForecastModel) {
+        String unitType = dailyForecastModel.getUnits();
+        Unit unit = new Unit(unitType);
+        FormattedDailyForecastModelBuilder builder = new FormattedDailyForecastModelBuilder();
+
+        int temp = (int) dailyForecastModel.getTemperature();
+        String icon = dailyForecastModel.getIcon();
+        Calendar currentTime = Calendar.getInstance();
+        currentTime.setTimeInMillis((long) dailyForecastModel.getTime() * 1000);
+        int dayOfWeek = currentTime.get(Calendar.DAY_OF_WEEK);
+
+        return builder.setTemperature(formatTemperature(temp, unit.tempUnit))
+                .setIcon(String.valueOf(IconResource.getIconResource(icon, true)))
+                .setTime(daysOfWeek[dayOfWeek - 1])
+                .build();
+    }
+
+    private static String formatTemperature(int temp, String unit) {
+        return new StringBuilder().append(temp).append(DEGREE).append(unit).toString();
+    }
+
+    private static String formatUnit(int speed, String unit) {
+        return new StringBuilder().append(speed).append(unit).toString();
+    }
+
+    static class Unit {
+        String speedUnit = KPH, tempUnit = CELCIUS;
+
+        Unit(String unitType) {
+            if (unitType.equals(IMPERIAL)) {
+                this.speedUnit = MPH;
+                this.tempUnit = FARANHEIT;
+            }
+        }
     }
 }
