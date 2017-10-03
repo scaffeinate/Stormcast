@@ -138,10 +138,12 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         mSummaryTextView.setText(formattedForecastModel.getSummary());
         mWeatherIconView.setIconResource(getResources().getString(Integer.parseInt(formattedForecastModel.getIcon())));
 
-        populateDailyForecastView(mTodayForecastLayout, ForecastFormatter.formatDailyForecast(dailyForecastModels.get(0)));
-        populateDailyForecastView(mTomoForecastLayout, ForecastFormatter.formatDailyForecast(dailyForecastModels.get(1)));
-        populateDailyForecastView(mDayAfterForecastLayout, ForecastFormatter.formatDailyForecast(dailyForecastModels.get(2)));
-        populateDailyForecastView(mTwoDaysFromNowForecastLayout, ForecastFormatter.formatDailyForecast(dailyForecastModels.get(3)));
+        if(dailyForecastModels != null && dailyForecastModels.size() == 4) {
+            populateDailyForecastView(mTodayForecastLayout, ForecastFormatter.formatDailyForecast(dailyForecastModels.get(0)));
+            populateDailyForecastView(mTomoForecastLayout, ForecastFormatter.formatDailyForecast(dailyForecastModels.get(1)));
+            populateDailyForecastView(mDayAfterForecastLayout, ForecastFormatter.formatDailyForecast(dailyForecastModels.get(2)));
+            populateDailyForecastView(mTwoDaysFromNowForecastLayout, ForecastFormatter.formatDailyForecast(dailyForecastModels.get(3)));
+        }
     }
 
     @Override

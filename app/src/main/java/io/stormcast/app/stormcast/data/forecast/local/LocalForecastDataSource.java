@@ -41,9 +41,7 @@ public class LocalForecastDataSource implements ForecastDataSource {
 
     @Override
     public void loadForecast(final LocationModel locationModel, boolean isManualRefresh, LoadForecastCallback loadForecastCallback) {
-        ForecastModel forecastModel = null;
-        List<DailyForecastModel> dailyForecastModels = new ArrayList<>();
-        new FetchForecastTask(locationModel.getId(), forecastModel, dailyForecastModels, loadForecastCallback).execute();
+        new FetchForecastTask(locationModel.getId(), loadForecastCallback).execute();
     }
 
     public void saveForecast(final ForecastModel forecastModel, int locationId) {
@@ -117,10 +115,8 @@ public class LocalForecastDataSource implements ForecastDataSource {
         private List<DailyForecastModel> dailyForecastModels;
         private LoadForecastCallback loadForecastCallback;
 
-        FetchForecastTask(int locationId, ForecastModel forecastModel,
-                          List<DailyForecastModel> dailyForecastModels, LoadForecastCallback loadForecastCallback) {
-            this.forecastModel = forecastModel;
-            this.dailyForecastModels = dailyForecastModels;
+        FetchForecastTask(int locationId, LoadForecastCallback loadForecastCallback) {
+            this.dailyForecastModels = new ArrayList<>();
             this.locationId = locationId;
             this.loadForecastCallback = loadForecastCallback;
         }
