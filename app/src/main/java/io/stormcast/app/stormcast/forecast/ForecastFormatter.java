@@ -41,7 +41,7 @@ public class ForecastFormatter {
         int pressure = (int) forecastModel.getPressure();
 
         Calendar currentTime = Calendar.getInstance();
-        currentTime.setTimeInMillis(forecastModel.getCurrentTime());
+        currentTime.setTimeInMillis((long) forecastModel.getCurrentTime() * 1000);
         int hourOfDay = currentTime.get(Calendar.HOUR_OF_DAY);
         boolean isDay = (hourOfDay > 7 && hourOfDay < 20) ? true : false;
         String icon = forecastModel.getIcon();

@@ -153,6 +153,10 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
         Toast.makeText(mContext, "Location deleted successfully", Toast.LENGTH_SHORT).show();
         mLocationModelList.remove(this.mDeletedPosition);
         mAdapter.notifyItemRemoved(this.mDeletedPosition);
+        if(mLocationModelList.isEmpty()) {
+            mRecyclerView.setVisibility(View.GONE);
+            mNoDataTextView.setVisibility(View.VISIBLE);
+        }
         this.mDeletedPosition = 0;
     }
 
