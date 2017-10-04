@@ -20,6 +20,7 @@ import android.view.View;
 import io.stormcast.app.stormcast.AppConstants;
 import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.location.LocationsActivity;
+import io.stormcast.app.stormcast.navdrawer.NavDrawerCallbacks;
 import io.stormcast.app.stormcast.navdrawer.NavDrawerFragment;
 import io.stormcast.app.stormcast.views.styled.StyledTextView;
 
@@ -39,7 +40,7 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerFragment
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_home);
 
         mFragmentManager = getSupportFragmentManager();
 
@@ -70,8 +71,6 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerFragment
     @Override
     public void onNavDrawerListItemClicked(int position) {
         switch (position) {
-            case NavDrawerFragment.POSITION_FORECAST:
-                break;
             case NavDrawerFragment.POSITION_EDIT_LOCATIONS:
                 Intent intent = new Intent(this, LocationsActivity.class);
                 Bundle args = new Bundle();
