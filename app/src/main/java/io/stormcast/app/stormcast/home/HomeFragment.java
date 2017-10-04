@@ -8,7 +8,6 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -21,7 +20,7 @@ import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 import io.stormcast.app.stormcast.data.locations.local.LocalLocationsDataSource;
-import io.stormcast.app.stormcast.location.add.AddLocationFragment;
+import io.stormcast.app.stormcast.navdrawer.NavDrawerCallbacks;
 
 /**
  * Created by sudhar on 8/8/17.
@@ -51,7 +50,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
                 .getInstance(getActivity().getApplicationContext()));
         mHomePresenter = new HomePresenter(this, mLocationsRepository);
         mLocationModels = new ArrayList<>();
-        mViewPagerAdapter = new HomeViewPagerAdapter(getChildFragmentManager(), mLocationModels);
+        mViewPagerAdapter = new HomeViewPagerAdapter(getChildFragmentManager(), mLocationModels.size());
     }
 
     @Nullable
@@ -80,10 +79,12 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
 
     @Override
     public void onLocationsLoaded(List<LocationModel> locationModels) {
+        int diff = Math.abs(this.mLocationModels.size() - locationModels.size());
         this.mLocationModels = locationModels;
         mViewPager.setVisibility(View.VISIBLE);
         mNoLocationsLayout.setVisibility(View.GONE);
-        mViewPagerAdapter.setLocations(locationModels);
+        mViewPagerAdapter.setNumPages(locationModels.size());
+        mViewPagerAdapter.shifIds(diff);
         mViewPagerAdapter.notifyDataSetChanged();
         customizeViews(locationModels.get(mViewPager.getCurrentItem()));
     }
@@ -110,6 +111,12 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.home_menu, menu);
     }
 
     public LocationModel getLocationModel(int position) {

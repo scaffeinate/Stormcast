@@ -1,26 +1,23 @@
 package io.stormcast.app.stormcast.home;
 
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 
-import java.util.List;
-
-import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.forecast.ForecastFragment;
 
 /**
  * Created by sudhar on 8/15/17.
  */
 
-public class HomeViewPagerAdapter extends FragmentStatePagerAdapter {
+public class HomeViewPagerAdapter extends FragmentPagerAdapter {
 
-    private List<LocationModel> mLocationModels;
+    private int numPages = 0;
+    private long baseId = 0;
 
-    public HomeViewPagerAdapter(FragmentManager fragmentManager, List<LocationModel> locationModels) {
+    public HomeViewPagerAdapter(FragmentManager fragmentManager, int numPages) {
         super(fragmentManager);
-        this.mLocationModels = locationModels;
+        this.numPages = numPages;
     }
 
     @Override
@@ -30,16 +27,24 @@ public class HomeViewPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return mLocationModels.size();
+        return numPages;
     }
 
     @Override
-    public CharSequence getPageTitle(int position) {
-        LocationModel locationModel = mLocationModels.get(position);
-        return locationModel.getName();
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
     }
 
-    public void setLocations(List<LocationModel> locationModels) {
-        this.mLocationModels = locationModels;
+    @Override
+    public long getItemId(int position) {
+        return baseId + position;
+    }
+
+    public void shifIds(int n) {
+        this.baseId += getCount() + n;
+    }
+
+    public void setNumPages(int numPages) {
+        this.numPages = numPages;
     }
 }
