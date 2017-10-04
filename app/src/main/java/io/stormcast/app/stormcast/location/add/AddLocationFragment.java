@@ -41,7 +41,6 @@ import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.common.models.LocationModelBuilder;
 import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 import io.stormcast.app.stormcast.data.locations.local.LocalLocationsDataSource;
-import io.stormcast.app.stormcast.home.NavDrawerCallbacks;
 import io.stormcast.app.stormcast.home.ToolbarCallbacks;
 import io.stormcast.app.stormcast.views.colorpick.MaterialColorPickDialog;
 import io.stormcast.app.stormcast.views.styled.StyledButton;

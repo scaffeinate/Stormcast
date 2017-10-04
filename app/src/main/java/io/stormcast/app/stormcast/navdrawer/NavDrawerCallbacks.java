@@ -1,4 +1,4 @@
-package io.stormcast.app.stormcast.home;
+package io.stormcast.app.stormcast.navdrawer;
 
 /**
  * Created by sudharti on 10/1/17.
