@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -29,13 +31,18 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
 import io.stormcast.app.stormcast.AppConstants;
 import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.common.models.LocationModelBuilder;
 import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 import io.stormcast.app.stormcast.data.locations.local.LocalLocationsDataSource;
-import io.stormcast.app.stormcast.home.CustomizeCallbacks;
+import io.stormcast.app.stormcast.home.NavDrawerCallbacks;
+import io.stormcast.app.stormcast.home.ToolbarCallbacks;
 import io.stormcast.app.stormcast.views.colorpick.MaterialColorPickDialog;
 import io.stormcast.app.stormcast.views.styled.StyledButton;
 import io.stormcast.app.stormcast.views.styled.StyledEditText;
@@ -71,8 +78,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     private MaterialColorPickDialog.Builder mTextColorDialogBuilder;
     private SwitchTabSelector mSwitchTabSelector;
 
-    private CustomizeCallbacks mCustomizeCallbacks;
-
+    private ToolbarCallbacks mToolbarCallbacks;
     private int backgroundColor, textColor;
 
     public static AddLocationFragment newInstance() {
@@ -132,7 +138,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mCustomizeCallbacks = (CustomizeCallbacks) getActivity();
+        mToolbarCallbacks = (ToolbarCallbacks) getActivity();
 
         backgroundColor = AppConstants.DEFAULT_BACKGROUND_COLOR;
         textColor = AppConstants.DEFAULT_TEXT_COLOR;
@@ -158,9 +164,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
             }, 250);
         }
 
-        mCustomizeCallbacks.setToolbarTitle("Add Location");
-        mCustomizeCallbacks.setToolbarTextColor(Color.WHITE);
-        mCustomizeCallbacks.setToolbarBackgroundColor(AppConstants.DEFAULT_BACKGROUND_COLOR);
+        mToolbarCallbacks.setToolbarTitle("Add Location");
 
         GradientDrawable drawable = (GradientDrawable) mBackgroundColorBtn.getBackground();
         drawable.setColor(backgroundColor);
@@ -203,10 +207,11 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Place place = PlaceAutocomplete.getPlace(mContext, data);
-                mEditText.setText(place.getName());
+                String address = decodeAddress(place);
+                mEditText.setText(address);
                 mEditText.setCursorVisible(false);
                 mEditText.clearFocus();
-                mLocationModelBuilder.setName(place.getName().toString())
+                mLocationModelBuilder.setName(address)
                         .setLatLng(place.getLatLng());
                 addMarker(place.getLatLng());
             }
@@ -294,6 +299,24 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
                 .zoom(ZOOM)
                 .build();
         mMapView.getMapAsync(AddLocationFragment.this);
+    }
+
+    private String decodeAddress(Place place) {
+        LatLng latLng = place.getLatLng();
+        StringBuilder builder = new StringBuilder();
+        builder.append(place.getName());
+        if (latLng != null) {
+            Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
+            try {
+                List<Address> addressList = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+                if (addressList.size() > 0) {
+                    builder.append(",").append(addressList.get(0).getAdminArea());
+                }
+            } catch (IOException e) {
+
+            }
+        }
+        return builder.toString();
     }
 
     private void goBack() {

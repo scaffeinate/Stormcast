@@ -1,7 +1,6 @@
 package io.stormcast.app.stormcast.location.list;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -23,12 +22,11 @@ import android.widget.Toast;
 import java.util.Collections;
 import java.util.List;
 
-import io.stormcast.app.stormcast.AppConstants;
 import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 import io.stormcast.app.stormcast.data.locations.local.LocalLocationsDataSource;
-import io.stormcast.app.stormcast.home.CustomizeCallbacks;
+import io.stormcast.app.stormcast.home.ToolbarCallbacks;
 import io.stormcast.app.stormcast.location.add.AddLocationFragment;
 import io.stormcast.app.stormcast.location.list.helpers.ItemTouchHelperAdapter;
 import io.stormcast.app.stormcast.location.list.helpers.ItemTouchHelperCallback;
@@ -56,9 +54,9 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
     private ItemTouchHelper mItemTouchHelper;
     private ItemTouchHelper.Callback mCallback;
 
-    private CustomizeCallbacks mCustomizeCallbacks;
-
     private int mDeletedPosition = 0;
+
+    private ToolbarCallbacks mToolbarCallbacks;
 
     public static LocationsListFragment newInstance() {
         LocationsListFragment locationsListFragment = new LocationsListFragment();
@@ -95,11 +93,8 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mCustomizeCallbacks = (CustomizeCallbacks) getActivity();
-        mCustomizeCallbacks.setToolbarTitle("Locations");
-        mCustomizeCallbacks.setToolbarTextColor(Color.WHITE);
-        mCustomizeCallbacks.setToolbarBackgroundColor(AppConstants.DEFAULT_BACKGROUND_COLOR);
-
+        mToolbarCallbacks = (ToolbarCallbacks) getActivity();
+        mToolbarCallbacks.setToolbarTitle("Locations");
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -120,7 +115,7 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
             case R.id.add_location_menu_item:
                 mFragmentManager.beginTransaction()
                         .setCustomAnimations(R.anim.slide_left_enter, R.anim.slide_left_exit, R.anim.slide_right_enter, R.anim.slide_right_exit)
-                        .replace(R.id.main_content, AddLocationFragment.newInstance())
+                        .replace(R.id.locations_content, AddLocationFragment.newInstance())
                         .addToBackStack(null)
                         .commit();
                 return true;
@@ -153,7 +148,7 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
         Toast.makeText(mContext, "Location deleted successfully", Toast.LENGTH_SHORT).show();
         mLocationModelList.remove(this.mDeletedPosition);
         mAdapter.notifyItemRemoved(this.mDeletedPosition);
-        if(mLocationModelList.isEmpty()) {
+        if (mLocationModelList.isEmpty()) {
             mRecyclerView.setVisibility(View.GONE);
             mNoDataTextView.setVisibility(View.VISIBLE);
         }

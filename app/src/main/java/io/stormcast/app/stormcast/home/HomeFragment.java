@@ -22,7 +22,6 @@ import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 import io.stormcast.app.stormcast.data.locations.local.LocalLocationsDataSource;
 import io.stormcast.app.stormcast.location.add.AddLocationFragment;
-import io.stormcast.app.stormcast.navdrawer.NavDrawerFragment;
 
 /**
  * Created by sudhar on 8/8/17.
@@ -37,7 +36,8 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
     private HomePresenter mHomePresenter;
     private LocationsRepository mLocationsRepository;
     private List<LocationModel> mLocationModels;
-    private CustomizeCallbacks mCustomizeCallbacks;
+    private ToolbarCallbacks mToolbarCallbacks;
+    private NavDrawerCallbacks mNavDrawerCallbacks;
 
     public static HomeFragment newInstance() {
         HomeFragment mFragment = new HomeFragment();
@@ -52,7 +52,6 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
         mHomePresenter = new HomePresenter(this, mLocationsRepository);
         mLocationModels = new ArrayList<>();
         mViewPagerAdapter = new HomeViewPagerAdapter(getChildFragmentManager(), mLocationModels);
-        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -69,14 +68,13 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        this.mCustomizeCallbacks = (CustomizeCallbacks) getActivity();
+        this.mNavDrawerCallbacks = (NavDrawerCallbacks) getActivity();
+        this.mToolbarCallbacks = (ToolbarCallbacks) getActivity();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mCustomizeCallbacks.setToolbarBackgroundColor(Color.TRANSPARENT);
-        mCustomizeCallbacks.setNavDrawerSelected(NavDrawerFragment.POSITION_FORECAST);
         mHomePresenter.loadLocations();
     }
 
@@ -95,8 +93,8 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
         mViewPager.setVisibility(View.GONE);
         mNoLocationsLayout.setVisibility(View.VISIBLE);
         getView().setBackgroundColor(AppConstants.DEFAULT_BACKGROUND_COLOR);
-        mCustomizeCallbacks.setToolbarTitle(AppConstants.APP_NAME);
-        mCustomizeCallbacks.setNavDrawerHeaderBackgroundColor(AppConstants.DEFAULT_BACKGROUND_COLOR);
+        mToolbarCallbacks.setToolbarTitle(AppConstants.APP_NAME);
+        mNavDrawerCallbacks.setNavDrawerHeaderBackgroundColor(AppConstants.DEFAULT_BACKGROUND_COLOR);
     }
 
     @Override
@@ -114,26 +112,6 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
 
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.home_menu, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.add_location_menu_item:
-                getFragmentManager().beginTransaction()
-                        .setCustomAnimations(R.anim.slide_left_enter, R.anim.slide_left_exit, R.anim.slide_right_enter, R.anim.slide_right_exit)
-                        .replace(R.id.main_content, AddLocationFragment.newInstance())
-                        .addToBackStack(null)
-                        .commit();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     public LocationModel getLocationModel(int position) {
         LocationModel locationModel = mLocationModels.get(position);
         return locationModel;
@@ -142,8 +120,8 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
     private void customizeViews(LocationModel locationModel) {
         int textColor = Color.parseColor(locationModel.getTextColor());
         int backgroundColor = Color.parseColor(locationModel.getBackgroundColor());
-        mCustomizeCallbacks.setToolbarTitle(locationModel.getName());
-        mCustomizeCallbacks.setToolbarTextColor(textColor);
-        mCustomizeCallbacks.setNavDrawerHeaderBackgroundColor(backgroundColor);
+        mToolbarCallbacks.setToolbarTitle(locationModel.getName());
+        mToolbarCallbacks.setToolbarTextColor(textColor);
+        mNavDrawerCallbacks.setNavDrawerHeaderBackgroundColor(backgroundColor);
     }
 }

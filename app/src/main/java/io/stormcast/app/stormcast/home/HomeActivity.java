@@ -1,9 +1,9 @@
 package io.stormcast.app.stormcast.home;
 
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -13,19 +13,19 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
 import io.stormcast.app.stormcast.AppConstants;
 import io.stormcast.app.stormcast.R;
-import io.stormcast.app.stormcast.location.list.LocationsListFragment;
+import io.stormcast.app.stormcast.location.LocationsActivity;
 import io.stormcast.app.stormcast.navdrawer.NavDrawerFragment;
-import io.stormcast.app.stormcast.settings.SettingsFragment;
 import io.stormcast.app.stormcast.views.styled.StyledTextView;
 
 public class HomeActivity extends AppCompatActivity implements NavDrawerFragment.NavDrawerCallbacks,
         FragmentManager.OnBackStackChangedListener,
-        CustomizeCallbacks {
+        ToolbarCallbacks, NavDrawerCallbacks {
 
     private FragmentManager mFragmentManager;
     private DrawerLayout mDrawerLayout;
@@ -60,22 +60,26 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerFragment
 
         mNavDrawerFragment.setUp(R.id.fragment_nav_drawer, mDrawerLayout);
         mFragmentManager.addOnBackStackChangedListener(this);
+
+        if (savedInstanceState == null) {
+            FragmentTransaction transaction = mFragmentManager.beginTransaction();
+            transaction.replace(R.id.main_content, HomeFragment.newInstance()).commit();
+        }
     }
 
     @Override
     public void onNavDrawerListItemClicked(int position) {
-        Fragment fragment = null;
-        boolean addToBackStack = true;
         switch (position) {
             case NavDrawerFragment.POSITION_FORECAST:
-                fragment = HomeFragment.newInstance();
-                addToBackStack = false;
                 break;
             case NavDrawerFragment.POSITION_EDIT_LOCATIONS:
-                fragment = LocationsListFragment.newInstance();
+                Intent intent = new Intent(this, LocationsActivity.class);
+                Bundle args = new Bundle();
+                args.putInt(LocationsActivity.FRAGMENT, LocationsActivity.LOCATIONS_LIST_FRAGMENT);
+                intent.putExtras(args);
+                startActivity(intent);
                 break;
             case NavDrawerFragment.POSITION_SETTINGS:
-                fragment = SettingsFragment.newInstance();
                 break;
             case NavDrawerFragment.POSITION_SHARE:
                 break;
@@ -86,14 +90,6 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerFragment
             case NavDrawerFragment.POSITION_VERSION:
                 break;
         }
-
-        if (fragment == null) return;
-
-        FragmentTransaction transaction = mFragmentManager.beginTransaction();
-        if (addToBackStack) {
-            transaction.addToBackStack(null);
-        }
-        transaction.replace(R.id.main_content, fragment).commit();
     }
 
     @Override
@@ -116,6 +112,27 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerFragment
         return super.onPrepareOptionsMenu(menu);
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.home_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.add_location_menu_item:
+                Intent intent = new Intent(this, LocationsActivity.class);
+                Bundle args = new Bundle();
+                args.putInt(LocationsActivity.FRAGMENT, LocationsActivity.ADD_LOCATION_FRAGMENT);
+                intent.putExtras(args);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void setToolbarTitle(String title) {
@@ -146,7 +163,6 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerFragment
 
     @Override
     public void setNavDrawerSelected(int position) {
-        mNavDrawerFragment.setSelected(position);
     }
 
     private void setMenuColor(Drawable drawable, int color) {

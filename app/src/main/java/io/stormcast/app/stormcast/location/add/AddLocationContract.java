@@ -1,5 +1,9 @@
 package io.stormcast.app.stormcast.location.add;
 
+import android.content.Context;
+
+import com.google.android.gms.location.places.Place;
+
 import io.stormcast.app.stormcast.common.models.LocationModel;
 
 /**

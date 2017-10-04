@@ -40,7 +40,6 @@ public class NavDrawerFragment extends Fragment {
     private List<NavDrawerItem> mNavDrawerList;
     private NavDrawerAdapter mNavDrawerAdapter;
     private NavDrawerCallbacks mNavDrawerCallbacks;
-    private int mCurrentSelectedPosition = -1;
 
     @Override
     public void onAttach(Context context) {
@@ -137,22 +136,14 @@ public class NavDrawerFragment extends Fragment {
     private void selectItem(final int position) {
         if (mNavDrawerCallbacks != null) {
             if (isDrawerOpen()) closeDrawer();
-            if (mCurrentSelectedPosition != position) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mNavDrawerCallbacks.onNavDrawerListItemClicked(position);
-                    }
-                }, 200);
-                mCurrentSelectedPosition = position;
-            }
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mNavDrawerCallbacks.onNavDrawerListItemClicked(position);
+                }
+            }, 200);
             mListView.setItemChecked(position, true);
         }
-    }
-
-    public void setSelected(int position) {
-        this.mCurrentSelectedPosition = position;
-        selectItem(position);
     }
 
     private boolean isDrawerOpen() {
