@@ -17,7 +17,7 @@ import io.stormcast.app.stormcast.views.styled.StyledTextView;
  * Created by sudharti on 10/3/17.
  */
 
-public class LocationsActivity extends AppCompatActivity implements ToolbarCallbacks {
+public class LocationsActivity extends AppCompatActivity implements ToolbarCallbacks, FragmentManager.OnBackStackChangedListener {
 
     public final static String FRAGMENT = "fragment";
     public final static int LOCATIONS_LIST_FRAGMENT = 0;
@@ -45,6 +45,7 @@ public class LocationsActivity extends AppCompatActivity implements ToolbarCallb
         mActionBar.setDisplayShowTitleEnabled(false);
 
         mFragmentManager = getSupportFragmentManager();
+        mFragmentManager.addOnBackStackChangedListener(this);
 
         int fragment = fragment = LOCATIONS_LIST_FRAGMENT;
         Bundle bundle = getIntent().getExtras();
@@ -58,12 +59,14 @@ public class LocationsActivity extends AppCompatActivity implements ToolbarCallb
                     mFragmentManager
                             .beginTransaction()
                             .replace(R.id.locations_content, LocationsListFragment.newInstance())
+                            .addToBackStack(null)
                             .commit();
                     break;
                 case ADD_LOCATION_FRAGMENT:
                     mFragmentManager
                             .beginTransaction()
                             .replace(R.id.locations_content, AddLocationFragment.newInstance())
+                            .addToBackStack(null)
                             .commit();
                     break;
             }
@@ -83,5 +86,12 @@ public class LocationsActivity extends AppCompatActivity implements ToolbarCallb
     @Override
     public void setToolbarBackgroundColor(int color) {
         mToolbar.setBackgroundColor(color);
+    }
+
+    @Override
+    public void onBackStackChanged() {
+        if(mFragmentManager.getBackStackEntryCount() == 0) {
+            finish();
+        }
     }
 }

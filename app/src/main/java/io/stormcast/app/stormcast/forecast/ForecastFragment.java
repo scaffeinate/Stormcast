@@ -2,6 +2,7 @@ package io.stormcast.app.stormcast.forecast;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -116,6 +117,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
 
         getView().setBackgroundColor(backgroundColor);
         mPresenter.setCustomTextColor(mForecastLayout, textColor);
+        mProgressBar.getIndeterminateDrawable().setColorFilter(textColor, PorterDuff.Mode.SRC_IN);
     }
 
     @Override
