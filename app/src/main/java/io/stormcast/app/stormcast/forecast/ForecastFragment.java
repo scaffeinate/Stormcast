@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -44,7 +45,6 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     private LocationModel mLocationModel;
 
     private LinearLayout mForecastLayout;
-    private LinearLayout mDailyForecastLayout;
 
     private WeatherIconView mWeatherIconView;
     private StyledTextView mSummaryTextView;
@@ -56,6 +56,8 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     private RelativeLayout mTomoForecastLayout;
     private RelativeLayout mDayAfterForecastLayout;
     private RelativeLayout mTwoDaysFromNowForecastLayout;
+
+    private ProgressBar mProgressBar;
 
     private int backgroundColor;
     private int textColor;
@@ -85,7 +87,6 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         View view = inflater.inflate(R.layout.fragment_forecast, container, false);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         mForecastLayout = (LinearLayout) view.findViewById(R.id.forecast_layout);
-        mDailyForecastLayout = (LinearLayout) view.findViewById(R.id.daily_forecast_layout);
 
         mSummaryTextView = (StyledTextView) view.findViewById(R.id.summary_text_view);
         mTemperatureTextView = (StyledTextView) view.findViewById(R.id.temperature_text_view);
@@ -98,6 +99,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         mDayAfterForecastLayout = (RelativeLayout) view.findViewById(R.id.day_after_tomo_forecast);
         mTwoDaysFromNowForecastLayout = (RelativeLayout) view.findViewById(R.id.two_days_from_now_forecast);
 
+        mProgressBar = (ProgressBar) view.findViewById(R.id.forecast_progress_bar);
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
         return view;
@@ -131,6 +133,9 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     public void onForecastLoaded(final ForecastModel forecastModel) {
         if (!isAdded()) return;
         mSwipeRefreshLayout.setRefreshing(false);
+        mForecastLayout.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.GONE);
+
         FormattedForecastModel formattedForecastModel = ForecastFormatter.formatForecast(forecastModel);
         mTemperatureTextView.setText(formattedForecastModel.getTemperature());
         mMinTemperatureTextView.setText(formattedForecastModel.getMinTemperature());
@@ -151,6 +156,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     @Override
     public void onDataNotAvailable(String errorMessage) {
         mSwipeRefreshLayout.setRefreshing(false);
+        mProgressBar.setVisibility(View.GONE);
         Toast.makeText(mContext, errorMessage, Toast.LENGTH_SHORT).show();
     }
 

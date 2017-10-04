@@ -11,26 +11,38 @@
         android:focusable="true"
         android:focusableInTouchMode="true">
 
-        <LinearLayout
-            android:id="@+id/forecast_layout"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <include
-                layout="@layout/section_overview"
+            <ProgressBar
+                android:id="@+id/forecast_progress_bar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="85dp" />
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true" />
 
-            <include
-                android:id="@+id/daily_forecast_layout"
-                layout="@layout/section_daily_forecast"
+            <LinearLayout
+                android:id="@+id/forecast_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp" />
+                android:layout_height="match_parent"
+                android:visibility="invisible"
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <include
+                    android:id="@+id/section_overview"
+                    layout="@layout/section_overview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="85dp" />
+
+                <include
+                    android:id="@+id/daily_forecast_layout"
+                    layout="@layout/section_daily_forecast"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp" />
+            </LinearLayout>
+
+        </RelativeLayout>
     </ScrollView>
 </android.support.v4.widget.SwipeRefreshLayout>
