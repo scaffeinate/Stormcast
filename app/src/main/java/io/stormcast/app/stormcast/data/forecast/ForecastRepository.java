@@ -41,12 +41,12 @@ public class ForecastRepository implements ForecastDataSource {
         } else {
             mLocalDataSource.loadForecast(locationModel, isManualRefresh, new LoadForecastCallback() {
                 @Override
-                public void onForecastLoaded(ForecastModel forecastModel, List<DailyForecastModel> dailyForecastModels) {
+                public void onForecastLoaded(ForecastModel forecastModel) {
                     long lastUpdatedAt = forecastModel.getUpdatedAt();
                     long now = new Date().getTime();
                     int diffInMinutes = (int) (now - lastUpdatedAt) / 60000;
                     if (diffInMinutes <= UPDATE_THRESHOLD) {
-                        loadForecastCallback.onForecastLoaded(forecastModel, dailyForecastModels);
+                        loadForecastCallback.onForecastLoaded(forecastModel);
                     } else {
                         getUpdateFromRemoteDataSource(locationModel, isManualRefresh, loadForecastCallback);
                     }
@@ -63,11 +63,10 @@ public class ForecastRepository implements ForecastDataSource {
     private void getUpdateFromRemoteDataSource(final LocationModel locationModel, final boolean isManualRefresh, final LoadForecastCallback loadForecastCallback) {
         mRemoteDataSource.loadForecast(locationModel, isManualRefresh, new LoadForecastCallback() {
             @Override
-            public void onForecastLoaded(final ForecastModel forecastModel, final List<DailyForecastModel> dailyForecastModels) {
-                loadForecastCallback.onForecastLoaded(forecastModel, dailyForecastModels);
+            public void onForecastLoaded(final ForecastModel forecastModel) {
                 LocalForecastDataSource localForecastDataSource = (LocalForecastDataSource) mLocalDataSource;
-                localForecastDataSource.saveForecast(forecastModel, locationModel.getId());
-                localForecastDataSource.saveDailyForecasts(dailyForecastModels, locationModel.getId());
+                localForecastDataSource.saveForecast(forecastModel);
+                loadForecastCallback.onForecastLoaded(forecastModel);
             }
 
             @Override

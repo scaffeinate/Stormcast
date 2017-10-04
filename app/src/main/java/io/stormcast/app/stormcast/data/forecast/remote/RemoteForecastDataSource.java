@@ -38,7 +38,7 @@ public class RemoteForecastDataSource implements ForecastDataSource {
             public void onLoadForecast(Forecast forecast) {
                 ForecastModel forecastModel = ForecastMapper.map(forecast, locationModel.getId());
                 List<DailyForecastModel> dailyForecastModels = DailyForecastMapper.map(forecast, locationModel.getId());
-                loadForecastCallback.onForecastLoaded(forecastModel, dailyForecastModels);
+                loadForecastCallback.onForecastLoaded(forecastModel);
             }
 
             @Override

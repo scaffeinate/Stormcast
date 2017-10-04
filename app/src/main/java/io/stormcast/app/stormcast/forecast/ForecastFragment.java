@@ -128,7 +128,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     }
 
     @Override
-    public void onForecastLoaded(final ForecastModel forecastModel, final List<DailyForecastModel> dailyForecastModels) {
+    public void onForecastLoaded(final ForecastModel forecastModel) {
         if (!isAdded()) return;
         mSwipeRefreshLayout.setRefreshing(false);
         FormattedForecastModel formattedForecastModel = ForecastFormatter.formatForecast(forecastModel);
@@ -138,7 +138,9 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         mSummaryTextView.setText(formattedForecastModel.getSummary());
         mWeatherIconView.setIconResource(getResources().getString(Integer.parseInt(formattedForecastModel.getIcon())));
 
-        if(dailyForecastModels != null && dailyForecastModels.size() == 4) {
+        List<DailyForecastModel> dailyForecastModels = forecastModel.getDailyForecastModels();
+
+        if (dailyForecastModels != null && dailyForecastModels.size() == 4) {
             populateDailyForecastView(mTodayForecastLayout, ForecastFormatter.formatDailyForecast(dailyForecastModels.get(0)));
             populateDailyForecastView(mTomoForecastLayout, ForecastFormatter.formatDailyForecast(dailyForecastModels.get(1)));
             populateDailyForecastView(mDayAfterForecastLayout, ForecastFormatter.formatDailyForecast(dailyForecastModels.get(2)));

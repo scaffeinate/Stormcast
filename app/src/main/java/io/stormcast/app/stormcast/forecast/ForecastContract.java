@@ -16,7 +16,7 @@ import io.stormcast.app.stormcast.common.models.LocationModel;
 
 public interface ForecastContract {
     interface View {
-        void onForecastLoaded(ForecastModel forecastModel, List<DailyForecastModel> dailyForecastModels);
+        void onForecastLoaded(ForecastModel forecastModel);
 
         void onDataNotAvailable(String errorMessage);
 

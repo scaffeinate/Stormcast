@@ -16,7 +16,7 @@ public interface ForecastDataSource {
     void loadForecast(LocationModel locationModel, boolean isManualRefresh, LoadForecastCallback loadForecastCallback);
 
     interface LoadForecastCallback {
-        void onForecastLoaded(ForecastModel forecastModel, List<DailyForecastModel> dailyForecastModels);
+        void onForecastLoaded(ForecastModel forecastModel);
 
         void onDataNotAvailable(String errorMessage);
     }

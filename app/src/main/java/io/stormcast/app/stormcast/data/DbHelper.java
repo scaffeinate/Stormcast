@@ -25,16 +25,9 @@ public class DbHelper extends SQLiteOpenHelper {
             PersistenceContract.ForecastEntry.HUMIDITY + " REAL, " + PersistenceContract.ForecastEntry.WIND_SPEED + " REAL, " +
             PersistenceContract.ForecastEntry.PRESSURE + " REAL, " + PersistenceContract.ForecastEntry.VISIBILITY + " REAL, " +
             PersistenceContract.ForecastEntry.UPDATED_AT + " INTEGER, " + PersistenceContract.ForecastEntry.CURRENT_TIME + " INTEGER, " +
+            PersistenceContract.ForecastEntry.DAILY_FORECASTS + " TEXT, " +
             PersistenceContract.ForecastEntry.LOCATION_ID + " INTEGER NOT NULL, " +
             " FOREIGN KEY ( " + PersistenceContract.ForecastEntry.LOCATION_ID + " ) " +
-            " REFERENCES " + PersistenceContract.LocationEntry.TABLE_NAME + "(" + PersistenceContract.LocationEntry._ID + ")" +
-            " ) ";
-    private final static String CREATE_DAILY_FORECAST_TABLE_SQL = " CREATE TABLE " + PersistenceContract.DailyForecastEntry.TABLE_NAME +
-            " ( " +
-            PersistenceContract.DailyForecastEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + PersistenceContract.DailyForecastEntry.ICON + " VARCHAR, " +
-            PersistenceContract.DailyForecastEntry.TEMPERATURE + " REAL, " + PersistenceContract.DailyForecastEntry.TIME + " INTEGER, " +
-            PersistenceContract.DailyForecastEntry.UNITS + " VARCHAR, " + PersistenceContract.ForecastEntry.UPDATED_AT + " INTEGER, " +
-            PersistenceContract.ForecastEntry.LOCATION_ID + " INTEGER NOT NULL, FOREIGN KEY ( " + PersistenceContract.ForecastEntry.LOCATION_ID + " ) " +
             " REFERENCES " + PersistenceContract.LocationEntry.TABLE_NAME + "(" + PersistenceContract.LocationEntry._ID + ")" +
             " ) ";
 
@@ -57,7 +50,6 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(CREATE_LOCATIONS_TABLE_SQL);
         sqLiteDatabase.execSQL(CREATE_FORECAST_TABLE_SQL);
-        sqLiteDatabase.execSQL(CREATE_DAILY_FORECAST_TABLE_SQL);
     }
 
     @Override

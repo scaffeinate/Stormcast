@@ -38,15 +38,6 @@ public final class PersistenceContract {
         public final static String LOCATION_ID = "location_id";
         public final static String TABLE_NAME = "forecast";
         public final static String CURRENT_TIME = "current_time";
-    }
-
-    public static abstract class DailyForecastEntry implements BaseColumns {
-        public final static String ICON = "icon";
-        public final static String TEMPERATURE = "temperature";
-        public final static String TIME = "time";
-        public final static String UPDATED_AT = "updated_at";
-        public final static String UNITS = "units";
-        public final static String LOCATION_ID = "location_id";
-        public final static String TABLE_NAME = "daily_forecast";
+        public final static String DAILY_FORECASTS = "daily_forecasts";
     }
 }

@@ -40,8 +40,8 @@ public class ForecastPresenter implements ForecastContract.Presenter {
     public void loadForecast(final LocationModel locationModel, boolean isManualRefresh) {
         mRepository.loadForecast(locationModel, isManualRefresh, new ForecastDataSource.LoadForecastCallback() {
             @Override
-            public void onForecastLoaded(ForecastModel forecastModel, List<DailyForecastModel> dailyForecastModels) {
-                mView.onForecastLoaded(forecastModel, dailyForecastModels);
+            public void onForecastLoaded(ForecastModel forecastModel) {
+                mView.onForecastLoaded(forecastModel);
             }
 
             @Override
