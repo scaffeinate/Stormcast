@@ -41,8 +41,7 @@ public class LocalLocationsDataSource implements LocationsDataSource {
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
         try {
             ContentValues cv = new ContentValues();
-            int insertPosition = getInsertPosition(database);
-            locationModel.setPosition(insertPosition);
+            locationModel.setPosition(getInsertPosition(database));
             populateContentValues(cv, locationModel);
 
             database.insertOrThrow(PersistenceContract.LocationEntry.TABLE_NAME, null, cv);
@@ -137,13 +136,13 @@ public class LocalLocationsDataSource implements LocationsDataSource {
         String query = "SELECT MAX ( " + PersistenceContract.LocationEntry.POSITION + ") FROM "
                 + PersistenceContract.LocationEntry.TABLE_NAME;
         Cursor c = database.rawQuery(query, new String[]{});
-        int position = 1;
+        int position = 0;
         if (c != null) {
             if (c.moveToFirst()) {
                 position = c.getInt(0);
             }
             c.close();
         }
-        return position;
+        return position + 1;
     }
 }

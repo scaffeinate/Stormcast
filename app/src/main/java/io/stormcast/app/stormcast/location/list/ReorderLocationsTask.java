@@ -29,12 +29,12 @@ public class ReorderLocationsTask extends AsyncTask<Void, Integer, Void> {
         if (fromPosition < toPosition) {
             for (int i = fromPosition; i <= toPosition; i++) {
                 LocationModel locationModel = mLocationModelList.get(i);
-                locationModel.setPosition(i);
+                locationModel.setPosition(i + 1);
             }
         } else {
             for (int i = toPosition; i <= fromPosition; i++) {
                 LocationModel locationModel = mLocationModelList.get(i);
-                locationModel.setPosition(i);
+                locationModel.setPosition(i + 1);
             }
         }
         mPresenter.reorder(mLocationModelList);
