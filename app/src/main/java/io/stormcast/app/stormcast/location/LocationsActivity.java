@@ -17,7 +17,7 @@ import io.stormcast.app.stormcast.views.styled.StyledTextView;
  * Created by sudharti on 10/3/17.
  */
 
-public class LocationsActivity extends AppCompatActivity implements ToolbarCallbacks, FragmentManager.OnBackStackChangedListener {
+public class LocationsActivity extends AppCompatActivity implements ToolbarCallbacks {
 
     public final static String FRAGMENT = "fragment";
     public final static int LOCATIONS_LIST_FRAGMENT = 0;
@@ -27,7 +27,6 @@ public class LocationsActivity extends AppCompatActivity implements ToolbarCallb
     private Toolbar mToolbar;
     private ActionBar mActionBar;
     private FragmentManager mFragmentManager;
-    private LocationsListFragment mLocationsListFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,9 +44,8 @@ public class LocationsActivity extends AppCompatActivity implements ToolbarCallb
         mActionBar.setDisplayShowTitleEnabled(false);
 
         mFragmentManager = getSupportFragmentManager();
-        mFragmentManager.addOnBackStackChangedListener(this);
 
-        int fragment = fragment = LOCATIONS_LIST_FRAGMENT;
+        int fragment = LOCATIONS_LIST_FRAGMENT;
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             fragment = bundle.getInt(FRAGMENT, LOCATIONS_LIST_FRAGMENT);
@@ -59,14 +57,12 @@ public class LocationsActivity extends AppCompatActivity implements ToolbarCallb
                     mFragmentManager
                             .beginTransaction()
                             .replace(R.id.locations_content, LocationsListFragment.newInstance())
-                            .addToBackStack(null)
                             .commit();
                     break;
                 case ADD_LOCATION_FRAGMENT:
                     mFragmentManager
                             .beginTransaction()
-                            .replace(R.id.locations_content, AddLocationFragment.newInstance())
-                            .addToBackStack(null)
+                            .replace(R.id.locations_content, AddLocationFragment.newInstance(true))
                             .commit();
                     break;
             }
@@ -86,12 +82,5 @@ public class LocationsActivity extends AppCompatActivity implements ToolbarCallb
     @Override
     public void setToolbarBackgroundColor(int color) {
         mToolbar.setBackgroundColor(color);
-    }
-
-    @Override
-    public void onBackStackChanged() {
-        if(mFragmentManager.getBackStackEntryCount() == 0) {
-            finish();
-        }
     }
 }

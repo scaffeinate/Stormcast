@@ -58,6 +58,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
 
     private static final String LOCATION = "location";
     private static final String LOCATION_MODEL = "location_model";
+    private static final String FINISH_ACTIVITY_ON_ACTION = "finish_activity_on_action";
     private static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 100;
     private static final float TILT = 10f;
     private static final float ZOOM = 12f;
@@ -79,16 +80,18 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
 
     private ToolbarCallbacks mToolbarCallbacks;
     private int backgroundColor, textColor;
+    private boolean finishActivityOnAction = false;
 
-    public static AddLocationFragment newInstance() {
-        return newInstance(new LocationModel());
+    public static AddLocationFragment newInstance(boolean finishActivityOnAction) {
+        return newInstance(new LocationModel(), finishActivityOnAction);
     }
 
-    public static AddLocationFragment newInstance(LocationModel locationModel) {
+    public static AddLocationFragment newInstance(LocationModel locationModel, boolean finishActivityOnAction) {
         AddLocationFragment addLocationFragment = new AddLocationFragment();
 
         Bundle args = new Bundle();
         args.putParcelable(LOCATION_MODEL, locationModel);
+        args.putBoolean(FINISH_ACTIVITY_ON_ACTION, finishActivityOnAction);
         addLocationFragment.setArguments(args);
 
         return addLocationFragment;
@@ -104,6 +107,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
         mPresenter = new AddLocationPresenter(this, mLocationsRepository);
 
         mLocationModelBuilder = new LocationModelBuilder((LocationModel) getArguments().getParcelable(LOCATION_MODEL));
+        finishActivityOnAction = getArguments().getBoolean(FINISH_ACTIVITY_ON_ACTION);
 
         mBgColorDialogBuilder = MaterialColorPickDialog.with(mContext);
         mTextColorDialogBuilder = MaterialColorPickDialog.with(mContext);
@@ -319,6 +323,10 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     }
 
     private void goBack() {
-        getFragmentManager().popBackStack();
+        if (finishActivityOnAction) {
+            getActivity().finish();
+        } else {
+            getFragmentManager().popBackStack();
+        }
     }
 }

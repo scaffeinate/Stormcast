@@ -115,10 +115,13 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
             case R.id.add_location_menu_item:
                 mFragmentManager.beginTransaction()
                         .setCustomAnimations(R.anim.slide_left_enter, R.anim.slide_left_exit, R.anim.slide_right_enter, R.anim.slide_right_exit)
-                        .replace(R.id.locations_content, AddLocationFragment.newInstance())
+                        .replace(R.id.locations_content, AddLocationFragment.newInstance(false))
                         .addToBackStack(null)
                         .commit();
                 return true;
+            case android.R.id.home:
+                getActivity().finish();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -180,7 +183,7 @@ public class LocationsListFragment extends Fragment implements LocationsListCont
         LocationModel locationModel = mLocationModelList.get(position);
         mFragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.slide_left_enter, R.anim.slide_left_exit, R.anim.slide_right_enter, R.anim.slide_right_exit)
-                .replace(R.id.main_content, AddLocationFragment.newInstance(locationModel))
+                .replace(R.id.main_content, AddLocationFragment.newInstance(locationModel, false))
                 .addToBackStack(null)
                 .commit();
     }
