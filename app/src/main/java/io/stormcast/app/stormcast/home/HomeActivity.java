@@ -69,6 +69,12 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerFragment
     }
 
     @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        mNavDrawerFragment.setItemChecked(NavDrawerFragment.POSITION_FORECAST);
+    }
+
+    @Override
     public void onNavDrawerListItemClicked(int position) {
         switch (position) {
             case NavDrawerFragment.POSITION_EDIT_LOCATIONS:

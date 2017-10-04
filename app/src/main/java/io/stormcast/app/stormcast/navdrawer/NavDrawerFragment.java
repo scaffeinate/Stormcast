@@ -133,6 +133,10 @@ public class NavDrawerFragment extends Fragment {
         return this.mNavHeaderView;
     }
 
+    public void setItemChecked(int position) {
+        mListView.setItemChecked(position, true);
+    }
+
     private void selectItem(final int position) {
         if (mNavDrawerCallbacks != null) {
             if (isDrawerOpen()) closeDrawer();
@@ -142,7 +146,7 @@ public class NavDrawerFragment extends Fragment {
                     mNavDrawerCallbacks.onNavDrawerListItemClicked(position);
                 }
             }, 200);
-            mListView.setItemChecked(position, true);
+            setItemChecked(position);
         }
     }
 
