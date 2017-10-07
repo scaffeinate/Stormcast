@@ -50,7 +50,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
                 .getInstance(getActivity().getApplicationContext()));
         mHomePresenter = new HomePresenter(this, mLocationsRepository);
         mLocationModels = new ArrayList<>();
-        mViewPagerAdapter = new HomeViewPagerAdapter(getChildFragmentManager(), mLocationModels.size());
+        mViewPagerAdapter = new HomeViewPagerAdapter(getChildFragmentManager());
     }
 
     @Nullable
@@ -79,20 +79,15 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
 
     @Override
     public void onLocationsLoaded(List<LocationModel> locationModels) {
-        int diff = Math.abs(this.mLocationModels.size() - locationModels.size());
         this.mLocationModels = locationModels;
-        mViewPager.setVisibility(View.VISIBLE);
-        mNoLocationsLayout.setVisibility(View.GONE);
         mViewPagerAdapter.setNumPages(locationModels.size());
-        mViewPagerAdapter.shifIds(diff);
-        mViewPagerAdapter.notifyDataSetChanged();
+        showViewPager();
         customizeViews(locationModels.get(mViewPager.getCurrentItem()));
     }
 
     @Override
     public void onDataNotAvailable() {
-        mViewPager.setVisibility(View.GONE);
-        mNoLocationsLayout.setVisibility(View.VISIBLE);
+        showNoLocationsMessage();
         getView().setBackgroundColor(AppConstants.DEFAULT_BACKGROUND_COLOR);
         mToolbarCallbacks.setToolbarTitle(AppConstants.APP_NAME);
         mNavDrawerCallbacks.setNavDrawerHeaderBackgroundColor(AppConstants.DEFAULT_BACKGROUND_COLOR);
@@ -130,5 +125,15 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
         mToolbarCallbacks.setToolbarTitle(locationModel.getName());
         mToolbarCallbacks.setToolbarTextColor(textColor);
         mNavDrawerCallbacks.setNavDrawerHeaderBackgroundColor(backgroundColor);
+    }
+
+    private void showViewPager() {
+        mViewPager.setVisibility(View.VISIBLE);
+        mNoLocationsLayout.setVisibility(View.GONE);
+    }
+
+    private void showNoLocationsMessage() {
+        mViewPager.setVisibility(View.GONE);
+        mNoLocationsLayout.setVisibility(View.VISIBLE);
     }
 }

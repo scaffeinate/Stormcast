@@ -118,17 +118,8 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         getView().setBackgroundColor(backgroundColor);
         mPresenter.setCustomTextColor(mForecastLayout, textColor);
         mProgressBar.getIndeterminateDrawable().setColorFilter(textColor, PorterDuff.Mode.SRC_IN);
-    }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mPresenter.loadForecast(mLocationModel, false);
-            }
-        }, 350);
+        mPresenter.loadForecast(mLocationModel, false);
     }
 
     @Override
