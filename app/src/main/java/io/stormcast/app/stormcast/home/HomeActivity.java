@@ -22,6 +22,7 @@ import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.location.LocationsActivity;
 import io.stormcast.app.stormcast.navdrawer.NavDrawerCallbacks;
 import io.stormcast.app.stormcast.navdrawer.NavDrawerFragment;
+import io.stormcast.app.stormcast.settings.SettingsFragment;
 import io.stormcast.app.stormcast.views.styled.StyledTextView;
 
 public class HomeActivity extends AppCompatActivity implements NavDrawerFragment.NavDrawerCallbacks,
@@ -85,6 +86,11 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerFragment
                 startActivity(intent);
                 break;
             case NavDrawerFragment.POSITION_SETTINGS:
+                mFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.main_content, SettingsFragment.newInstance())
+                        .addToBackStack(null)
+                        .commit();
                 break;
             case NavDrawerFragment.POSITION_SHARE:
                 break;
