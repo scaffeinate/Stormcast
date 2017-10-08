@@ -28,6 +28,8 @@ import io.stormcast.app.stormcast.navdrawer.NavDrawerCallbacks;
 
 public class HomeFragment extends Fragment implements HomeContract.View, ViewPager.OnPageChangeListener {
 
+    private static final String CURRENT_POSTION = "current_position";
+
     private ViewPager mViewPager;
     private RelativeLayout mNoLocationsLayout;
 
@@ -37,6 +39,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
     private List<LocationModel> mLocationModels;
     private ToolbarCallbacks mToolbarCallbacks;
     private NavDrawerCallbacks mNavDrawerCallbacks;
+    private int mPosition = 0;
 
     public static HomeFragment newInstance() {
         HomeFragment mFragment = new HomeFragment();
@@ -51,6 +54,9 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
         mHomePresenter = new HomePresenter(this, mLocationsRepository);
         mLocationModels = new ArrayList<>();
         mViewPagerAdapter = new HomeViewPagerAdapter(getChildFragmentManager());
+        if(savedInstanceState != null) {
+            mPosition = savedInstanceState.getInt(CURRENT_POSTION);
+        }
     }
 
     @Nullable
@@ -81,6 +87,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
     public void onLocationsLoaded(List<LocationModel> locationModels) {
         this.mLocationModels = locationModels;
         mViewPagerAdapter.setNumPages(locationModels.size());
+        mViewPager.setCurrentItem(mPosition);
         showViewPager();
         customizeViews(locationModels.get(mViewPager.getCurrentItem()));
     }
@@ -100,6 +107,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
 
     @Override
     public void onPageSelected(int position) {
+        this.mPosition = position;
         customizeViews(mLocationModels.get(position));
     }
 
@@ -112,6 +120,12 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.home_menu, menu);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(CURRENT_POSTION, mPosition);
     }
 
     public LocationModel getLocationModel(int position) {
