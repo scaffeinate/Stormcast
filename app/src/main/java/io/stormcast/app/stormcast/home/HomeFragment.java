@@ -65,7 +65,6 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
         View mView = inflater.inflate(R.layout.fragment_home, container, false);
         mViewPager = (ViewPager) mView.findViewById(R.id.view_pager);
         mNoLocationsLayout = (RelativeLayout) mView.findViewById(R.id.no_locations_layout);
-        mViewPager.setAdapter(mViewPagerAdapter);
         mViewPager.addOnPageChangeListener(this);
         return mView;
     }
@@ -78,8 +77,15 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        mViewPager.setAdapter(null);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
+        mViewPager.setAdapter(mViewPagerAdapter);
         mHomePresenter.loadLocations();
     }
 
@@ -87,7 +93,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
     public void onLocationsLoaded(List<LocationModel> locationModels) {
         this.mLocationModels = locationModels;
         mViewPagerAdapter.setNumPages(locationModels.size());
-        mViewPager.setCurrentItem(mPosition);
+        mViewPager.setCurrentItem(mPosition < locationModels.size() ? mPosition : 0);
         showViewPager();
         customizeViews(locationModels.get(mViewPager.getCurrentItem()));
     }

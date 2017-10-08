@@ -28,10 +28,6 @@ public class HomeViewPagerAdapter extends FragmentStatePagerAdapter {
         return numPages;
     }
 
-    @Override
-    public int getItemPosition(Object object) {
-        return POSITION_NONE;
-    }
 
     public void setNumPages(int numPages) {
         this.numPages = numPages;
