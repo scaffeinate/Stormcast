@@ -28,7 +28,6 @@ import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.data.forecast.ForecastRepository;
 import io.stormcast.app.stormcast.data.forecast.local.LocalForecastDataSource;
 import io.stormcast.app.stormcast.data.forecast.remote.RemoteForecastDataSource;
-import io.stormcast.app.stormcast.home.HomeFragment;
 import io.stormcast.app.stormcast.views.styled.StyledTextView;
 
 /**
@@ -109,16 +108,21 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     public void onResume() {
         super.onResume();
         int position = getArguments().getInt(POSITION);
-        mLocationModel = ((HomeFragment) getParentFragment()).getLocationModel(position);
+        GetLocationModelCallback callback = ((GetLocationModelCallback) getParentFragment());
+        callback.getLocationModel(position, new GetLocationModelCallback.OnGetLocationModel() {
+            @Override
+            public void onLocationModelLoaded(LocationModel locationModel) {
+                mLocationModel = locationModel;
+                backgroundColor = Color.parseColor(mLocationModel.getBackgroundColor());
+                textColor = Color.parseColor(mLocationModel.getTextColor());
 
-        backgroundColor = Color.parseColor(mLocationModel.getBackgroundColor());
-        textColor = Color.parseColor(mLocationModel.getTextColor());
+                getView().setBackgroundColor(backgroundColor);
+                mPresenter.setCustomTextColor(mForecastLayout, textColor);
+                mProgressBar.getIndeterminateDrawable().setColorFilter(textColor, PorterDuff.Mode.SRC_IN);
 
-        getView().setBackgroundColor(backgroundColor);
-        mPresenter.setCustomTextColor(mForecastLayout, textColor);
-        mProgressBar.getIndeterminateDrawable().setColorFilter(textColor, PorterDuff.Mode.SRC_IN);
-
-        mPresenter.loadForecast(mLocationModel, false);
+                mPresenter.loadForecast(mLocationModel, false);
+            }
+        });
     }
 
     @Override

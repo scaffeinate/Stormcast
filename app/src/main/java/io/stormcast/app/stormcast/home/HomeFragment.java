@@ -2,7 +2,6 @@ package io.stormcast.app.stormcast.home;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -21,13 +20,15 @@ import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 import io.stormcast.app.stormcast.data.locations.local.LocalLocationsDataSource;
+import io.stormcast.app.stormcast.forecast.GetLocationModelCallback;
 import io.stormcast.app.stormcast.navdrawer.NavDrawerCallbacks;
 
 /**
  * Created by sudhar on 8/8/17.
  */
 
-public class HomeFragment extends Fragment implements HomeContract.View, ViewPager.OnPageChangeListener {
+public class HomeFragment extends Fragment implements HomeContract.View,
+        ViewPager.OnPageChangeListener, GetLocationModelCallback {
 
     private static final String CURRENT_POSTION = "current_position";
 
@@ -124,6 +125,18 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
     }
 
     @Override
+    public void getLocationModel(int position, GetLocationModelCallback.OnGetLocationModel callback) {
+        if (position < 0 || position >= mLocationModels.size()) {
+            return;
+        }
+
+        LocationModel locationModel = mLocationModels.get(position);
+        if (locationModel != null) {
+            callback.onLocationModelLoaded(locationModel);
+        }
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.home_menu, menu);
@@ -133,11 +146,6 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(CURRENT_POSTION, mPosition);
-    }
-
-    public LocationModel getLocationModel(int position) {
-        LocationModel locationModel = mLocationModels.get(position);
-        return locationModel;
     }
 
     private void customizeViews(LocationModel locationModel) {
