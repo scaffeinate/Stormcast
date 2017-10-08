@@ -76,16 +76,10 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
         this.mToolbarCallbacks = (ToolbarCallbacks) getActivity();
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        mViewPager.setAdapter(null);
-    }
 
     @Override
     public void onResume() {
         super.onResume();
-        mViewPager.setAdapter(mViewPagerAdapter);
         mHomePresenter.loadLocations();
     }
 
@@ -93,6 +87,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
     public void onLocationsLoaded(List<LocationModel> locationModels) {
         this.mLocationModels = locationModels;
         mViewPagerAdapter.setNumPages(locationModels.size());
+        mViewPager.setAdapter(mViewPagerAdapter);
         mViewPager.setCurrentItem(mPosition < locationModels.size() ? mPosition : 0);
         showViewPager();
         customizeViews(locationModels.get(mViewPager.getCurrentItem()));
