@@ -2,6 +2,7 @@ package io.stormcast.app.stormcast.home;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -54,7 +55,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
         mHomePresenter = new HomePresenter(this, mLocationsRepository);
         mLocationModels = new ArrayList<>();
         mViewPagerAdapter = new HomeViewPagerAdapter(getChildFragmentManager());
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             mPosition = savedInstanceState.getInt(CURRENT_POSTION);
         }
     }
@@ -76,6 +77,11 @@ public class HomeFragment extends Fragment implements HomeContract.View, ViewPag
         this.mToolbarCallbacks = (ToolbarCallbacks) getActivity();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        mViewPager.setAdapter(null);
+    }
 
     @Override
     public void onResume() {

@@ -28,7 +28,6 @@ public class HomeViewPagerAdapter extends FragmentStatePagerAdapter {
         return numPages;
     }
 
-
     public void setNumPages(int numPages) {
         this.numPages = numPages;
         notifyDataSetChanged();
