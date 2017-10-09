@@ -153,6 +153,7 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
             textColor = Color.parseColor(restored.getTextColor());
 
             mLocationModelBuilder.setName(restored.getName())
+                    .setAddress(restored.getAddress())
                     .setLatitude(restored.getLatitude())
                     .setLongitude(restored.getLongitude())
                     .setBackgroundColor(restored.getBackgroundColor())
@@ -210,11 +211,13 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Place place = PlaceAutocomplete.getPlace(mContext, data);
+                String name = place.getName().toString();
                 String address = decodeAddress(place);
                 mEditText.setText(address);
                 mEditText.setCursorVisible(false);
                 mEditText.clearFocus();
-                mLocationModelBuilder.setName(address)
+                mLocationModelBuilder.setName(name)
+                        .setAddress(address)
                         .setLatLng(place.getLatLng());
                 addMarker(place.getLatLng());
             }

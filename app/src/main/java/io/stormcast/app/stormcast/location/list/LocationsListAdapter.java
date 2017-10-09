@@ -39,7 +39,7 @@ public class LocationsListAdapter extends RecyclerView.Adapter<LocationsListAdap
     public void onBindViewHolder(final ViewHolder holder, int position) {
         LocationModel locationModel = mLocationModelList.get(position);
         if (locationModel != null) {
-            holder.nameTextView.setText(locationModel.getName());
+            holder.nameTextView.setText(locationModel.getAddress());
         }
 
         holder.reorderIcon.setOnTouchListener(new View.OnTouchListener() {

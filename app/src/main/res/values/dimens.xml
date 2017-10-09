@@ -14,5 +14,5 @@
     <dimen name="fragment_forecast_padding">30dp</dimen>
     <dimen name="item_overview_weather_icon_margin_top">25dp</dimen>
     <dimen name="item_location_bg_text_padding">30dp</dimen>
-    <dimen name="nav_drawer_width">265dp</dimen>
+    <dimen name="nav_drawer_width">285dp</dimen>
 </resources>
