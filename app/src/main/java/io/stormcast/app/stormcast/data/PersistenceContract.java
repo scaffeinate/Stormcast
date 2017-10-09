@@ -35,6 +35,8 @@ public final class PersistenceContract {
         public final static String HUMIDITY = "humidity";
         public final static String WIND_SPEED = "wind_speed";
         public final static String PRESSURE = "pressure";
+        public final static String OZONE = "ozone";
+        public final static String UV_INDEX = "uv_index";
         public final static String VISIBILITY = "visibility";
         public final static String LOCATION_ID = "location_id";
         public final static String TABLE_NAME = "forecast";

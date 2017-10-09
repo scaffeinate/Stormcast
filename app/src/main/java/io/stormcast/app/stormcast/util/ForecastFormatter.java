@@ -22,6 +22,9 @@ public class ForecastFormatter {
     private final static String DEGREE = "\u00b0";
     private final static String PERCENT = "%";
     private final static String HECTOPASCALS = "hPa";
+    private final static String MILLIBAR = "mb";
+    private final static String MILE = "mi";
+    private final static String DU = "DU";
 
     private final static String IMPERIAL = "us";
     private final static String[] daysOfWeek = new String[]{
@@ -34,11 +37,15 @@ public class ForecastFormatter {
         FormattedForecastModelBuilder builder = new FormattedForecastModelBuilder();
 
         int temp = (int) forecastModel.getTemperature();
+        int apparentTemp = (int) forecastModel.getApparentTemperature();
         int minTemp = (int) forecastModel.getMinTemperature();
         int maxTemp = (int) forecastModel.getMaxTemperature();
         int windSpeed = (int) ((forecastModel.getWindSpeed() * 3.6) * (unitType.equals(IMPERIAL) ? (0.62) : 1));
         int humidity = (int) (forecastModel.getHumidity() * 100);
         int pressure = (int) forecastModel.getPressure();
+        int visibility = (int) forecastModel.getVisibility();
+        int uvIndex = (int) forecastModel.getUvIndex();
+        int ozone = (int) forecastModel.getOzone();
 
         Calendar currentTime = Calendar.getInstance();
         currentTime.setTimeInMillis((long) forecastModel.getCurrentTime() * 1000);
@@ -47,11 +54,15 @@ public class ForecastFormatter {
         String icon = forecastModel.getIcon();
 
         return builder.setTemperature(formatTemperature(temp, unit.tempUnit))
+                .setApparentTemperature(formatTemperature(apparentTemp, unit.tempUnit))
                 .setMinTemperature(formatTemperature(minTemp, unit.tempUnit))
                 .setMaxTemperature(formatTemperature(maxTemp, unit.tempUnit))
                 .setWindSpeed(formatUnit(windSpeed, unit.speedUnit))
                 .setHumidity(formatUnit(humidity, PERCENT))
-                .setPressure(formatUnit(pressure, HECTOPASCALS))
+                .setPressure(formatUnit(pressure, unit.pressureUnit))
+                .setOzone(formatUnit(ozone, DU))
+                .setUVIndex(String.valueOf(uvIndex))
+                .setVisibility(formatUnit(visibility, MILE))
                 .setSummary(forecastModel.getSummary())
                 .setIcon(String.valueOf(IconResource.getIconResource(icon, isDay)))
                 .build();
@@ -78,17 +89,18 @@ public class ForecastFormatter {
         return new StringBuilder().append(temp).append(DEGREE).append(unit).toString();
     }
 
-    private static String formatUnit(int speed, String unit) {
-        return new StringBuilder().append(speed).append(unit).toString();
+    private static String formatUnit(int value, String unit) {
+        return new StringBuilder().append(value).append((unit == PERCENT) ? "" : " ").append(unit).toString();
     }
 
     static class Unit {
-        String speedUnit = KPH, tempUnit = CELCIUS;
+        String speedUnit = KPH, tempUnit = CELCIUS, pressureUnit = HECTOPASCALS;
 
         Unit(String unitType) {
             if (unitType.equals(IMPERIAL)) {
                 this.speedUnit = MPH;
                 this.tempUnit = FARANHEIT;
+                this.pressureUnit = MILLIBAR;
             }
         }
     }

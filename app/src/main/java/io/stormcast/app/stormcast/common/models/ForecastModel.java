@@ -3,8 +3,6 @@ package io.stormcast.app.stormcast.common.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.gson.Gson;
-
 import java.util.List;
 
 /**
@@ -25,12 +23,9 @@ public class ForecastModel implements Parcelable {
         }
     };
     private String timezone, summary, icon, units;
-    private int currentTime, locationId;
+    private int currentTime, locationId, uvIndex;
     private double temperature, apparentTemperature, minTemperature, maxTemperature;
-    private double humidity;
-    private double windSpeed;
-    private double pressure;
-    private double visibility;
+    private double humidity, ozone, windSpeed, visibility, pressure;
     private long updatedAt;
     private List<DailyForecastModel> dailyForecastModels;
 
@@ -47,6 +42,8 @@ public class ForecastModel implements Parcelable {
         setWindSpeed(in.readDouble());
         setPressure(in.readDouble());
         setVisibility(in.readDouble());
+        setOzone(in.readDouble());
+        setUvIndex(in.readInt());
         setUpdatedAt(in.readLong());
         setUnits(in.readString());
         setLocationId(in.readInt());
@@ -66,6 +63,8 @@ public class ForecastModel implements Parcelable {
         setWindSpeed(builder.windSpeed);
         setPressure(builder.pressure);
         setVisibility(builder.visibility);
+        setOzone(builder.ozone);
+        setUvIndex(builder.uvIndex);
         setUpdatedAt(builder.updatedAt);
         setUnits(builder.units);
         setLocationId(builder.locationId);
@@ -142,6 +141,22 @@ public class ForecastModel implements Parcelable {
 
     public void setPressure(double pressure) {
         this.pressure = pressure;
+    }
+
+    public int getUvIndex() {
+        return uvIndex;
+    }
+
+    public void setUvIndex(int uvIndex) {
+        this.uvIndex = uvIndex;
+    }
+
+    public double getOzone() {
+        return ozone;
+    }
+
+    public void setOzone(double ozone) {
+        this.ozone = ozone;
     }
 
     public double getVisibility() {
@@ -221,6 +236,8 @@ public class ForecastModel implements Parcelable {
         parcel.writeDouble(this.windSpeed);
         parcel.writeDouble(this.pressure);
         parcel.writeDouble(this.visibility);
+        parcel.writeDouble(this.ozone);
+        parcel.writeInt(this.uvIndex);
         parcel.writeLong(this.updatedAt);
         parcel.writeString(this.units);
         parcel.writeInt(this.locationId);

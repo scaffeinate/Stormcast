@@ -5,11 +5,16 @@ package io.stormcast.app.stormcast.common.models;
  */
 
 public class FormattedForecastModelBuilder {
-    protected String temperature, minTemperature, maxTemperature,
-            windSpeed, humidity, pressure, summary, icon;
+    protected String temperature, apparentTemperature, minTemperature, maxTemperature,
+            windSpeed, humidity, pressure, ozone, uvIndex, visibility, summary, icon;
 
     public FormattedForecastModelBuilder setTemperature(String temperature) {
         this.temperature = temperature;
+        return this;
+    }
+
+    public FormattedForecastModelBuilder setApparentTemperature(String apparentTemperature) {
+        this.apparentTemperature = apparentTemperature;
         return this;
     }
 
@@ -35,6 +40,21 @@ public class FormattedForecastModelBuilder {
 
     public FormattedForecastModelBuilder setPressure(String pressure) {
         this.pressure = pressure;
+        return this;
+    }
+
+    public FormattedForecastModelBuilder setOzone(String ozone) {
+        this.ozone = ozone;
+        return this;
+    }
+
+    public FormattedForecastModelBuilder setUVIndex(String uvIndex) {
+        this.uvIndex = uvIndex;
+        return this;
+    }
+
+    public FormattedForecastModelBuilder setVisibility(String visibility) {
+        this.visibility = visibility;
         return this;
     }
 

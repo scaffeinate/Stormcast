@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.github.pwittchen.weathericonview.WeatherIconView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.stormcast.app.stormcast.R;
@@ -62,7 +63,8 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     private RelativeLayout mDayAfterForecastLayout;
     private RelativeLayout mTwoDaysFromNowForecastLayout;
 
-    private RecyclerView mAdditionalInfoRecyclerView;
+    private RecyclerView mNerdStatsRecyclerView;
+    private NerdStatsAdapter mAdapter;
 
     private ProgressBar mProgressBar;
 
@@ -107,9 +109,13 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         mDayAfterForecastLayout = (RelativeLayout) view.findViewById(R.id.day_after_tomo_forecast);
         mTwoDaysFromNowForecastLayout = (RelativeLayout) view.findViewById(R.id.two_days_from_now_forecast);
 
-        mAdditionalInfoRecyclerView = (RecyclerView) view.findViewById(R.id.additional_info_recycler_view);
+        mNerdStatsRecyclerView = (RecyclerView) view.findViewById(R.id.nerd_stats_recycler_view);
 
         mProgressBar = (ProgressBar) view.findViewById(R.id.forecast_progress_bar);
+
+        mAdapter = new NerdStatsAdapter();
+        mNerdStatsRecyclerView.setAdapter(mAdapter);
+        mNerdStatsRecyclerView.setHasFixedSize(true);
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
         return view;
@@ -144,6 +150,18 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
             populateDailyForecastView(mTwoDaysFromNowForecastLayout, ForecastFormatter.formatDailyForecast(dailyForecastModels.get(3)));
         }
 
+        List<NerdStat> nerdStatList = new ArrayList<>();
+
+        nerdStatList.add(new NerdStat(R.drawable.ic_thermometer_lines_white_24dp, "Feels Like", formattedForecastModel.getApparentTemperature()));
+        nerdStatList.add(new NerdStat(R.drawable.ic_water_percent_white_24dp, "Humidity", formattedForecastModel.getHumidity()));
+        nerdStatList.add(new NerdStat(R.drawable.ic_weather_windy_white_24dp, "Wind Speed", formattedForecastModel.getWindSpeed()));
+        nerdStatList.add(new NerdStat(R.drawable.ic_gauge_white_24dp, "Pressure", formattedForecastModel.getPressure()));
+        nerdStatList.add(new NerdStat(R.drawable.ic_looks_white_24dp, "Ozone", formattedForecastModel.getOzone()));
+        nerdStatList.add(new NerdStat(R.drawable.ic_weather_sunny_white_24dp, "UV Index", formattedForecastModel.getUvIndex()));
+        nerdStatList.add(new NerdStat(R.drawable.ic_eye_white_24dp, "Visibility", formattedForecastModel.getVisibility()));
+
+        mAdapter.setNerdStatList(nerdStatList);
+        mAdapter.setTextColor(textColor);
     }
 
     @Override

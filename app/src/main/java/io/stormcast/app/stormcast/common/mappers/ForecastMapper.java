@@ -35,6 +35,8 @@ public final class ForecastMapper {
                         .setIcon(currently.getIcon())
                         .setHumidity(currently.getHumidity())
                         .setPressure(currently.getPressure())
+                        .setOzone(currently.getOzone())
+                        .setUvIndex(currently.getUvIndex())
                         .setVisibility(currently.getVisibility())
                         .setWindSpeed(currently.getWindSpeed())
                         .setUpdatedAt(new Date().getTime())

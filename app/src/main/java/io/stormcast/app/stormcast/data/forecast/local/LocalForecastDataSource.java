@@ -76,6 +76,8 @@ public class LocalForecastDataSource implements ForecastDataSource {
         cv.put(PersistenceContract.ForecastEntry.HUMIDITY, forecastModel.getHumidity());
         cv.put(PersistenceContract.ForecastEntry.ICON, forecastModel.getIcon());
         cv.put(PersistenceContract.ForecastEntry.PRESSURE, forecastModel.getPressure());
+        cv.put(PersistenceContract.ForecastEntry.OZONE, forecastModel.getOzone());
+        cv.put(PersistenceContract.ForecastEntry.UV_INDEX, forecastModel.getUvIndex());
         cv.put(PersistenceContract.ForecastEntry.SUMMARY, forecastModel.getSummary());
         cv.put(PersistenceContract.ForecastEntry.WIND_SPEED, forecastModel.getWindSpeed());
         cv.put(PersistenceContract.ForecastEntry.VISIBILITY, forecastModel.getVisibility());
@@ -111,6 +113,8 @@ public class LocalForecastDataSource implements ForecastDataSource {
                     PersistenceContract.ForecastEntry.HUMIDITY,
                     PersistenceContract.ForecastEntry.ICON,
                     PersistenceContract.ForecastEntry.PRESSURE,
+                    PersistenceContract.ForecastEntry.OZONE,
+                    PersistenceContract.ForecastEntry.UV_INDEX,
                     PersistenceContract.ForecastEntry.SUMMARY,
                     PersistenceContract.ForecastEntry.WIND_SPEED,
                     PersistenceContract.ForecastEntry.VISIBILITY,
@@ -138,6 +142,8 @@ public class LocalForecastDataSource implements ForecastDataSource {
                             .setHumidity(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.HUMIDITY)))
                             .setIcon(c.getString(c.getColumnIndex(PersistenceContract.ForecastEntry.ICON)))
                             .setPressure(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.PRESSURE)))
+                            .setOzone(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.OZONE)))
+                            .setUvIndex(c.getInt(c.getColumnIndex(PersistenceContract.ForecastEntry.UV_INDEX)))
                             .setSummary(c.getString(c.getColumnIndex(PersistenceContract.ForecastEntry.SUMMARY)))
                             .setWindSpeed(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.WIND_SPEED)))
                             .setVisibility(c.getDouble(c.getColumnIndex(PersistenceContract.ForecastEntry.VISIBILITY)))

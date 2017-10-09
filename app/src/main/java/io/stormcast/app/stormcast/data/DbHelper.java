@@ -24,6 +24,7 @@ public class DbHelper extends SQLiteOpenHelper {
             PersistenceContract.ForecastEntry.MIN_TEMPERATURE + " REAL, " + PersistenceContract.ForecastEntry.MAX_TEMPERATURE + " REAL, " +
             PersistenceContract.ForecastEntry.HUMIDITY + " REAL, " + PersistenceContract.ForecastEntry.WIND_SPEED + " REAL, " +
             PersistenceContract.ForecastEntry.PRESSURE + " REAL, " + PersistenceContract.ForecastEntry.VISIBILITY + " REAL, " +
+            PersistenceContract.ForecastEntry.OZONE + " REAL, " + PersistenceContract.ForecastEntry.UV_INDEX + " INTEGER, " +
             PersistenceContract.ForecastEntry.UPDATED_AT + " INTEGER, " + PersistenceContract.ForecastEntry.CURRENT_TIME + " INTEGER, " +
             PersistenceContract.ForecastEntry.DAILY_FORECASTS + " TEXT, " +
             PersistenceContract.ForecastEntry.LOCATION_ID + " INTEGER NOT NULL, " +

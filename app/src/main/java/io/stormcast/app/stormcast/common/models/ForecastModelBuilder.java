@@ -8,9 +8,9 @@ import java.util.List;
 
 public class ForecastModelBuilder {
     protected String timezone, summary, icon, units;
-    protected int currentTime, locationId;
+    protected int currentTime, locationId, uvIndex;
     protected double temperature, apparentTemperature,
-            humidity, windSpeed, pressure, visibility, minTemperature, maxTemperature;
+            humidity, windSpeed, pressure, ozone, visibility, minTemperature, maxTemperature;
     protected long updatedAt;
     protected List<DailyForecastModel> dailyForecastModels;
 
@@ -66,6 +66,16 @@ public class ForecastModelBuilder {
 
     public ForecastModelBuilder setPressure(double pressure) {
         this.pressure = pressure;
+        return this;
+    }
+
+    public ForecastModelBuilder setOzone(double ozone) {
+        this.ozone = ozone;
+        return this;
+    }
+
+    public ForecastModelBuilder setUvIndex(int uvIndex) {
+        this.uvIndex = uvIndex;
         return this;
     }
 

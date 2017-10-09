@@ -5,16 +5,20 @@ package io.stormcast.app.stormcast.common.models;
  */
 
 public class FormattedForecastModel {
-    private String temperature, minTemperature, maxTemperature,
-            windSpeed, humidity, pressure, summary, icon;
+    private String temperature, apparentTemperature, minTemperature, maxTemperature,
+            windSpeed, humidity, pressure, ozone, uvIndex, visibility, summary, icon;
 
     protected FormattedForecastModel(FormattedForecastModelBuilder builder) {
         setTemperature(builder.temperature);
+        setApparentTemperature(builder.apparentTemperature);
         setMinTemperature(builder.minTemperature);
         setMaxTemperature(builder.maxTemperature);
         setWindSpeed(builder.windSpeed);
         setHumidity(builder.humidity);
         setPressure(builder.pressure);
+        setOzone(builder.ozone);
+        setUvIndex(builder.uvIndex);
+        setVisibility(builder.visibility);
         setSummary(builder.summary);
         setIcon(builder.icon);
     }
@@ -25,6 +29,14 @@ public class FormattedForecastModel {
 
     public void setTemperature(String temperature) {
         this.temperature = temperature;
+    }
+
+    public String getApparentTemperature() {
+        return apparentTemperature;
+    }
+
+    public void setApparentTemperature(String apparentTemperature) {
+        this.apparentTemperature = apparentTemperature;
     }
 
     public String getMinTemperature() {
@@ -65,6 +77,30 @@ public class FormattedForecastModel {
 
     public void setPressure(String pressure) {
         this.pressure = pressure;
+    }
+
+    public String getOzone() {
+        return ozone;
+    }
+
+    public void setOzone(String ozone) {
+        this.ozone = ozone;
+    }
+
+    public String getUvIndex() {
+        return uvIndex;
+    }
+
+    public void setUvIndex(String uvIndex) {
+        this.uvIndex = uvIndex;
+    }
+
+    public String getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(String visibility) {
+        this.visibility = visibility;
     }
 
     public String getSummary() {
