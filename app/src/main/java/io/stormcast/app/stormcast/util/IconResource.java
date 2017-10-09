@@ -1,4 +1,4 @@
-package io.stormcast.app.stormcast.forecast;
+package io.stormcast.app.stormcast.util;
 
 import io.stormcast.app.stormcast.R;
 

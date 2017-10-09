@@ -21,8 +21,8 @@ import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 import io.stormcast.app.stormcast.data.locations.local.LocalLocationsDataSource;
 import io.stormcast.app.stormcast.forecast.ForecastFragment;
-import io.stormcast.app.stormcast.forecast.GetLocationModelCallback;
 import io.stormcast.app.stormcast.navdrawer.NavDrawerCallbacks;
+import io.stormcast.app.stormcast.viewpager.HomeViewPagerAdapter;
 
 /**
  * Created by sudhar on 8/8/17.

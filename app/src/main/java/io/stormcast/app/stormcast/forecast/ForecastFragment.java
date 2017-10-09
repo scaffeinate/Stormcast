@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,6 @@ import android.widget.Toast;
 
 import com.github.pwittchen.weathericonview.WeatherIconView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.stormcast.app.stormcast.R;
@@ -31,6 +31,8 @@ import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.data.forecast.ForecastRepository;
 import io.stormcast.app.stormcast.data.forecast.local.LocalForecastDataSource;
 import io.stormcast.app.stormcast.data.forecast.remote.RemoteForecastDataSource;
+import io.stormcast.app.stormcast.home.GetLocationModelCallback;
+import io.stormcast.app.stormcast.util.ForecastFormatter;
 import io.stormcast.app.stormcast.views.styled.StyledTextView;
 
 /**
@@ -54,12 +56,13 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     private StyledTextView mMinTemperatureTextView;
     private StyledTextView mMaxTemperatureTextView;
 
+    private LinearLayout mDailyForecastLayout;
     private RelativeLayout mTodayForecastLayout;
     private RelativeLayout mTomoForecastLayout;
     private RelativeLayout mDayAfterForecastLayout;
     private RelativeLayout mTwoDaysFromNowForecastLayout;
 
-    private List<View> forecastViews;
+    private RecyclerView mAdditionalInfoRecyclerView;
 
     private ProgressBar mProgressBar;
 
@@ -98,16 +101,13 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         mMaxTemperatureTextView = (StyledTextView) view.findViewById(R.id.max_temperature_text_view);
         mWeatherIconView = (WeatherIconView) view.findViewById(R.id.weather_icon_view);
 
+        mDailyForecastLayout = (LinearLayout) view.findViewById(R.id.daily_forecast_layout);
         mTodayForecastLayout = (RelativeLayout) view.findViewById(R.id.today_forecast);
         mTomoForecastLayout = (RelativeLayout) view.findViewById(R.id.tomo_forecast);
         mDayAfterForecastLayout = (RelativeLayout) view.findViewById(R.id.day_after_tomo_forecast);
         mTwoDaysFromNowForecastLayout = (RelativeLayout) view.findViewById(R.id.two_days_from_now_forecast);
 
-        forecastViews = new ArrayList<>();
-        forecastViews.add(mTodayForecastLayout);
-        forecastViews.add(mTomoForecastLayout);
-        forecastViews.add(mDayAfterForecastLayout);
-        forecastViews.add(mTwoDaysFromNowForecastLayout);
+        mAdditionalInfoRecyclerView = (RecyclerView) view.findViewById(R.id.additional_info_recycler_view);
 
         mProgressBar = (ProgressBar) view.findViewById(R.id.forecast_progress_bar);
 
@@ -118,8 +118,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     @Override
     public void onResume() {
         super.onResume();
-        fetchData();
-        animateViews();
+        fetchLocationModel();
     }
 
     @Override
@@ -144,6 +143,8 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
             populateDailyForecastView(mDayAfterForecastLayout, ForecastFormatter.formatDailyForecast(dailyForecastModels.get(2)));
             populateDailyForecastView(mTwoDaysFromNowForecastLayout, ForecastFormatter.formatDailyForecast(dailyForecastModels.get(3)));
         }
+
+
     }
 
     @Override
@@ -155,8 +156,10 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
 
     @Override
     public void onRefresh() {
-        mSwipeRefreshLayout.setRefreshing(true);
-        mPresenter.loadForecast(mLocationModel, true);
+        if (mLocationModel != null) {
+            mSwipeRefreshLayout.setRefreshing(true);
+            mPresenter.loadForecast(mLocationModel, true);
+        }
     }
 
     public void animateViews() {
@@ -167,13 +170,10 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         mTemperatureTextView.startAnimation(fadeInAnimation);
         mMinTemperatureTextView.startAnimation(fadeInAnimation);
         mMaxTemperatureTextView.startAnimation(fadeInAnimation);
-
-        for (View view : forecastViews) {
-            view.startAnimation(fadeInAnimation);
-        }
+        mDailyForecastLayout.startAnimation(fadeInAnimation);
     }
 
-    private void fetchData() {
+    private void fetchLocationModel() {
         int position = getArguments().getInt(POSITION);
         GetLocationModelCallback callback = ((GetLocationModelCallback) getParentFragment());
         callback.getLocationModel(position, new GetLocationModelCallback.OnGetLocationModel() {
@@ -187,6 +187,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
                 mProgressBar.getIndeterminateDrawable().mutate().setColorFilter(textColor, PorterDuff.Mode.SRC_IN);
 
                 mPresenter.loadForecast(mLocationModel, false);
+                animateViews();
             }
         });
     }

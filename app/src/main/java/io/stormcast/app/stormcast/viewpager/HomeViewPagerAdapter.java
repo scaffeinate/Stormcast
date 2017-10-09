@@ -1,4 +1,4 @@
-package io.stormcast.app.stormcast.home;
+package io.stormcast.app.stormcast.viewpager;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

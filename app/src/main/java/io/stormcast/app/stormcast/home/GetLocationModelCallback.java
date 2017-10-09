@@ -1,4 +1,4 @@
-package io.stormcast.app.stormcast.forecast;
+package io.stormcast.app.stormcast.home;
 
 import io.stormcast.app.stormcast.common.models.LocationModel;
 
