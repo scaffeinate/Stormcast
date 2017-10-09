@@ -8,6 +8,8 @@
     <dimen name="font_size_subheading">19sp</dimen>
     <dimen name="font_size_title">22sp</dimen>
     <dimen name="item_location_padding">15dp</dimen>
+    <dimen name="item_nerd_stat_padding_top_bottom">10dp</dimen>
+    <dimen name="item_nerd_stat_padding_left_right">20dp</dimen>
     <dimen name="dialog_color_picker_padding">25dp</dimen>
     <dimen name="dialog_color_picker_grid_margin_top">20dp</dimen>
     <dimen name="item_color_selected_padding">10dp</dimen>
@@ -15,4 +17,5 @@
     <dimen name="item_overview_weather_icon_margin_top">25dp</dimen>
     <dimen name="item_location_bg_text_padding">30dp</dimen>
     <dimen name="nav_drawer_width">285dp</dimen>
+    <dimen name="section_nerd_stats_margin">15dp</dimen>
 </resources>

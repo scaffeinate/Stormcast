@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:descendantFocusability="beforeDescendants"
+        android:scrollbars="none"
         android:focusable="true"
         android:focusableInTouchMode="true">
 
@@ -43,11 +44,11 @@
                     android:layout_marginTop="25dp" />
 
                 <include
-                    android:id="@+id/additional_info_recycler_view"
-                    layout="@layout/section_additional_info"
+                    android:id="@+id/nerd_stats_recycler_view"
+                    layout="@layout/section_nerd_stats"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp" />
+                    android:layout_margin="@dimen/section_nerd_stats_margin" />
             </LinearLayout>
 
         </RelativeLayout>
