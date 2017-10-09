@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/item_nerd_stat_padding_top_bottom"
+    android:paddingBottom="@dimen/item_nerd_stat_padding_top_bottom"
+    android:paddingLeft="@dimen/item_nerd_stat_padding_left_right"
+    android:paddingRight="@dimen/item_nerd_stat_padding_left_right">
+
+    <ImageView
+        android:id="@+id/nerd_stat_icon_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true" />
+
+    <io.stormcast.app.stormcast.views.styled.StyledTextView
+        android:id="@+id/nerd_stat_label_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@+id/nerd_stat_icon_image_view"
+        android:textSize="@dimen/font_size_body"
+        custom:weight="bold" />
+
+    <io.stormcast.app.stormcast.views.styled.StyledTextView
+        android:id="@+id/nerd_stat_value_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:textSize="@dimen/font_size_body"
+        custom:weight="bold" />
+</RelativeLayout>
