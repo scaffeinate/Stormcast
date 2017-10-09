@@ -103,6 +103,7 @@ public class HomeFragment extends Fragment implements HomeContract.View,
     public void onDataNotAvailable() {
         showNoLocationsMessage();
         getView().setBackgroundColor(AppConstants.DEFAULT_BACKGROUND_COLOR);
+        mToolbarCallbacks.setToolbarTextColor(AppConstants.DEFAULT_TEXT_COLOR);
         mToolbarCallbacks.setToolbarTitle(AppConstants.APP_NAME);
         mNavDrawerCallbacks.setNavDrawerHeaderBackgroundColor(AppConstants.DEFAULT_BACKGROUND_COLOR);
     }
