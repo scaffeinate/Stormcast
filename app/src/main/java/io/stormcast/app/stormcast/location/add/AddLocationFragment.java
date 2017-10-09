@@ -312,8 +312,10 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
             Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
             try {
                 List<Address> addressList = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
-                if (addressList.size() > 0) {
-                    builder.append(",").append(addressList.get(0).getAdminArea());
+                String adminArea;
+                if (addressList.size() > 0 && (adminArea = addressList.get(0).getAdminArea()) != null
+                        && !adminArea.isEmpty()) {
+                    builder.append(",").append(adminArea);
                 }
             } catch (IOException e) {
 
