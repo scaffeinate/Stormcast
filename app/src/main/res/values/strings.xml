@@ -16,4 +16,5 @@
     <string name="delete">Delete</string>
     <string name="nav_drawer_open">Open</string>
     <string name="nav_drawer_close">Close</string>
+    <string name="stats_for_nerds">Additional Info</string>
 </resources>

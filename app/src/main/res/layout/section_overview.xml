@@ -12,7 +12,9 @@
         android:layout_centerHorizontal="true"
         android:textAllCaps="true"
         android:textSize="@dimen/font_size_title"
-        custom:weight="bolder" />
+        custom:weight="bolder">
+        <requestFocus />
+    </io.stormcast.app.stormcast.views.styled.StyledTextView>
 
     <com.github.pwittchen.weathericonview.WeatherIconView
         android:id="@+id/weather_icon_view"

@@ -16,6 +16,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.github.pwittchen.weathericonview.WeatherIconView;
@@ -50,6 +51,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     private LocationModel mLocationModel;
 
     private LinearLayout mForecastLayout;
+    private ScrollView mForecastScrollView;
 
     private WeatherIconView mWeatherIconView;
     private StyledTextView mSummaryTextView;
@@ -96,6 +98,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         View view = inflater.inflate(R.layout.fragment_forecast, container, false);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         mForecastLayout = (LinearLayout) view.findViewById(R.id.forecast_layout);
+        mForecastScrollView = (ScrollView) view.findViewById(R.id.forecast_scroll_view);
 
         mSummaryTextView = (StyledTextView) view.findViewById(R.id.summary_text_view);
         mTemperatureTextView = (StyledTextView) view.findViewById(R.id.temperature_text_view);
@@ -116,6 +119,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         mAdapter = new NerdStatsAdapter();
         mNerdStatsRecyclerView.setAdapter(mAdapter);
         mNerdStatsRecyclerView.setHasFixedSize(true);
+        mForecastScrollView.scrollTo(0, 0);
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
         return view;
@@ -125,6 +129,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     public void onResume() {
         super.onResume();
         fetchLocationModel();
+        animateViews();
     }
 
     @Override
@@ -180,6 +185,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     }
 
     public void animateViews() {
+        mForecastScrollView.smoothScrollTo(0, 0);
         final Animation fadeInAnimation = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
         final Animation bounceAnimation = AnimationUtils.loadAnimation(mContext, R.anim.scale_in);
         mSummaryTextView.startAnimation(fadeInAnimation);

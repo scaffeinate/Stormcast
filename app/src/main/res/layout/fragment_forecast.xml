@@ -5,16 +5,18 @@
     android:layout_height="match_parent">
 
     <ScrollView
+        android:id="@+id/forecast_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:descendantFocusability="beforeDescendants"
-        android:scrollbars="none"
         android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:focusableInTouchMode="true"
+        android:scrollbars="none">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:descendantFocusability="blocksDescendants">
 
             <ProgressBar
                 android:id="@+id/forecast_progress_bar"
@@ -44,7 +46,7 @@
                     android:layout_marginTop="25dp" />
 
                 <include
-                    android:id="@+id/nerd_stats_recycler_view"
+                    android:id="@+id/nerd_stats_layout"
                     layout="@layout/section_nerd_stats"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
