@@ -7,7 +7,7 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public class LocationModelBuilder {
     protected int id;
-    protected String name;
+    protected String name, address;
     protected double latitude = LocationModel.MINUS_ONE;
     protected double longitude = LocationModel.MINUS_ONE;
     protected String backgroundColor = null, textColor = null;
@@ -19,6 +19,7 @@ public class LocationModelBuilder {
     public LocationModelBuilder(LocationModel locationModel) {
         setId(locationModel.getId())
                 .setName(locationModel.getName())
+                .setAddress(locationModel.getAddress())
                 .setLatitude(locationModel.getLatitude())
                 .setLongitude(locationModel.getLongitude())
                 .setBackgroundColor(locationModel.getBackgroundColor())
@@ -34,6 +35,11 @@ public class LocationModelBuilder {
 
     public LocationModelBuilder setName(String name) {
         this.name = name;
+        return this;
+    }
+
+    public LocationModelBuilder setAddress(String address) {
+        this.address = address;
         return this;
     }
 

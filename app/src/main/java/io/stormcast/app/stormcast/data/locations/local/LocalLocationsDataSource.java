@@ -60,6 +60,7 @@ public class LocalLocationsDataSource implements LocationsDataSource {
         String[] projection = new String[]{
                 PersistenceContract.LocationEntry._ID,
                 PersistenceContract.LocationEntry.NAME,
+                PersistenceContract.LocationEntry.ADDRESS,
                 PersistenceContract.LocationEntry.LATITUDE,
                 PersistenceContract.LocationEntry.LONGITUDE,
                 PersistenceContract.LocationEntry.BG_COLOR,
@@ -75,6 +76,7 @@ public class LocalLocationsDataSource implements LocationsDataSource {
                 LocationModel locationModel = new LocationModelBuilder()
                         .setId(c.getInt(c.getColumnIndex(PersistenceContract.LocationEntry._ID)))
                         .setName(c.getString(c.getColumnIndex(PersistenceContract.LocationEntry.NAME)))
+                        .setAddress(c.getString(c.getColumnIndex(PersistenceContract.LocationEntry.ADDRESS)))
                         .setBackgroundColor(c.getString(c.getColumnIndex(PersistenceContract.LocationEntry.BG_COLOR)))
                         .setTextColor(c.getString(c.getColumnIndex(PersistenceContract.LocationEntry.TEXT_COLOR)))
                         .setUnit(c.getInt(c.getColumnIndex(PersistenceContract.LocationEntry.UNIT)))
@@ -124,6 +126,7 @@ public class LocalLocationsDataSource implements LocationsDataSource {
 
     private void populateContentValues(ContentValues cv, LocationModel locationModel) {
         cv.put(PersistenceContract.LocationEntry.NAME, locationModel.getName());
+        cv.put(PersistenceContract.LocationEntry.ADDRESS, locationModel.getAddress());
         cv.put(PersistenceContract.LocationEntry.LATITUDE, locationModel.getLatitude());
         cv.put(PersistenceContract.LocationEntry.LONGITUDE, locationModel.getLongitude());
         cv.put(PersistenceContract.LocationEntry.BG_COLOR, locationModel.getBackgroundColor());

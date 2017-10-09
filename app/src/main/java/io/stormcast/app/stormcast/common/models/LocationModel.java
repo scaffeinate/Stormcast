@@ -28,7 +28,7 @@ public class LocationModel implements Parcelable {
     protected final static int MINUS_ONE = -1;
     private static final double DEFAULT_LATITUDE = 0;
     private static final double DEFAULT_LONGITUDE = 0;
-    private String name, backgroundColor = AppConstants.DEFAULT_BACKGROUND_COLOR_HEX,
+    private String name, address, backgroundColor = AppConstants.DEFAULT_BACKGROUND_COLOR_HEX,
             textColor = AppConstants.DEFAULT_TEXT_COLOR_HEX;
     private double latitude = DEFAULT_LATITUDE, longitude = DEFAULT_LONGITUDE;
     private int id = 0, unit = UNIT_AUTO, position = 0;
@@ -39,6 +39,7 @@ public class LocationModel implements Parcelable {
     protected LocationModel(LocationModelBuilder locationModelBuilder) {
         setId(locationModelBuilder.id);
         setName(locationModelBuilder.name);
+        setAddress(locationModelBuilder.address);
         setLatitude(locationModelBuilder.latitude);
         setLongitude(locationModelBuilder.longitude);
         setBackgroundColor(locationModelBuilder.backgroundColor);
@@ -50,6 +51,7 @@ public class LocationModel implements Parcelable {
     private LocationModel(Parcel parcel) {
         setId(parcel.readInt());
         setName(parcel.readString());
+        setAddress(parcel.readString());
         setLatitude(parcel.readDouble());
         setLongitude(parcel.readDouble());
         setBackgroundColor(parcel.readString());
@@ -72,6 +74,14 @@ public class LocationModel implements Parcelable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public double getLatitude() {
@@ -139,6 +149,7 @@ public class LocationModel implements Parcelable {
     public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeInt(this.id);
         parcel.writeString(this.name);
+        parcel.writeString(this.address);
         parcel.writeDouble(this.latitude);
         parcel.writeDouble(this.longitude);
         parcel.writeString(this.backgroundColor);

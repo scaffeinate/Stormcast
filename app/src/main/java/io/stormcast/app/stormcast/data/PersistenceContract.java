@@ -13,6 +13,7 @@ public final class PersistenceContract {
     public static abstract class LocationEntry implements BaseColumns {
         public final static String POSITION = "position";
         public final static String NAME = "name";
+        public final static String ADDRESS = "address";
         public final static String LATITUDE = "latitude";
         public final static String LONGITUDE = "longitude";
         public final static String BG_COLOR = "bg_color";
