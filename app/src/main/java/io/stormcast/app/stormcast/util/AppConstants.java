@@ -1,4 +1,4 @@
-package io.stormcast.app.stormcast;
+package io.stormcast.app.stormcast.util;
 
 import android.graphics.Color;
 

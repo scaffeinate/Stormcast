@@ -1,4 +1,4 @@
-package io.stormcast.app.stormcast.home;
+package io.stormcast.app.stormcast.views.toolbar;
 
 /**
  * Created by sudharti on 10/3/17.

@@ -3,7 +3,7 @@ package io.stormcast.app.stormcast.common.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import io.stormcast.app.stormcast.AppConstants;
+import io.stormcast.app.stormcast.util.AppConstants;
 
 /**
  * Created by sudhar on 8/15/17.

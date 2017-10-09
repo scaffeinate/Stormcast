@@ -144,7 +144,6 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
             populateDailyForecastView(mTwoDaysFromNowForecastLayout, ForecastFormatter.formatDailyForecast(dailyForecastModels.get(3)));
         }
 
-
     }
 
     @Override

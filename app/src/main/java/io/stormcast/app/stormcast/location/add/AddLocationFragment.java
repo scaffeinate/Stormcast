@@ -35,13 +35,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-import io.stormcast.app.stormcast.AppConstants;
+import io.stormcast.app.stormcast.util.AppConstants;
 import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.common.models.LocationModelBuilder;
 import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 import io.stormcast.app.stormcast.data.locations.local.LocalLocationsDataSource;
-import io.stormcast.app.stormcast.home.ToolbarCallbacks;
+import io.stormcast.app.stormcast.views.toolbar.ToolbarCallbacks;
 import io.stormcast.app.stormcast.views.colorpick.MaterialColorPickDialog;
 import io.stormcast.app.stormcast.views.styled.StyledButton;
 import io.stormcast.app.stormcast.views.styled.StyledEditText;

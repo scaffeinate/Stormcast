@@ -29,14 +29,14 @@
                 android:visibility="invisible">
 
                 <include
-                    android:id="@+id/section_overview"
+                    android:id="@+id/section_overview_layout"
                     layout="@layout/section_overview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="85dp" />
 
                 <include
-                    android:id="@+id/daily_forecast"
+                    android:id="@+id/daily_forecast_layout"
                     layout="@layout/section_daily_forecast"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

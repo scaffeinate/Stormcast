@@ -15,14 +15,15 @@ import android.widget.RelativeLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.stormcast.app.stormcast.AppConstants;
+import io.stormcast.app.stormcast.util.AppConstants;
 import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 import io.stormcast.app.stormcast.data.locations.local.LocalLocationsDataSource;
 import io.stormcast.app.stormcast.forecast.ForecastFragment;
-import io.stormcast.app.stormcast.navdrawer.NavDrawerCallbacks;
-import io.stormcast.app.stormcast.viewpager.HomeViewPagerAdapter;
+import io.stormcast.app.stormcast.views.navdrawer.NavDrawerCallbacks;
+import io.stormcast.app.stormcast.views.toolbar.ToolbarCallbacks;
+import io.stormcast.app.stormcast.views.viewpager.HomeViewPagerAdapter;
 
 /**
  * Created by sudhar on 8/8/17.

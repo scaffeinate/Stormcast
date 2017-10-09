@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import io.stormcast.app.stormcast.R;
-import io.stormcast.app.stormcast.home.ToolbarCallbacks;
+import io.stormcast.app.stormcast.views.toolbar.ToolbarCallbacks;
 import io.stormcast.app.stormcast.location.add.AddLocationFragment;
 import io.stormcast.app.stormcast.location.list.LocationsListFragment;
 import io.stormcast.app.stormcast.views.styled.StyledTextView;

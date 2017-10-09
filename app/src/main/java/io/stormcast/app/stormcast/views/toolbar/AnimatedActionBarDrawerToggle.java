@@ -1,4 +1,4 @@
-package io.stormcast.app.stormcast.views.actionbar.toggle;
+package io.stormcast.app.stormcast.views.toolbar;
 
 import android.animation.ValueAnimator;
 import android.app.Activity;

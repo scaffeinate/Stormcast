@@ -17,13 +17,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import io.stormcast.app.stormcast.AppConstants;
+import io.stormcast.app.stormcast.util.AppConstants;
 import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.location.LocationsActivity;
-import io.stormcast.app.stormcast.navdrawer.NavDrawerCallbacks;
-import io.stormcast.app.stormcast.navdrawer.NavDrawerFragment;
+import io.stormcast.app.stormcast.views.navdrawer.NavDrawerCallbacks;
+import io.stormcast.app.stormcast.views.navdrawer.NavDrawerFragment;
 import io.stormcast.app.stormcast.settings.SettingsFragment;
 import io.stormcast.app.stormcast.views.styled.StyledTextView;
+import io.stormcast.app.stormcast.views.toolbar.ToolbarCallbacks;
 
 public class HomeActivity extends AppCompatActivity implements NavDrawerFragment.NavDrawerCallbacks,
         FragmentManager.OnBackStackChangedListener,

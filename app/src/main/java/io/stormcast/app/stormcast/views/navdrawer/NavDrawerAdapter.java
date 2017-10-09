@@ -1,4 +1,4 @@
-package io.stormcast.app.stormcast.navdrawer;
+package io.stormcast.app.stormcast.views.navdrawer;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

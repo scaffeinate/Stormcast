@@ -1,4 +1,4 @@
-package io.stormcast.app.stormcast.navdrawer;
+package io.stormcast.app.stormcast.views.navdrawer;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.stormcast.app.stormcast.R;
-import io.stormcast.app.stormcast.views.actionbar.toggle.AnimatedActionBarDrawerToggle;
+import io.stormcast.app.stormcast.views.toolbar.AnimatedActionBarDrawerToggle;
 
 /**
  * Created by sudharti on 9/30/17.

@@ -26,7 +26,7 @@ import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 import io.stormcast.app.stormcast.data.locations.local.LocalLocationsDataSource;
-import io.stormcast.app.stormcast.home.ToolbarCallbacks;
+import io.stormcast.app.stormcast.views.toolbar.ToolbarCallbacks;
 import io.stormcast.app.stormcast.location.add.AddLocationFragment;
 import io.stormcast.app.stormcast.location.list.helpers.ItemTouchHelperAdapter;
 import io.stormcast.app.stormcast.location.list.helpers.ItemTouchHelperCallback;
