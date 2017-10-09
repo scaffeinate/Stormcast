@@ -10,6 +10,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 
 import com.github.pwittchen.weathericonview.WeatherIconView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.stormcast.app.stormcast.R;
@@ -55,6 +58,8 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     private RelativeLayout mTomoForecastLayout;
     private RelativeLayout mDayAfterForecastLayout;
     private RelativeLayout mTwoDaysFromNowForecastLayout;
+
+    private List<View> forecastViews;
 
     private ProgressBar mProgressBar;
 
@@ -98,6 +103,12 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         mDayAfterForecastLayout = (RelativeLayout) view.findViewById(R.id.day_after_tomo_forecast);
         mTwoDaysFromNowForecastLayout = (RelativeLayout) view.findViewById(R.id.two_days_from_now_forecast);
 
+        forecastViews = new ArrayList<>();
+        forecastViews.add(mTodayForecastLayout);
+        forecastViews.add(mTomoForecastLayout);
+        forecastViews.add(mDayAfterForecastLayout);
+        forecastViews.add(mTwoDaysFromNowForecastLayout);
+
         mProgressBar = (ProgressBar) view.findViewById(R.id.forecast_progress_bar);
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
@@ -107,22 +118,8 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     @Override
     public void onResume() {
         super.onResume();
-        int position = getArguments().getInt(POSITION);
-        GetLocationModelCallback callback = ((GetLocationModelCallback) getParentFragment());
-        callback.getLocationModel(position, new GetLocationModelCallback.OnGetLocationModel() {
-            @Override
-            public void onLocationModelLoaded(LocationModel locationModel) {
-                mLocationModel = locationModel;
-                backgroundColor = Color.parseColor(mLocationModel.getBackgroundColor());
-                textColor = Color.parseColor(mLocationModel.getTextColor());
-
-                getView().setBackgroundColor(backgroundColor);
-                mPresenter.setCustomTextColor(mForecastLayout, textColor);
-                mProgressBar.getIndeterminateDrawable().setColorFilter(textColor, PorterDuff.Mode.SRC_IN);
-
-                mPresenter.loadForecast(mLocationModel, false);
-            }
-        });
+        fetchData();
+        animateViews();
     }
 
     @Override
@@ -160,6 +157,38 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     public void onRefresh() {
         mSwipeRefreshLayout.setRefreshing(true);
         mPresenter.loadForecast(mLocationModel, true);
+    }
+
+    public void animateViews() {
+        final Animation fadeInAnimation = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
+        final Animation bounceAnimation = AnimationUtils.loadAnimation(mContext, R.anim.scale_in);
+        mSummaryTextView.startAnimation(fadeInAnimation);
+        mWeatherIconView.startAnimation(bounceAnimation);
+        mTemperatureTextView.startAnimation(fadeInAnimation);
+        mMinTemperatureTextView.startAnimation(fadeInAnimation);
+        mMaxTemperatureTextView.startAnimation(fadeInAnimation);
+
+        for (View view : forecastViews) {
+            view.startAnimation(fadeInAnimation);
+        }
+    }
+
+    private void fetchData() {
+        int position = getArguments().getInt(POSITION);
+        GetLocationModelCallback callback = ((GetLocationModelCallback) getParentFragment());
+        callback.getLocationModel(position, new GetLocationModelCallback.OnGetLocationModel() {
+            @Override
+            public void onLocationModelLoaded(LocationModel locationModel) {
+                mLocationModel = locationModel;
+                backgroundColor = Color.parseColor(mLocationModel.getBackgroundColor());
+                textColor = Color.parseColor(mLocationModel.getTextColor());
+                getView().setBackgroundColor(backgroundColor);
+                mPresenter.setCustomTextColor(mForecastLayout, textColor);
+                mProgressBar.getIndeterminateDrawable().mutate().setColorFilter(textColor, PorterDuff.Mode.SRC_IN);
+
+                mPresenter.loadForecast(mLocationModel, false);
+            }
+        });
     }
 
     private void populateDailyForecastView(RelativeLayout layout, FormattedDailyForecastModel model) {

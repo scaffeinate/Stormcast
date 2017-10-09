@@ -20,6 +20,7 @@ import io.stormcast.app.stormcast.R;
 import io.stormcast.app.stormcast.common.models.LocationModel;
 import io.stormcast.app.stormcast.data.locations.LocationsRepository;
 import io.stormcast.app.stormcast.data.locations.local.LocalLocationsDataSource;
+import io.stormcast.app.stormcast.forecast.ForecastFragment;
 import io.stormcast.app.stormcast.forecast.GetLocationModelCallback;
 import io.stormcast.app.stormcast.navdrawer.NavDrawerCallbacks;
 
@@ -79,23 +80,21 @@ public class HomeFragment extends Fragment implements HomeContract.View,
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        mViewPager.setAdapter(null);
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
+        mViewPager.setAdapter(null);
         mHomePresenter.loadLocations();
     }
 
     @Override
     public void onLocationsLoaded(List<LocationModel> locationModels) {
         this.mLocationModels = locationModels;
+
         mViewPagerAdapter.setNumPages(locationModels.size());
         mViewPager.setAdapter(mViewPagerAdapter);
-        mViewPager.setCurrentItem(mPosition < locationModels.size() ? mPosition : 0);
+        mPosition = (mPosition < locationModels.size()) ? mPosition : 0;
+        mViewPager.setCurrentItem(mPosition);
+
         showViewPager();
         customizeViews(locationModels.get(mViewPager.getCurrentItem()));
     }
@@ -116,6 +115,10 @@ public class HomeFragment extends Fragment implements HomeContract.View,
     @Override
     public void onPageSelected(int position) {
         this.mPosition = position;
+        ForecastFragment currentFragment = (ForecastFragment) mViewPagerAdapter.getRegisteredFragment(position);
+        if (currentFragment != null) {
+            currentFragment.animateViews();
+        }
         customizeViews(mLocationModels.get(position));
     }
 
