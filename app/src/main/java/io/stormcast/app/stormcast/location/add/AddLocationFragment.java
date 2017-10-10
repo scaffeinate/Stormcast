@@ -16,6 +16,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -82,6 +84,8 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     private int backgroundColor, textColor;
     private boolean finishActivityOnAction = false;
 
+    private Animation fadeInAnimation;
+
     public static AddLocationFragment newInstance(boolean finishActivityOnAction) {
         return newInstance(new LocationModel(), finishActivityOnAction);
     }
@@ -101,6 +105,8 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getContext();
+
+        fadeInAnimation = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
 
         mLocationsRepository = LocationsRepository.getInstance(LocalLocationsDataSource
                 .getInstance(getActivity().getApplicationContext()));
@@ -182,8 +188,9 @@ public class AddLocationFragment extends Fragment implements View.OnClickListene
                 mMapView.onCreate(savedInstanceState);
                 MapsInitializer.initialize(getActivity().getApplicationContext());
                 mMapView.onResume();
+                mMapView.startAnimation(fadeInAnimation);
             }
-        }, 700);
+        }, 500);
     }
 
     @Override

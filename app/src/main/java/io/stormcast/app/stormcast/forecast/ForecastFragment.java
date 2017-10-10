@@ -203,11 +203,11 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     }
 
     public void animateViews() {
+        Animation fadeInAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
+        Animation scaleAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.scale_in);
         mForecastScrollView.smoothScrollTo(0, 0);
-        final Animation fadeInAnimation = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
-        final Animation bounceAnimation = AnimationUtils.loadAnimation(mContext, R.anim.scale_in);
         mSummaryTextView.startAnimation(fadeInAnimation);
-        mWeatherIconView.startAnimation(bounceAnimation);
+        mWeatherIconView.startAnimation(scaleAnimation);
         mTemperatureTextView.startAnimation(fadeInAnimation);
         mMinTemperatureTextView.startAnimation(fadeInAnimation);
         mMaxTemperatureTextView.startAnimation(fadeInAnimation);

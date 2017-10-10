@@ -62,6 +62,7 @@ public class LocationsActivity extends AppCompatActivity implements ToolbarCallb
                 case ADD_LOCATION_FRAGMENT:
                     mFragmentManager
                             .beginTransaction()
+                            .setCustomAnimations(R.anim.slide_left_enter, R.anim.slide_left_exit, R.anim.slide_right_enter, R.anim.slide_right_exit)
                             .replace(R.id.locations_content, AddLocationFragment.newInstance(true))
                             .commit();
                     break;
