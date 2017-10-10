@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +65,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     private RelativeLayout mTomoForecastLayout;
     private RelativeLayout mDayAfterForecastLayout;
     private RelativeLayout mTwoDaysFromNowForecastLayout;
+    private RelativeLayout mAdditionalInfoLayout;
 
     private RecyclerView mNerdStatsRecyclerView;
     private NerdStatsAdapter mAdapter;
@@ -72,6 +74,8 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
 
     private int backgroundColor;
     private int textColor;
+
+    private static int screenHeight = -1;
 
     public static ForecastFragment newInstance(int position) {
         ForecastFragment forecastFragment = new ForecastFragment();
@@ -90,6 +94,12 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         mPresenter = new ForecastPresenter(this, ForecastRepository.getInstance(
                 LocalForecastDataSource.getInstance(getActivity().getApplicationContext()),
                 RemoteForecastDataSource.getInstance()));
+
+        if (screenHeight == -1) {
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            screenHeight = displayMetrics.heightPixels;
+        }
     }
 
     @Nullable
@@ -111,6 +121,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         mTomoForecastLayout = (RelativeLayout) view.findViewById(R.id.tomo_forecast);
         mDayAfterForecastLayout = (RelativeLayout) view.findViewById(R.id.day_after_tomo_forecast);
         mTwoDaysFromNowForecastLayout = (RelativeLayout) view.findViewById(R.id.two_days_from_now_forecast);
+        mAdditionalInfoLayout = (RelativeLayout) view.findViewById(R.id.additional_info_layout);
 
         mNerdStatsRecyclerView = (RecyclerView) view.findViewById(R.id.nerd_stats_recycler_view);
 
@@ -129,15 +140,13 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     public void onResume() {
         super.onResume();
         fetchLocationModel();
-        animateViews();
     }
 
     @Override
     public void onForecastLoaded(final ForecastModel forecastModel) {
         if (!isAdded()) return;
         mSwipeRefreshLayout.setRefreshing(false);
-        mForecastLayout.setVisibility(View.VISIBLE);
-        mProgressBar.setVisibility(View.GONE);
+        showForecast();
 
         FormattedForecastModel formattedForecastModel = ForecastFormatter.formatForecast(forecastModel);
         mTemperatureTextView.setText(formattedForecastModel.getTemperature());
@@ -167,6 +176,15 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
 
         mAdapter.setNerdStatList(nerdStatList);
         mAdapter.setTextColor(textColor);
+
+        mForecastLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) mForecastLayout.getLayoutParams();
+                params.topMargin = (screenHeight - mForecastLayout.getMeasuredHeight());
+                mForecastLayout.setLayoutParams(params);
+            }
+        });
     }
 
     @Override
@@ -180,7 +198,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
     public void onRefresh() {
         if (mLocationModel != null) {
             mSwipeRefreshLayout.setRefreshing(true);
-            mPresenter.loadForecast(mLocationModel, true);
+            loadForecast(true);
         }
     }
 
@@ -206,13 +224,16 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
                 backgroundColor = Color.parseColor(mLocationModel.getBackgroundColor());
                 textColor = Color.parseColor(mLocationModel.getTextColor());
                 getView().setBackgroundColor(backgroundColor);
-                mPresenter.setCustomTextColor(mForecastLayout, textColor);
+                mPresenter.setCustomTextColor(mForecastScrollView, textColor);
                 mProgressBar.getIndeterminateDrawable().mutate().setColorFilter(textColor, PorterDuff.Mode.SRC_IN);
-
-                mPresenter.loadForecast(mLocationModel, false);
+                loadForecast(false);
                 animateViews();
             }
         });
+    }
+
+    private void loadForecast(boolean isManualRefresh) {
+        mPresenter.loadForecast(mLocationModel, isManualRefresh);
     }
 
     private void populateDailyForecastView(RelativeLayout layout, FormattedDailyForecastModel model) {
@@ -223,5 +244,17 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         timeTextView.setText(model.getTime());
         dailyWeatherIcon.setIconResource(getResources().getString(Integer.parseInt(model.getIcon())));
         temperatureTextView.setText(model.getTemperature());
+    }
+
+    private void showForecast() {
+        mProgressBar.setVisibility(View.GONE);
+        mForecastLayout.setVisibility(View.VISIBLE);
+        mAdditionalInfoLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void showProgressBar() {
+        mProgressBar.setVisibility(View.VISIBLE);
+        mForecastLayout.setVisibility(View.GONE);
+        mAdditionalInfoLayout.setVisibility(View.GONE);
     }
 }

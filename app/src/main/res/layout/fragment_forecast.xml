@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:id="@+id/swipe_refresh_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -9,8 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:descendantFocusability="beforeDescendants"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
+        android:fillViewport="true"
         android:scrollbars="none">
 
         <RelativeLayout
@@ -20,39 +21,90 @@
 
             <ProgressBar
                 android:id="@+id/forecast_progress_bar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerInParent="true" />
 
             <LinearLayout
                 android:id="@+id/forecast_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
                 android:orientation="vertical"
                 android:visibility="invisible">
 
                 <include
-                    android:id="@+id/section_overview_layout"
+                    android:id="@+id/overview_layout"
                     layout="@layout/section_overview"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="85dp" />
+                    android:layout_height="wrap_content" />
 
-                <include
+                <LinearLayout
                     android:id="@+id/daily_forecast_layout"
-                    layout="@layout/section_daily_forecast"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp" />
+                    android:layout_marginTop="25dp">
 
-                <include
-                    android:id="@+id/nerd_stats_layout"
-                    layout="@layout/section_nerd_stats"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/section_nerd_stats_margin" />
+                    <include
+                        android:id="@+id/today_forecast"
+                        layout="@layout/item_daily"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <include
+                        android:id="@+id/tomo_forecast"
+                        layout="@layout/item_daily"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <include
+                        android:id="@+id/day_after_tomo_forecast"
+                        layout="@layout/item_daily"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <include
+                        android:id="@+id/two_days_from_now_forecast"
+                        layout="@layout/item_daily"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+                </LinearLayout>
             </LinearLayout>
 
+            <RelativeLayout
+                android:id="@+id/additional_info_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/forecast_layout"
+                android:layout_margin="@dimen/section_nerd_stats_margin"
+                android:background="#15000000"
+                android:visibility="invisible">
+
+                <io.stormcast.app.stormcast.views.styled.StyledTextView
+                    android:id="@+id/nerd_stats_heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/stats_for_nerds"
+                    android:textSize="@dimen/font_size_subheading"
+                    custom:weight="bolder" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/nerd_stats_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/nerd_stats_heading"
+                    android:layout_marginTop="15dp"
+                    android:nestedScrollingEnabled="false"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+            </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
 </android.support.v4.widget.SwipeRefreshLayout>
