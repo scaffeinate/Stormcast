@@ -131,6 +131,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View,
         mNerdStatsRecyclerView.setAdapter(mAdapter);
         mNerdStatsRecyclerView.setHasFixedSize(true);
         mForecastScrollView.scrollTo(0, 0);
+        mWeatherIconView.setIconSize(screenHeight / 11);
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
         return view;

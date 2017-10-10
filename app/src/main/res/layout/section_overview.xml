@@ -22,8 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/summary_text_view"
         android:layout_marginTop="25dp"
-        android:layout_centerHorizontal="true"
-        custom:weatherIconSize="125" />
+        android:layout_centerHorizontal="true" />
 
     <io.stormcast.app.stormcast.views.styled.StyledTextView
         android:id="@+id/temperature_text_view"
@@ -59,6 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/icon_min_temperature"
+                custom:weight="bold"
                 android:textSize="@dimen/font_size_subheading" />
         </RelativeLayout>
 
@@ -80,6 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/icon_max_temperature"
+                custom:weight="bold"
                 android:textSize="@dimen/font_size_subheading" />
         </RelativeLayout>
     </LinearLayout>
